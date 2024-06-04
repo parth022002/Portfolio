@@ -11,7 +11,7 @@ const Homepage = () => {
       animate={{ y: "0%" }}
       transition={{ duration: 1 }}
     >
-      <div className="h-full flex flex-col lg:flex-row px-4 sm:px-8 md:px-12 lg:px-20 xl:px-50">
+      <div className="h-full flex flex-col lg:flex-row px-4 sm:px-8 md:px-12 lg:px-20 xl:px-50 sm:mb-2">
         {/* IMAGE CONTAINER */}
         <div className="h-1/2 lg:h-full lg:w-1/2 relative ">
           <Image src="/hero.png" alt="" fill className="object-contain px-16" />
@@ -38,7 +38,7 @@ const Homepage = () => {
           <div className="w-full flex gap-4">
             <a href="/resume.pdf" target="_blank">
             <button className="p-4 rounded-lg ring-1 ring-black flex items-center gap-2" >
-              <Image src="/resume.png" alt="Icon" className="h-6 w-6"/>
+              <Image src="/resume.png" width={6} height={6} alt="Icon" className="h-6 w-6"/>
               <span>Resume</span>
             </button>
             </a>

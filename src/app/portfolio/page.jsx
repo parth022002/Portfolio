@@ -8,38 +8,71 @@ const items = [
   {
     id: 1,
     color: "from-red-300 to-blue-300",
-    title: "Chat With PDF",
-    desc: "My Streamlit project empowers users to effortlessly navigate PDF documents using a chatbot interface, streamlining document exploration through intuitive interaction.",
-    img: "/chat with pdf.png",
-    link: "https://github.com/parth022002/Chat-with-pdf",
+    title: "WebShare",
+    desc: "WebShare: Fast, secure file-sharing web app for seamless transfer of documents, images, videos, and more. Effortlessly share with confidence.",
+    img: "/FileShare.png",
+    link: "https://web-fileshare.vercel.app/",
   },
   {
     id: 2,
     color: "from-blue-300 to-violet-300",
+    title: "Spotify Clone",
+    desc: "Developed a Spotify clone with added features using Next.js,React, Tailwind CSS, Redux, PostgreSQL, and Stripe.",
+    img: "/spotify.png",
+    link: "https://spotify-music-for-me.vercel.app/",
+  },
+  {
+    id: 3,
+    color: "from-violet-300 to-purple-300",
     title: "Ai Chatbot",
     desc: "Experience seamless conversational interactions with my AI chatbot project, developed using Flask and MongoDB for robust backend functionality, complemented by a sleek TailwindCSS frontend for a polished user interface.",
     img: "/ai chatbot.png",
     link: "https://github.com/parth022002/ChatBot",
   },
   {
-    id: 3,
-    color: "from-violet-300 to-purple-300",
+    id: 4,
+    color: "from-purple-300 to-pink-300",
     title: "ProctorShield",
     desc: "ProctorShield, my final year project, employs Flask and SQLite for backend operations, TailwindCSS for frontend aesthetics, and WebRTC alongside TensorFlow to bolster its Online Proctor System, ensuring comprehensive examination integrity.",
     img: "/proctorshield.png",
     link: "https://github.com/parth022002/ProctorShield",
   },
   {
-    id: 4,
-    color: "from-purple-300 to-red-300",
+    id: 5,
+    color: "from-pink-300 to-red-300",
     title: "V-Chat",
     desc: "VChat, a project I developed, elevates video calling with PHP backend and WebRTC technology, showcasing expertise in web development and real-time communication solutions.",
     img: "/vchat.png",
     link: "https://github.com/parth022002/Internship/tree/master/CreArt%20Solution%20(27-07-23%20to%2014-08-23)/vchat%20code%20files",
   },
   {
-    id: 5,
-    color: "from-red-300 to-blue-300",
+    id: 6,
+    color: "from-red-300 to-purple-300",
+    title: "Chat With PDF",
+    desc: "My Streamlit project empowers users to effortlessly navigate PDF documents using a chatbot interface, streamlining document exploration through intuitive interaction.",
+    img: "/chat with pdf.png",
+    link: "https://github.com/parth022002/Chat-with-pdf",
+  },
+  
+  {
+    id: 7,
+    color: "from-purple-300 to-violet-300",
+    title: "Resume Analyser",
+    desc: "Created a tool to analyze resumes, providing scores,recommendations, and tips using PyResparser and PDFMiner",
+    img: "/resume-analyser.png",
+    link: "https://github.com/parth022002/Resume-Analyser",
+  },
+  {
+    id: 8,
+    color: "from-violet-300 to-blue-300",
+    title: "Discord Clone",
+    desc: "Replicated Discord with real-time communication usingNext.js, Tailwind CSS, TypeScript, Prisma, MongoDB, andSocket.io.",
+    img: "/discord-clone.jpg",
+    link: "https://github.com/parth022002/Discord-Clone",
+  },
+  {
+    id: 9,
+    color: "from-blue-300 to-red-300",
     title: "E-Commerce Website ",
     desc: "EasyShop, my e-commerce project, leverages the power of WordPress to create a seamless online shopping experience, combining user-friendly design with robust functionality.",
     img: "/ecommerce.png",
@@ -60,7 +93,7 @@ const PortfolioPage = () => {
       animate={{ y: "0%" }}
       transition={{ duration: 1 }}
     >
-      <div className="h-[600vh] relative" ref={ref}>
+      <div className="h-[600vh] relative pt-2 mt-2" ref={ref}>
         <div className="w-screen h-[calc(100vh-6rem)] flex items-center justify-center text-8xl text-center">
           My Projects
         </div>
@@ -72,7 +105,7 @@ const PortfolioPage = () => {
                 className={`h-screen w-screen flex items-center justify-center bg-gradient-to-r ${item.color}`}
                 key={item.id}
               >
-                <div className="flex flex-col gap-8 text-white">
+                <div className="flex flex-col gap-6 text-white">
                   <h1 className="text-xl font-bold md:text-4xl lg:text-6xl xl:text-8xl">
                     {item.title}
                   </h1>
@@ -83,7 +116,7 @@ const PortfolioPage = () => {
                     {item.desc}
                   </p>
                   <Link href={item.link} className="flex justify-end">
-                    <button className="p-2 text-sm md:p-4 md:text-md lg:p-8 lg:text-lg bg-white text-gray-600 font-semibold m-4 rounded">Link</button>
+                    <button className="p-2 text-md rounded-2xl md:p-4 md:text-md lg:p-4 lg:text-lg bg-white text-gray-800 font-semibold m-4">Link</button>
                   </Link>
                 </div>
               </div>
