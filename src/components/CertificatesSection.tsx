@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, ExternalLink, X, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, ExternalLink, X, CheckCircle2, ChevronDown, ChevronUp, Plus } from 'lucide-react';
 import { PORTFOLIO_DATA, Certificate } from '../data/portfolioData';
 
 export const CertificatesSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('All');
+  const [showAll, setShowAll] = useState<boolean>(false);
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
 
   const categories = ['All', 'AI & GenAI', 'Data Analytics', 'Software Engineering', 'Professional'];
@@ -12,6 +13,10 @@ export const CertificatesSection: React.FC = () => {
   const filteredCerts = activeCategory === 'All'
     ? PORTFOLIO_DATA.certificates
     : PORTFOLIO_DATA.certificates.filter(c => c.category === activeCategory);
+
+  const initialCount = 5;
+  const displayedCerts = showAll ? filteredCerts : filteredCerts.slice(0, initialCount);
+  const hasMore = filteredCerts.length > initialCount;
 
   return (
     <section id="certificates" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/5 relative">
@@ -55,7 +60,7 @@ export const CertificatesSection: React.FC = () => {
 
       {/* Grid of Certificates with Staggered Scroll Animation */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredCerts.map((cert, idx) => (
+        {displayedCerts.map((cert, idx) => (
           <motion.div
             key={cert.id}
             initial={{ opacity: 0, y: 30 }}
@@ -110,7 +115,77 @@ export const CertificatesSection: React.FC = () => {
             </div>
           </motion.div>
         ))}
+
+        {/* 6th Slot: Show More Interactive Card (Positioned Next to the 5th Certificate) */}
+        {!showAll && hasMore && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            whileHover={{ y: -6, scale: 1.02 }}
+            onClick={() => setShowAll(true)}
+            className="group rounded-2xl border-2 border-dashed border-emerald-500/30 hover:border-emerald-400 bg-gradient-to-b from-[#0A0E17]/90 via-[#0C1D18]/50 to-[#0A0E17]/90 hover:bg-[#0C1D18]/70 p-6 sm:p-8 flex flex-col justify-between items-center text-center shadow-xl glow-hover cursor-pointer relative overflow-hidden transition-all duration-300 min-h-[360px]"
+          >
+            {/* Ambient Background Glow */}
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-sky-500/5 to-transparent pointer-events-none group-hover:opacity-100 opacity-60 transition-opacity" />
+
+            {/* Top Badge */}
+            <div className="relative z-10 w-full flex justify-between items-center text-xs">
+              <span className="px-2.5 py-1 rounded-md font-mono font-bold bg-emerald-950/70 text-emerald-400 border border-emerald-500/30">
+                +{filteredCerts.length - initialCount} More
+              </span>
+              <span className="px-2.5 py-1 rounded-md font-medium bg-white/5 text-zinc-400 border border-white/5">
+                Verified Credentials
+              </span>
+            </div>
+
+            {/* Middle Call to Action */}
+            <div className="relative z-10 space-y-4 my-auto py-6">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500/20 to-sky-500/20 border border-emerald-500/40 flex items-center justify-center mx-auto group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(16,185,129,0.35)] transition-all duration-300">
+                <Plus className="w-8 h-8 text-emerald-400 group-hover:rotate-90 transition-transform duration-500" />
+              </div>
+
+              <div>
+                <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-emerald-300 transition-colors tracking-tight">
+                  Show More Credentials
+                </h3>
+                <p className="text-xs text-zinc-400 mt-2 max-w-xs leading-relaxed mx-auto">
+                  Click to inspect all {filteredCerts.length} industry credentials awarded by Microsoft, Google, Tata, and HackerRank.
+                </p>
+              </div>
+            </div>
+
+            {/* Bottom Button Pill */}
+            <div className="relative z-10 w-full pt-4 border-t border-white/5 flex items-center justify-center">
+              <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-semibold text-xs transition-all shadow-md shadow-emerald-500/20 group-hover:shadow-emerald-500/40">
+                <span>View All {filteredCerts.length} Certificates</span>
+                <ChevronDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
+              </span>
+            </div>
+          </motion.div>
+        )}
       </div>
+
+      {/* Show Less Button at the end of the expanded certificates section */}
+      {showAll && hasMore && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="flex justify-center mt-12 sm:mt-16"
+        >
+          <button
+            onClick={() => {
+              setShowAll(false);
+              document.getElementById('certificates')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="px-8 py-3.5 rounded-2xl bg-zinc-900/90 hover:bg-zinc-800 border border-white/10 hover:border-white/20 text-zinc-300 hover:text-white font-semibold text-sm transition-all duration-300 shadow-lg hover:scale-105 active:scale-95 flex items-center gap-2.5 backdrop-blur-md group cursor-pointer"
+          >
+            <span>Show Less (Show Top 5)</span>
+            <ChevronUp className="w-4 h-4 text-zinc-400 group-hover:-translate-y-0.5 transition-transform" />
+          </button>
+        </motion.div>
+      )}
 
       {/* Certificate Lightbox Modal */}
       {selectedCert && (
