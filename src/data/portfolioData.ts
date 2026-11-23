@@ -6,8 +6,11 @@ export interface Project {
   category: 'AI & GenAI' | 'Full Stack' | 'Data & Real-time' | 'E-commerce';
   status: 'Production' | 'Live Demo' | 'Research Prototype';
   img: string;
+  images?: string[];
+  imageCaptions?: string[];
   liveUrl?: string;
   githubUrl?: string;
+  linkedinUrl?: string;
   businessImpact: string;
   technicalSummary: string;
   problemStatement: string;
@@ -15,8 +18,8 @@ export interface Project {
   solutionArchitecture: string;
   techStack: string[];
   keyMetrics: { label: string; value: string }[];
-  videoChapters: { time: string; title: string; desc: string }[];
-  transcriptSnippet: string;
+  videoChapters?: { time: string; title: string; desc: string }[];
+  transcriptSnippet?: string;
   relatedSkills: string[];
 }
 
@@ -94,8 +97,21 @@ export const PORTFOLIO_DATA = {
       category: "AI & GenAI",
       status: "Production",
       img: "/proctorshield.png",
+      images: [
+        "/proctorshield.png",
+        "/ai chatbot.png",
+        "/Techpulse.png",
+        "/hero.png"
+      ],
+      imageCaptions: [
+        "ProctorShield Live Multi-Modal Invigilation Console",
+        "Edge Computer Vision Facial Landmark & Anomaly Detection",
+        "Real-Time Telemetry & Threat Analysis Stream",
+        "Automated Academic Integrity Audit Report"
+      ],
       liveUrl: "https://github.com/parth022002/ProctorShield",
       githubUrl: "https://github.com/parth022002/ProctorShield",
+      linkedinUrl: "https://linkedin.com/in/parth-ahuja",
       businessImpact: "Eliminates high-cost human invigilator overhead by automating exam fraud detection across 1,000+ simultaneous test-takers with tamper-proof audit trails.",
       technicalSummary: "End-to-end proctoring platform combining WebRTC streaming with custom TensorFlow and OpenCV models for head-pose estimation, multi-face verification, and audio anomaly detection.",
       problemStatement: "High-stakes online examinations suffer from impersonation, secondary screen usage, and background collaboration without an economical automated supervision solution.",
@@ -123,8 +139,21 @@ export const PORTFOLIO_DATA = {
       category: "Full Stack",
       status: "Live Demo",
       img: "/social.png",
+      images: [
+        "/social.png",
+        "/forum.png",
+        "/FileShare.png",
+        "/Techpulse.png"
+      ],
+      imageCaptions: [
+        "NexSpace High-Performance Social Feed & Discovery",
+        "Interactive Micro-Community Discussion Boards",
+        "High-Throughput Instant Media & Content Distribution",
+        "Edge Cache Invalidation & Sub-65ms Latency Analytics"
+      ],
       liveUrl: "https://nexspace.vercel.app/",
       githubUrl: "https://github.com/parth022002/NexSpace",
+      linkedinUrl: "https://linkedin.com/in/parth-ahuja",
       businessImpact: "Engineered for viral community engagement, instant media sharing, and frictionless micro-community interactions with sub-100ms render speeds.",
       technicalSummary: "Built on Next.js App Router with client-side optimistic UI updates, robust JWT authentication, responsive layout, and edge deployment on Vercel.",
       problemStatement: "Modern social apps are bloated with tracker scripts and slow client rendering. NexSpace prioritizes ultra-fast content discovery and secure user spaces.",
@@ -151,8 +180,21 @@ export const PORTFOLIO_DATA = {
       category: "AI & GenAI",
       status: "Live Demo",
       img: "/chat with pdf.png",
+      images: [
+        "/chat with pdf.png",
+        "/resume-analyser.png",
+        "/resumeiq-score.png",
+        "/Techpulse.png"
+      ],
+      imageCaptions: [
+        "Chat With PDF Context-Grounded Document Q&A Interface",
+        "Multi-Page Ingestion & Semantic Chunk Vectorization",
+        "Zero-Hallucination Citation Verification Engine",
+        "High-Speed FAISS Similarity Search Metrics"
+      ],
       liveUrl: "https://github.com/parth022002/Chat-with-pdf",
       githubUrl: "https://github.com/parth022002/Chat-with-pdf",
+      linkedinUrl: "https://linkedin.com/in/parth-ahuja",
       businessImpact: "Accelerates contract and document review from hours to seconds by querying complex PDFs with exact citation verification.",
       technicalSummary: "Streamlit-powered document ingestion pipeline that extracts text, generates vector embeddings via LangChain, and answers queries with zero hallucination guardrails.",
       problemStatement: "Organizations drown in 100+ page technical manuals and financial PDFs without a reliable way to query granular figures with exact page citations.",
@@ -179,8 +221,21 @@ export const PORTFOLIO_DATA = {
       category: "Full Stack",
       status: "Live Demo",
       img: "/spotify.png",
+      images: [
+        "/spotify.png",
+        "/Techpulse.png",
+        "/FileShare.png",
+        "/hero.png"
+      ],
+      imageCaptions: [
+        "Spotify Enterprise Audio Player & Active Queue Engine",
+        "Continuous 3-Track Predictive Preload Buffer",
+        "Stripe Automated Recurring Subscription Portal",
+        "Responsive Track Browser & User Playlist Management"
+      ],
       liveUrl: "https://spotify-music-for-me.vercel.app/",
       githubUrl: "https://github.com/parth022002",
+      linkedinUrl: "https://linkedin.com/in/parth-ahuja",
       businessImpact: "End-to-end commercial music streaming platform complete with recurring Stripe subscriptions, playlist management, and audio caching.",
       technicalSummary: "Full-stack application utilizing Next.js, Redux Toolkit for complex global audio state, PostgreSQL for relational user and playlist data, and Stripe webhooks.",
       problemStatement: "Building a fluid audio streaming player requires synchronizing playlist queues, audio playback buffers, background track preloading, and subscription gates without stutter.",
@@ -207,8 +262,21 @@ export const PORTFOLIO_DATA = {
       category: "AI & GenAI",
       status: "Production",
       img: "/voice.png",
+      images: [
+        "/voice.png",
+        "/ai chatbot.png",
+        "/Techpulse.png",
+        "/hero.png"
+      ],
+      imageCaptions: [
+        "EchoAssistant Multimodal Desktop Interface & Waveform",
+        "Natural Language Command Dispatcher & Automation Hub",
+        "Sub-350ms Native Python OS System Automation",
+        "Speech Recognition Precision & Diagnostics Panel"
+      ],
       liveUrl: "https://github.com/parth022002/Voice-Assistant",
       githubUrl: "https://github.com/parth022002/Voice-Assistant",
+      linkedinUrl: "https://linkedin.com/in/parth-ahuja",
       businessImpact: "Automates repetitive desktop workflows, application launches, system queries, and email drafting through natural voice commands.",
       technicalSummary: "Hybrid desktop application built with Python and the Eel module, allowing modern HTML/CSS/JS frontend interfaces to communicate with low-level OS automation APIs.",
       problemStatement: "Desktop users waste significant time navigating deep menus and repetitive tasks that can be triggered through offline-capable voice automation.",
@@ -235,8 +303,21 @@ export const PORTFOLIO_DATA = {
       category: "Full Stack",
       status: "Production",
       img: "/taskmanager.png",
+      images: [
+        "/taskmanager.png",
+        "/forum.png",
+        "/Techpulse.png",
+        "/FileShare.png"
+      ],
+      imageCaptions: [
+        "TaskFlow Collaborative Kanban Sprint & Task Management",
+        "Granular Role-Based Access Control (Admin vs Contributor)",
+        "Real-Time Team Velocity & Milestone Tracking",
+        "MongoDB Aggregated Performance & Overdue Alerts"
+      ],
       liveUrl: "https://github.com/parth022002/Task-Manager",
       githubUrl: "https://github.com/parth022002/Task-Manager",
+      linkedinUrl: "https://linkedin.com/in/parth-ahuja",
       businessImpact: "Improves cross-functional sprint velocity by 30% through clear task assignments, milestone tracking, and role-based access control.",
       technicalSummary: "MERN stack collaborative management system featuring Kanban workflows, JWT authentication, role hierarchies (Admin vs Member), and MongoDB aggregations.",
       problemStatement: "Small teams need a lightweight Jira alternative without the licensing fees and cognitive clutter of enterprise suites.",
@@ -263,8 +344,21 @@ export const PORTFOLIO_DATA = {
       category: "E-commerce",
       status: "Live Demo",
       img: "/shoesavvy.png",
+      images: [
+        "/shoesavvy.png",
+        "/urbanhaven.png",
+        "/Techpulse.png",
+        "/Forge.png"
+      ],
+      imageCaptions: [
+        "ShoeSavvy Responsive Digital Footwear Catalog",
+        "Dynamic Multi-Parameter Instant Filtering Engine",
+        "ACID-Compliant Relational Shopping Cart & Checkout",
+        "Inventory Synchronization & SQL Safety Safeguards"
+      ],
       liveUrl: "https://shoesavvy.42web.io/",
       githubUrl: "https://github.com/parth022002",
+      linkedinUrl: "https://linkedin.com/in/parth-ahuja",
       businessImpact: "Provides a frictionless digital storefront with dynamic product filtering, shopping cart checkout, and relational inventory synchronization.",
       technicalSummary: "PHP and MySQL back-end architecture with customized frontend styling, secure session management, and optimized product imagery.",
       problemStatement: "E-commerce shoppers abandon carts due to slow catalog loading and cluttered navigation. ShoeSavvy provides instant category filtering.",
@@ -290,8 +384,21 @@ export const PORTFOLIO_DATA = {
       category: "Data & Real-time",
       status: "Production",
       img: "/vchat.png",
+      images: [
+        "/vchat.png",
+        "/discord-clone.jpg",
+        "/Techpulse.png",
+        "/FileShare.png"
+      ],
+      imageCaptions: [
+        "VChat WebRTC Peer-to-Peer Encrypted Conference Room",
+        "Direct RTP Media Streaming with Sub-80ms Latency",
+        "PHP Signaling Handshake & Dynamic Room Generation",
+        "STUN/TURN NAT Traversal & Adaptive Jitter Buffer"
+      ],
       liveUrl: "https://github.com/parth022002/Internship",
       githubUrl: "https://github.com/parth022002/Internship",
+      linkedinUrl: "https://linkedin.com/in/parth-ahuja",
       businessImpact: "Developed during internship at CreArt Solutions to empower remote enterprise teams with secure, zero-installation video conferences.",
       technicalSummary: "WebRTC peer connection protocol paired with PHP signaling server, STUN/TURN traversal, and dynamic room key generation.",
       problemStatement: "High-latency conferencing tools require bulky client downloads. VChat runs natively in any browser with low-overhead peer streaming.",
