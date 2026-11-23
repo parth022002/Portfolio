@@ -25,7 +25,7 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onSelectProjec
           <span>Academic & Applied AI Research</span>
         </div>
         <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          Research <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">& Publications</span>
+          Research <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">& Technical Papers</span>
         </h2>
         <p className="text-zinc-400 text-sm sm:text-base mt-2">
           Empirical investigation evaluating quantized edge inference, WebRTC stream decoupling, and low-latency anomaly detection.

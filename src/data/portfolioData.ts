@@ -79,7 +79,7 @@ export const PORTFOLIO_DATA = {
     stats: [
       { label: "Projects Completed", value: "14+" },
       { label: "Verified Certifications", value: "16+" },
-      { label: "Research Paper Published", value: "1" },
+      { label: "Production Deployments", value: "5+" },
       { label: "Code Repositories", value: "25+" },
     ]
   },
@@ -315,7 +315,7 @@ export const PORTFOLIO_DATA = {
       id: "paper-proctorshield-ai",
       title: "AI-Powered Real-Time Remote Examination Integrity & Multi-Modal Behavioral Anomaly Detection",
       subtitle: "Low-Latency Computer Vision & Audio Analysis at Edge for Scalable Academic Supervision",
-      date: "Research & Capstone Publication",
+      date: "Academic Capstone & Working Paper (2024)",
       domain: "Computer Vision & Applied AI",
       abstract: "Addresses the vulnerability of decentralized online testing environments by proposing an edge-optimized multi-modal supervision pipeline. Evaluates a quantized TensorFlow neural architecture processing WebRTC video frames to detect multi-face anomalies, head pose deviations, and background acoustical interference in sub-140ms inference windows.",
       methodology: [
