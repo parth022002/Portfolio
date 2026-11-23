@@ -31,7 +31,7 @@
 }
 
 .animate-marquee {
-  animation: marquee 30s linear infinite;
+  animation: marquee 75s linear infinite;
 }
 
 @keyframes gradientShift {
