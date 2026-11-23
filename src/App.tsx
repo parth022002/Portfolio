@@ -41,7 +41,7 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#07090E] text-[#F8FAFC] selection:bg-sky-500/30 selection:text-sky-200 overflow-x-hidden">
+    <div className="relative min-h-screen text-[#F8FAFC] selection:bg-sky-500/30 selection:text-sky-200 overflow-x-hidden">
       {/* 1. Top Reading Scroll Progress Bar */}
       <ScrollProgress />
 
@@ -59,7 +59,7 @@ export const App: React.FC = () => {
       <Navbar />
 
       {/* Main Page Content */}
-      <main className="pt-16">
+      <main className="pt-16 relative z-10">
         {/* 5. Infinite Animated Capabilities, Job Profiles & Projects Ticker (Below Navbar) */}
         <TechMarquee />
 

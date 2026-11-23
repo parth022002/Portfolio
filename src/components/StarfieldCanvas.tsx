@@ -11,6 +11,8 @@ interface Star3D {
   twinklePhase: number;
   isTechFlare: boolean;
   spikeLength: number;
+  ringRadius: number;
+  ringTilt: number;
 }
 
 interface ShootingStar {
@@ -48,7 +50,7 @@ export const StarfieldCanvas: React.FC = () => {
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    // Parallax coordinates
+    // Parallax & Camera coordinates
     let mouseX = 0;
     let mouseY = 0;
     let targetRotX = 0;
@@ -56,11 +58,23 @@ export const StarfieldCanvas: React.FC = () => {
     let rotX = 0;
     let rotY = 0;
 
+    // Scroll tracking for cosmic warp effect
+    let scrollY = window.scrollY;
+    let lastScrollY = window.scrollY;
+    let scrollVelocity = 0;
+
     const handleMouseMove = (e: MouseEvent) => {
       mouseX = (e.clientX - width / 2) / (width / 2);
       mouseY = (e.clientY - height / 2) / (height / 2);
-      targetRotY = mouseX * 0.35;
-      targetRotX = -mouseY * 0.35;
+      targetRotY = mouseX * 0.65;
+      targetRotX = -mouseY * 0.65;
+    };
+
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      scrollVelocity = (currentY - lastScrollY) * 0.08;
+      lastScrollY = currentY;
+      scrollY = currentY;
     };
 
     const handleResize = () => {
@@ -69,12 +83,13 @@ export const StarfieldCanvas: React.FC = () => {
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleResize, { passive: true });
 
     // ==========================================
-    // 1. GENERATE 3D STARFIELD (220 stars)
+    // 1. GENERATE 3D COSMIC STARFIELD (250 stars)
     // ==========================================
-    const numStars = 220;
+    const numStars = 250;
     const stars: Star3D[] = [];
     const starColors = [
       '#FFFFFF', // Diamond White
@@ -82,22 +97,24 @@ export const StarfieldCanvas: React.FC = () => {
       '#818CF8', // Indigo / Violet
       '#34D399', // Mint / Emerald
       '#A855F7', // Electric Purple
-      '#BAE6FD', // Ice Blue
+      '#67E8F9', // Luminous Cyan
     ];
 
     for (let i = 0; i < numStars; i++) {
-      const isTech = i < 18; // 18 special tech flare anchor stars
+      const isTech = i < 22; // 22 prominent tech anchor stars
       stars.push({
-        x: (Math.random() - 0.5) * 2200,
-        y: (Math.random() - 0.5) * 2200,
+        x: (Math.random() - 0.5) * 2400,
+        y: (Math.random() - 0.5) * 2400,
         z: Math.random() * 1400 + 100,
-        vz: -(Math.random() * 0.6 + 0.3), // gentle forward glide
-        baseSize: isTech ? Math.random() * 2 + 2.2 : Math.random() * 1.5 + 0.8,
+        vz: -(Math.random() * 1.4 + 0.8), // visible continuous forward flight
+        baseSize: isTech ? Math.random() * 2.5 + 2.4 : Math.random() * 1.8 + 1.0,
         color: starColors[Math.floor(Math.random() * starColors.length)],
-        twinkleSpeed: Math.random() * 0.04 + 0.02,
+        twinkleSpeed: Math.random() * 0.05 + 0.03,
         twinklePhase: Math.random() * Math.PI * 2,
         isTechFlare: isTech,
-        spikeLength: isTech ? Math.random() * 18 + 14 : 0,
+        spikeLength: isTech ? Math.random() * 24 + 16 : 0,
+        ringRadius: isTech ? Math.random() * 16 + 12 : 0,
+        ringTilt: Math.random() * Math.PI,
       });
     }
 
@@ -109,11 +126,11 @@ export const StarfieldCanvas: React.FC = () => {
 
     const spawnShootingStar = () => {
       const startX = (Math.random() - 0.2) * width;
-      const startY = Math.random() * (height * 0.45);
-      const angle = Math.PI / 4 + (Math.random() - 0.5) * 0.4; // diagonal ~45 degrees
-      const speed = Math.random() * 9 + 8;
-      const length = Math.random() * 110 + 70;
-      const streakColors = ['#38BDF8', '#818CF8', '#2DD4BF', '#FFFFFF'];
+      const startY = Math.random() * (height * 0.5);
+      const angle = Math.PI / 4 + (Math.random() - 0.5) * 0.45;
+      const speed = Math.random() * 12 + 10;
+      const length = Math.random() * 140 + 90;
+      const streakColors = ['#38BDF8', '#818CF8', '#2DD4BF', '#FFFFFF', '#67E8F9'];
 
       shootingStars.push({
         x: startX,
@@ -140,8 +157,8 @@ export const StarfieldCanvas: React.FC = () => {
         x,
         y,
         radius: 4,
-        maxRadius: Math.random() * 35 + 25,
-        alpha: 0.6,
+        maxRadius: Math.random() * 42 + 28,
+        alpha: 0.7,
         color,
       });
     };
@@ -153,20 +170,26 @@ export const StarfieldCanvas: React.FC = () => {
     // RENDER LOOP
     // ==========================================
     const render = () => {
-      time += 0.016;
-      ctx.clearRect(0, 0, width, height);
+      time += 0.018;
 
-      // Smooth camera interpolation
-      rotX += (targetRotX - rotX) * 0.04;
-      rotY += (targetRotY - rotY) * 0.04;
+      // Dampen scroll velocity smoothly
+      scrollVelocity *= 0.92;
+
+      // Fill canvas directly with dark OLED base
+      ctx.fillStyle = '#07090E';
+      ctx.fillRect(0, 0, width, height);
+
+      // Smooth camera interpolation with high responsiveness
+      rotX += (targetRotX - rotX) * 0.06;
+      rotY += (targetRotY - rotY) * 0.06;
 
       const cosY = Math.cos(rotY);
       const sinY = Math.sin(rotY);
       const cosX = Math.cos(rotX);
       const sinX = Math.sin(rotX);
 
-      // Periodically trigger shooting stars
-      if (Date.now() - lastShootingStarTime > 2800 && Math.random() < 0.45) {
+      // Trigger shooting stars every 2.2s
+      if (Date.now() - lastShootingStarTime > 2200 && Math.random() < 0.6) {
         spawnShootingStar();
         lastShootingStarTime = Date.now();
       }
@@ -175,18 +198,23 @@ export const StarfieldCanvas: React.FC = () => {
       const projectedStars: { x: number; y: number; z: number; color: string; alpha: number }[] = [];
 
       // ----------------------------------------------------
-      // A. RENDER 3D STARS & TECH FLARES
+      // A. RENDER 3D STARS, FLIGHT TRAILS & TECH FLARES
       // ----------------------------------------------------
       stars.forEach((star) => {
-        // Move star forward through 3D space
-        star.z += star.vz;
-        if (star.z < 60) {
+        // Move star forward through 3D space with continuous velocity + scroll velocity
+        const effectiveVz = star.vz - scrollVelocity * 1.5;
+        star.z += effectiveVz;
+
+        // Wrap boundaries
+        if (star.z < 50) {
           star.z = 1500;
-          star.x = (Math.random() - 0.5) * 2200;
-          star.y = (Math.random() - 0.5) * 2200;
+          star.x = (Math.random() - 0.5) * 2400;
+          star.y = (Math.random() - 0.5) * 2400;
+        } else if (star.z > 1500) {
+          star.z = 50;
         }
 
-        // Apply camera rotation
+        // Apply 3D camera rotation
         const x1 = star.x * cosY + star.z * sinY;
         const z1 = -star.x * sinY + star.z * cosY;
         const y2 = star.y * cosX - z1 * sinX;
@@ -198,10 +226,10 @@ export const StarfieldCanvas: React.FC = () => {
         const projX = width / 2 + x1 * scale;
         const projY = height / 2 + y2 * scale;
 
-        if (projX >= -50 && projX <= width + 50 && projY >= -50 && projY <= height + 50) {
+        if (projX >= -60 && projX <= width + 60 && projY >= -60 && projY <= height + 60) {
           // Dynamic twinkle scintillation
-          const twinkle = 0.65 + 0.35 * Math.sin(time * star.twinkleSpeed * 60 + star.twinklePhase);
-          const depthAlpha = Math.max(0.12, Math.min(0.85, (1500 - z2) / 1200));
+          const twinkle = 0.7 + 0.3 * Math.sin(time * star.twinkleSpeed * 60 + star.twinklePhase);
+          const depthAlpha = Math.max(0.18, Math.min(0.95, (1500 - z2) / 1100));
           const finalAlpha = depthAlpha * twinkle;
 
           projectedStars.push({
@@ -212,56 +240,81 @@ export const StarfieldCanvas: React.FC = () => {
             alpha: finalAlpha,
           });
 
-          // Draw Star Core
-          const currentSize = Math.max(0.7, star.baseSize * scale * 1.6);
+          // 1. Draw 3D Motion Trail (Depth Streak)
+          const trailLength = Math.max(1.5, Math.abs(effectiveVz) * scale * 5);
+          ctx.strokeStyle = star.color;
+          ctx.lineWidth = Math.max(0.8, star.baseSize * scale * 0.8);
+          ctx.globalAlpha = finalAlpha * 0.45;
+          ctx.beginPath();
+          ctx.moveTo(projX, projY);
+          ctx.lineTo(projX - (x1 * scale * 0.02), projY - (y2 * scale * 0.02) - trailLength);
+          ctx.stroke();
+
+          // 2. Draw Star Core
+          const currentSize = Math.max(1.0, star.baseSize * scale * 1.8);
           ctx.fillStyle = star.color;
           ctx.globalAlpha = finalAlpha;
           ctx.beginPath();
           ctx.arc(projX, projY, currentSize, 0, Math.PI * 2);
           ctx.fill();
 
-          // Soft Halo Glow for bright stars
+          // 3. Soft Radial Glow Halo
           if (star.isTechFlare || star.baseSize > 2.0) {
-            const glowGrad = ctx.createRadialGradient(projX, projY, 0, projX, projY, currentSize * 5);
+            const glowGrad = ctx.createRadialGradient(projX, projY, 0, projX, projY, currentSize * 6);
             glowGrad.addColorStop(0, star.color);
-            glowGrad.addColorStop(0.4, 'rgba(56, 189, 248, 0.25)');
+            glowGrad.addColorStop(0.35, 'rgba(56, 189, 248, 0.3)');
             glowGrad.addColorStop(1, 'transparent');
             ctx.fillStyle = glowGrad;
             ctx.beginPath();
-            ctx.arc(projX, projY, currentSize * 5, 0, Math.PI * 2);
+            ctx.arc(projX, projY, currentSize * 6, 0, Math.PI * 2);
             ctx.fill();
           }
 
           // ----------------------------------------------------
-          // B. 4-POINT TECH DIFFRACTION FLARES (✦)
+          // B. 4-POINT TECH DIFFRACTION FLARES & 3D ORBITAL RINGS
           // ----------------------------------------------------
-          if (star.isTechFlare && finalAlpha > 0.3) {
-            const spike = star.spikeLength * scale * (0.85 + 0.25 * Math.sin(time * 3 + star.twinklePhase));
+          if (star.isTechFlare && finalAlpha > 0.25) {
+            const flareAngle = time * 0.6 + star.twinklePhase;
+            const spike = star.spikeLength * scale * (0.9 + 0.25 * Math.sin(time * 3 + star.twinklePhase));
 
-            ctx.lineWidth = 0.9;
+            ctx.lineWidth = 1.2;
             ctx.strokeStyle = star.color;
-            ctx.globalAlpha = finalAlpha * 0.75;
+            ctx.globalAlpha = finalAlpha * 0.85;
 
-            // Horizontal & Vertical cross beams
+            // Rotating Cross Beams
+            ctx.save();
+            ctx.translate(projX, projY);
+            ctx.rotate(flareAngle);
+
             ctx.beginPath();
-            ctx.moveTo(projX - spike, projY);
-            ctx.lineTo(projX + spike, projY);
-            ctx.moveTo(projX, projY - spike);
-            ctx.lineTo(projX, projY + spike);
+            ctx.moveTo(-spike, 0);
+            ctx.lineTo(spike, 0);
+            ctx.moveTo(0, -spike);
+            ctx.lineTo(0, spike);
             ctx.stroke();
 
-            // Diagonal secondary micro-spikes for that space telescope / cyber finish
+            // Diagonal secondary micro-spikes
             const subSpike = spike * 0.45;
-            ctx.lineWidth = 0.5;
+            ctx.lineWidth = 0.6;
             ctx.beginPath();
-            ctx.moveTo(projX - subSpike, projY - subSpike);
-            ctx.lineTo(projX + subSpike, projY + subSpike);
-            ctx.moveTo(projX - subSpike, projY + subSpike);
-            ctx.lineTo(projX + subSpike, projY - subSpike);
+            ctx.moveTo(-subSpike, -subSpike);
+            ctx.lineTo(subSpike, subSpike);
+            ctx.moveTo(-subSpike, subSpike);
+            ctx.lineTo(subSpike, -subSpike);
             ctx.stroke();
 
-            // Randomly trigger subtle tech radar beacon ring
-            if (Date.now() - lastPulseTime > 2500 && Math.random() < 0.2) {
+            // 3D Orbital Gyroscopic Ring around anchor star
+            const ringR = star.ringRadius * scale * 1.8;
+            ctx.lineWidth = 0.8;
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, ringR, ringR * 0.4, star.ringTilt + time * 0.4, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.restore();
+
+            // Randomly trigger subtle tech radar beacon pulse
+            if (Date.now() - lastPulseTime > 2200 && Math.random() < 0.25) {
               spawnTechPulse(projX, projY, star.color);
               lastPulseTime = Date.now();
             }
@@ -270,10 +323,10 @@ export const StarfieldCanvas: React.FC = () => {
       });
 
       // ----------------------------------------------------
-      // C. TECH CONSTELLATION MESH (Subtle Synapse Links)
+      // C. TECH CONSTELLATION SYNAPSE MESH (Connecting Links)
       // ----------------------------------------------------
-      ctx.lineWidth = 0.6;
-      const maxConnectDist = 85;
+      ctx.lineWidth = 0.7;
+      const maxConnectDist = 95;
       for (let i = 0; i < projectedStars.length; i++) {
         for (let j = i + 1; j < projectedStars.length; j++) {
           const s1 = projectedStars[i];
@@ -283,7 +336,7 @@ export const StarfieldCanvas: React.FC = () => {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < maxConnectDist) {
-            const lineAlpha = (1 - dist / maxConnectDist) * 0.18 * Math.min(s1.alpha, s2.alpha);
+            const lineAlpha = (1 - dist / maxConnectDist) * 0.22 * Math.min(s1.alpha, s2.alpha);
             ctx.strokeStyle = s1.color;
             ctx.globalAlpha = lineAlpha;
             ctx.beginPath();
@@ -295,7 +348,7 @@ export const StarfieldCanvas: React.FC = () => {
       }
 
       // ----------------------------------------------------
-      // D. RENDER SHOOTING STAR BREAKS (Cosmic Streaks)
+      // D. RENDER SHOOTING STAR BREAKS (Radiant Cosmic Streaks)
       // ----------------------------------------------------
       for (let i = shootingStars.length - 1; i >= 0; i--) {
         const s = shootingStars[i];
@@ -304,20 +357,20 @@ export const StarfieldCanvas: React.FC = () => {
         s.y += s.dy;
 
         const progress = s.life / s.maxLife;
-        const streakAlpha = Math.sin(progress * Math.PI) * 0.85; // smooth fade in and out
+        const streakAlpha = Math.sin(progress * Math.PI) * 0.95; // radiant fade
 
         const tailX = s.x - (s.dx / s.speed) * s.length;
         const tailY = s.y - (s.dy / s.speed) * s.length;
 
-        // Gradient streak tail
+        // Glowing gradient tail
         const grad = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
-        grad.addColorStop(0, s.color);
-        grad.addColorStop(0.25, 'rgba(56, 189, 248, 0.7)');
-        grad.addColorStop(0.7, 'rgba(129, 140, 248, 0.25)');
+        grad.addColorStop(0, '#FFFFFF');
+        grad.addColorStop(0.2, s.color);
+        grad.addColorStop(0.65, 'rgba(56, 189, 248, 0.35)');
         grad.addColorStop(1, 'transparent');
 
         ctx.strokeStyle = grad;
-        ctx.lineWidth = 1.8;
+        ctx.lineWidth = 2.2;
         ctx.globalAlpha = streakAlpha;
         ctx.beginPath();
         ctx.moveTo(s.x, s.y);
@@ -328,7 +381,7 @@ export const StarfieldCanvas: React.FC = () => {
         ctx.fillStyle = '#FFFFFF';
         ctx.globalAlpha = streakAlpha;
         ctx.beginPath();
-        ctx.arc(s.x, s.y, 1.8, 0, Math.PI * 2);
+        ctx.arc(s.x, s.y, 2.4, 0, Math.PI * 2);
         ctx.fill();
 
         if (s.life >= s.maxLife) {
@@ -341,7 +394,7 @@ export const StarfieldCanvas: React.FC = () => {
       // ----------------------------------------------------
       for (let i = techPulses.length - 1; i >= 0; i--) {
         const p = techPulses[i];
-        p.radius += 0.65;
+        p.radius += 0.8;
         p.alpha -= 0.015;
 
         if (p.alpha <= 0 || p.radius >= p.maxRadius) {
@@ -350,7 +403,7 @@ export const StarfieldCanvas: React.FC = () => {
         }
 
         ctx.strokeStyle = p.color;
-        ctx.lineWidth = 0.8;
+        ctx.lineWidth = 1;
         ctx.globalAlpha = p.alpha;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -365,6 +418,7 @@ export const StarfieldCanvas: React.FC = () => {
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animId);
     };
@@ -373,7 +427,7 @@ export const StarfieldCanvas: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none -z-20 opacity-80 transition-opacity duration-1000"
+      className="fixed inset-0 pointer-events-none z-0"
     />
   );
 };
