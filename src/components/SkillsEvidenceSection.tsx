@@ -142,7 +142,7 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
                           <button
                             onClick={() => onSelectProjectById(p.id)}
                             className="p-1.5 rounded-lg bg-zinc-800 hover:bg-sky-500 hover:text-white text-zinc-400 transition-colors flex-shrink-0"
-                            title="View Case Study"
+                            title="Read Project Details"
                           >
                             <ArrowRight className="w-3.5 h-3.5" />
                           </button>
