@@ -20,7 +20,7 @@ export const ExperienceSection: React.FC = () => {
   }
 
   return (
-    <section id="experience" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/5 relative">
+    <section id="journey" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/5 relative">
       {/* Section Header */}
       <motion.div
         initial={{ opacity: 0, y: 25 }}
@@ -112,10 +112,10 @@ export const ExperienceSection: React.FC = () => {
                   {/* Left Side (Even Index on Desktop) */}
                   <div
                     className={`w-full md:w-[46%] pl-12 md:pl-0 ${
-                      isEven ? 'md:mr-auto md:text-right' : 'md:hidden'
+                      isEven ? 'md:mr-auto md:text-right' : 'hidden md:block md:mr-auto'
                     }`}
                   >
-                    {isEven && (
+                    {isEven ? (
                       <motion.div
                         initial={{ opacity: 0, x: -40 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -145,16 +145,37 @@ export const ExperienceSection: React.FC = () => {
                           {item.organization}
                         </div>
                       </motion.div>
+                    ) : (
+                      /* 3D Telemetry Glass Block in Empty Left Slot */
+                      <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: '-50px' }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="hidden md:flex flex-col justify-center p-5 rounded-2xl bg-[#090E17]/40 border border-white/5 hover:border-rose-400/30 transition-all duration-300 backdrop-blur-sm group text-right items-end shadow-lg"
+                      >
+                        <div className="flex items-center gap-2 text-xs font-mono text-rose-400 mb-2">
+                          <span>{item.type === 'experience' ? 'MOBILE SYSTEM ARCHITECTURE' : 'FOUNDATIONAL DISCIPLINES'}</span>
+                          <span className="w-2 h-2 rounded-full bg-rose-400 animate-pulse" />
+                        </div>
+                        <div className="flex flex-wrap gap-1.5 justify-end">
+                          {item.skills.map((s, si) => (
+                            <span key={si} className="px-2.5 py-1 rounded-lg bg-white/5 text-zinc-300 font-mono text-[11px] border border-white/5 group-hover:border-rose-400/20">
+                              {s}
+                            </span>
+                          ))}
+                        </div>
+                      </motion.div>
                     )}
                   </div>
 
                   {/* Right Side (Odd Index on Desktop) */}
                   <div
                     className={`w-full md:w-[46%] pl-12 md:pl-0 ${
-                      !isEven ? 'md:ml-auto md:text-left' : 'hidden md:block'
+                      !isEven ? 'md:ml-auto md:text-left' : 'hidden md:block md:ml-auto'
                     }`}
                   >
-                    {!isEven && (
+                    {!isEven ? (
                       <motion.div
                         initial={{ opacity: 0, x: 40 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -182,6 +203,27 @@ export const ExperienceSection: React.FC = () => {
                         {/* Organization Tag Pill */}
                         <div className="inline-block px-3 py-1 rounded-lg bg-zinc-800/90 border border-white/10 text-zinc-200 text-xs font-semibold shadow-sm">
                           {item.organization}
+                        </div>
+                      </motion.div>
+                    ) : (
+                      /* 3D Telemetry Glass Block in Empty Right Slot */
+                      <motion.div
+                        initial={{ opacity: 0, x: 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: '-50px' }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="hidden md:flex flex-col justify-center p-5 rounded-2xl bg-[#090E17]/40 border border-white/5 hover:border-sky-500/30 transition-all duration-300 backdrop-blur-sm group shadow-lg"
+                      >
+                        <div className="flex items-center gap-2 text-xs font-mono text-sky-400 mb-2">
+                          <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+                          <span>{item.type === 'experience' ? 'ENTERPRISE PRODUCTION STACK' : 'ACADEMIC RIGOR & HONORS'}</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {item.skills.map((s, si) => (
+                            <span key={si} className="px-2.5 py-1 rounded-lg bg-white/5 text-zinc-300 font-mono text-[11px] border border-white/5 group-hover:border-sky-500/20">
+                              {s}
+                            </span>
+                          ))}
                         </div>
                       </motion.div>
                     )}
