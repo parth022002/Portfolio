@@ -45,7 +45,7 @@ export const HeroSection: React.FC = () => {
   };
 
   return (
-    <section id="hero" className="relative pt-28 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-[92vh] flex flex-col justify-center">
+    <section id="hero" className="relative pt-10 sm:pt-14 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-[85vh] flex flex-col justify-center">
       {/* Floating 3D Telemetry HUD Chips in Margins */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}

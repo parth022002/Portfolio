@@ -53,12 +53,12 @@ export const App: React.FC = () => {
       <Navbar />
 
       {/* Main Page Content */}
-      <main>
-        {/* 5. Hero Section: Left Animated Story + Right 3D Tilt Avatar Video */}
-        <HeroSection />
-
-        {/* 6. Infinite Animated Capabilities Marquee */}
+      <main className="pt-16">
+        {/* 5. Infinite Animated Capabilities, Job Profiles & Projects Ticker (Below Navbar) */}
         <TechMarquee />
+
+        {/* 6. Hero Section: Left Animated Story + Right 3D Tilt Avatar Video */}
+        <HeroSection />
 
         {/* 7. Deep Case Study Projects Grid with Scroll Reveal */}
         <ProjectsSection
