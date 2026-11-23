@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-import { ShieldCheck, ExternalLink, X, Award, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, ExternalLink, X, CheckCircle2 } from 'lucide-react';
 import { PORTFOLIO_DATA, Certificate } from '../data/portfolioData';
 
-interface CertificatesSectionProps {
-  mode: 'business' | 'tech';
-}
-
-export const CertificatesSection: React.FC<CertificatesSectionProps> = ({ mode }) => {
+export const CertificatesSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
 
@@ -22,10 +18,10 @@ export const CertificatesSection: React.FC<CertificatesSectionProps> = ({ mode }
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-white/10 text-xs font-semibold text-zinc-400 mb-3">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Verified Industry Credentials (16+)</span>
+            <span>Verified Credentials (16+)</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Certified <span className={mode === 'business' ? 'text-sky-400' : 'text-emerald-400 font-mono'}>Industry Competence</span>
+            Certified <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">Industry Competence</span>
           </h2>
           <p className="text-zinc-400 text-sm sm:text-base mt-2 max-w-xl">
             Credentials awarded by Microsoft, LinkedIn, Google, Tata, and HackerRank validating practical capabilities in Generative AI, Data Analytics, and Software Architecture.
@@ -38,11 +34,9 @@ export const CertificatesSection: React.FC<CertificatesSectionProps> = ({ mode }
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+              className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
                 activeCategory === cat
-                  ? mode === 'business'
-                    ? 'bg-sky-500 text-white shadow-md'
-                    : 'bg-emerald-500 text-black font-mono font-bold shadow-md'
+                  ? 'bg-sky-500 text-white shadow-md'
                   : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/5'
               }`}
             >

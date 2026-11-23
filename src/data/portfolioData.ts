@@ -45,17 +45,17 @@ export const PORTFOLIO_DATA = {
     name: "Parth Ahuja",
     role: "Full-Stack AI Engineer & Business Analytics Strategist",
     location: "India · Open to Global Remote & Relocation",
-    headlineBusiness: "Transforming complex business challenges into resilient digital products and high-ROI automated intelligence.",
-    headlineTech: "Engineering high-throughput full-stack platforms, low-latency computer vision, and context-grounded GenAI architectures.",
-    bio: "Computer Engineering graduate combining deep technical implementation with product thinking and data analytics. Builder of 14+ end-to-end applications spanning AI proctoring, enterprise social networks, RAG pipelines, and full-stack commerce platforms.",
+    headline: "Architecting High-Impact AI Systems, Scalable Web Platforms & High-ROI Digital Products.",
+    bio: "Computer Engineering graduate bridging full-stack systems engineering with data-driven product strategy. Builder of 14+ production-ready systems spanning AI examination proctoring, generative AI document retrieval, high-throughput social networks, and audio streaming engines.",
     email: "parth022002@gmail.com",
     github: "https://github.com/parth022002",
     linkedin: "https://linkedin.com/in/parth-ahuja",
+    linktree: "https://linktr.ee/parthahuja",
     stats: [
-      { label: "Shipped Projects", value: "14+", businessLabel: "Delivered Solutions" },
-      { label: "Verified Certifications", value: "16+", businessLabel: "Industry Credentials" },
-      { label: "AI Model Precision", value: "99.4%", businessLabel: "ProctorShield Accuracy" },
-      { label: "Architecture Uptime", value: "99.9%", businessLabel: "System Reliability" },
+      { label: "Projects Completed", value: "14+" },
+      { label: "Verified Certifications", value: "16+" },
+      { label: "Years of Engineering", value: "4+" },
+      { label: "Code Repositories", value: "25+" },
     ]
   },
 
@@ -70,7 +70,7 @@ export const PORTFOLIO_DATA = {
       img: "/proctorshield.png",
       liveUrl: "https://github.com/parth022002/ProctorShield",
       githubUrl: "https://github.com/parth022002/ProctorShield",
-      businessImpact: "Eliminates high-cost human invigilator overhead by automating exam fraud detection across 1,000+ simultaneous test-takers with audit logs.",
+      businessImpact: "Eliminates high-cost human invigilator overhead by automating exam fraud detection across 1,000+ simultaneous test-takers with tamper-proof audit trails.",
       technicalSummary: "End-to-end proctoring platform combining WebRTC streaming with custom TensorFlow and OpenCV models for head-pose estimation, multi-face verification, and audio anomaly detection.",
       problemStatement: "High-stakes online examinations suffer from impersonation, secondary screen usage, and background collaboration without an economical automated supervision solution.",
       solutionArchitecture: "Client browser streams media via WebRTC to a Flask ASGI server. Frame batches are fed into a lightweight multi-task TensorFlow neural network pipeline with SQLite audit trail.",
@@ -78,7 +78,7 @@ export const PORTFOLIO_DATA = {
       keyMetrics: [
         { label: "Detection Latency", value: "< 140ms" },
         { label: "Face Anomaly Precision", value: "99.2%" },
-        { label: "Bandwidth Optimization", value: "45% saved via delta frames" }
+        { label: "Bandwidth Optimization", value: "45% saved" }
       ],
       videoChapters: [
         { time: "00:00", title: "The Problem of Online Proctoring", desc: "Why manual invigilation fails at scale" },
@@ -463,29 +463,6 @@ export const PORTFOLIO_DATA = {
       period: "Graduated 2024",
       description: "Specialized in Artificial Intelligence, Distributed Systems, Database Management, and Software Engineering. Final Year Capstone: ProctorShield (Online AI Proctoring System).",
       skills: ["Computer Vision", "Machine Learning", "System Design", "Cloud Architecture"]
-    }
-  ],
-
-  aiKnowledge: [
-    {
-      query: "Who is Parth Ahuja?",
-      answer: "Parth Ahuja is a Full-Stack AI Engineer and Business Analytics Strategist. He holds a degree in Computer Engineering and has built 14+ production-ready software systems across AI Proctoring (ProctorShield), RAG document retrieval (Chat With PDF), scalable social networks (NexSpace), and audio streaming (Spotify Clone). He holds 16+ verified certifications from Microsoft, LinkedIn, Google, Tata, and HackerRank."
-    },
-    {
-      query: "What is ProctorShield?",
-      answer: "ProctorShield is Parth's flagship AI examination proctoring system. It uses WebRTC to stream video directly to a Flask ASGI server running TensorFlow and OpenCV models. It detects multi-face anomalies, head pose deviations, and background voices with 99.2% precision, creating tamper-evident audit logs."
-    },
-    {
-      query: "What tech stack does Parth excel in?",
-      answer: "Parth's primary tech stack spans TypeScript/JavaScript (Next.js, React, Node.js), Python (TensorFlow, Flask, OpenCV, LangChain, Streamlit), Database architectures (PostgreSQL, MongoDB, SQLite, MySQL), and modern cloud infrastructure (Vercel, Supabase, WebRTC, Tailwind CSS)."
-    },
-    {
-      query: "Does Parth have credentials in Generative AI?",
-      answer: "Yes. Parth holds verified certifications from Microsoft & LinkedIn in 'Career Essentials in Generative AI', Intel/industry certifications in Generative AI Foundations, and has practically implemented RAG pipelines in 'Chat With PDF' using LangChain, FAISS, and vector embeddings."
-    },
-    {
-      query: "How can I contact Parth?",
-      answer: "You can reach Parth directly via email at parth022002@gmail.com, connect on LinkedIn (linkedin.com/in/parth-ahuja), or explore his code on GitHub (github.com/parth022002)."
     }
   ]
 };

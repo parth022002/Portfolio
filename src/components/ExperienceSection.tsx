@@ -1,12 +1,8 @@
 import React from 'react';
-import { Briefcase, GraduationCap, Calendar, CheckCircle } from 'lucide-react';
+import { GraduationCap, Calendar } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
-interface ExperienceSectionProps {
-  mode: 'business' | 'tech';
-}
-
-export const ExperienceSection: React.FC<ExperienceSectionProps> = ({ mode }) => {
+export const ExperienceSection: React.FC = () => {
   return (
     <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/5">
       <div className="text-center max-w-3xl mx-auto mb-14">
@@ -15,7 +11,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({ mode }) =>
           <span>Professional Trajectory</span>
         </div>
         <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          Experience & <span className={mode === 'business' ? 'text-sky-400' : 'text-emerald-400 font-mono'}>Academic Foundations</span>
+          Experience & <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">Academic Foundations</span>
         </h2>
         <p className="text-zinc-400 text-sm sm:text-base mt-2">
           From hands-on software engineering internships to capstone AI architecture delivery.

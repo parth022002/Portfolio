@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
-import { DualLensBanner } from './components/DualLensBanner';
 import { ProjectsSection } from './components/ProjectsSection';
 import { ProjectModal } from './components/ProjectModal';
 import { SkillsEvidenceSection } from './components/SkillsEvidenceSection';
@@ -9,11 +8,11 @@ import { CertificatesSection } from './components/CertificatesSection';
 import { ExperienceSection } from './components/ExperienceSection';
 import { ContactSection } from './components/ContactSection';
 import { AICopilotDrawer } from './components/AICopilotDrawer';
+import { FloatingAIButton } from './components/FloatingAIButton';
 import { Footer } from './components/Footer';
 import { PORTFOLIO_DATA, Project } from './data/portfolioData';
 
 export const App: React.FC = () => {
-  const [mode, setMode] = useState<'business' | 'tech'>('business');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isAiOpen, setIsAiOpen] = useState(false);
   const [preloadedAiProject, setPreloadedAiProject] = useState<Project | null>(null);
@@ -35,62 +34,41 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-[#07090E] text-[#F8FAFC] selection:bg-sky-500/30 selection:text-sky-200 transition-colors duration-500 ${
-      mode === 'tech' ? 'font-sans' : ''
-    }`}>
-      {/* Navigation Bar */}
-      <Navbar
-        mode={mode}
-        setMode={setMode}
-        onOpenAI={() => handleOpenAI()}
-      />
+    <div className="min-h-screen bg-[#07090E] text-[#F8FAFC] selection:bg-sky-500/30 selection:text-sky-200">
+      {/* 1. Header Navigation with logo1, centered links, and right social icons */}
+      <Navbar />
 
-      {/* Main Content Sections */}
+      {/* Main Page Content */}
       <main>
-        {/* 1. Hero Section with Video Loop & Proof Counters */}
-        <HeroSection
-          mode={mode}
-          setMode={setMode}
-          onOpenAI={() => handleOpenAI()}
-        />
-
-        {/* 2. Dual Lens Interactive Perspective Banner */}
-        <DualLensBanner
-          mode={mode}
-          setMode={setMode}
-        />
+        {/* 2. Hero Section: Left Text + Right AI Avatar Video + Clean Number Counters */}
+        <HeroSection />
 
         {/* 3. Deep Case Study Projects Grid */}
         <ProjectsSection
-          mode={mode}
           onSelectProject={(project) => setSelectedProject(project)}
           onOpenVideo={(project) => setSelectedProject(project)}
         />
 
         {/* 4. Skills & Verifiable Evidence Constellation */}
         <SkillsEvidenceSection
-          mode={mode}
           onSelectProjectById={handleSelectProjectById}
         />
 
-        {/* 5. 16+ Verified Certificates Wall */}
-        <CertificatesSection
-          mode={mode}
-        />
+        {/* 5. 16+ Verified Credentials Wall */}
+        <CertificatesSection />
 
         {/* 6. Career & Academic Trajectory */}
-        <ExperienceSection
-          mode={mode}
-        />
+        <ExperienceSection />
 
         {/* 7. Direct Contact Hub & Inquiry Form */}
-        <ContactSection
-          mode={mode}
-        />
+        <ContactSection />
       </main>
 
       {/* Footer */}
-      <Footer mode={mode} />
+      <Footer />
+
+      {/* Floating AI Button at Bottom-Right */}
+      <FloatingAIButton onClick={() => handleOpenAI()} />
 
       {/* Deep Project Detail & Video Case Study Modal */}
       <ProjectModal

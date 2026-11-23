@@ -3,13 +3,11 @@ import { ExternalLink, Github, Play, ArrowRight, Layers, Sparkles, CheckCircle2 
 import { PORTFOLIO_DATA, Project } from '../data/portfolioData';
 
 interface ProjectsSectionProps {
-  mode: 'business' | 'tech';
   onSelectProject: (project: Project) => void;
   onOpenVideo: (project: Project) => void;
 }
 
 export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
-  mode,
   onSelectProject,
   onOpenVideo
 }) => {
@@ -28,15 +26,13 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-white/10 text-xs font-semibold text-zinc-400 mb-3">
             <Layers className="w-3.5 h-3.5 text-sky-400" />
-            <span>Proven Engineering Architecture</span>
+            <span>Proven Production Systems</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Featured <span className={mode === 'business' ? 'text-sky-400' : 'text-emerald-400 font-mono'}>Production Systems</span>
+            Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">Engineering Work</span>
           </h2>
           <p className="text-zinc-400 text-sm sm:text-base mt-2 max-w-xl">
-            {mode === 'business'
-              ? 'Real-world commercial products and automation engines engineered for measurable business outcomes and operational savings.'
-              : 'Verifiable applications with clean codebases, low latency inference, high-concurrency data models, and live deployments.'}
+            Real-world systems combining deep technical architectures (TensorFlow, WebRTC, Next.js, LangChain) with measurable business impact.
           </p>
         </div>
 
@@ -48,9 +44,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
               onClick={() => setActiveCategory(cat)}
               className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
                 activeCategory === cat
-                  ? mode === 'business'
-                    ? 'bg-sky-500 text-white shadow-md shadow-sky-500/20'
-                    : 'bg-emerald-500 text-black font-mono font-bold shadow-md shadow-emerald-500/20'
+                  ? 'bg-sky-500 text-white shadow-md shadow-sky-500/20'
                   : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/5'
               }`}
             >
@@ -65,11 +59,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
         {filteredProjects.map((project) => (
           <div
             key={project.id}
-            className={`group rounded-2xl overflow-hidden border transition-all duration-300 flex flex-col justify-between ${
-              mode === 'business'
-                ? 'bg-zinc-900/40 hover:bg-zinc-900/70 border-white/5 hover:border-sky-500/40 glow-hover'
-                : 'bg-[#090E17]/60 hover:bg-[#090E17] border-white/5 hover:border-emerald-500/40 glow-emerald-hover'
-            }`}
+            className="group rounded-2xl overflow-hidden border border-white/5 hover:border-sky-500/30 bg-[#0A0E17]/70 hover:bg-[#0A0E17] transition-all duration-300 flex flex-col justify-between glow-hover"
           >
             {/* Top Image Preview & Quick Actions */}
             <div>
@@ -79,11 +69,10 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
                   alt={project.title}
                   className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   onError={(e) => {
-                    // Fallback visual
                     (e.target as HTMLImageElement).src = '/hero.png';
                   }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#090E17] via-transparent to-black/30" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0E17] via-transparent to-black/30" />
 
                 {/* Top Badge Overlay */}
                 <div className="absolute top-3 left-3 flex items-center gap-2">
@@ -118,17 +107,24 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
                   {project.tagline}
                 </p>
 
-                {/* Dynamic Content based on Lens */}
-                <p className="text-xs text-zinc-300 line-clamp-3 leading-relaxed pt-1">
-                  {mode === 'business' ? project.businessImpact : project.technicalSummary}
-                </p>
+                {/* Business Impact & Technical Highlights */}
+                <div className="space-y-1.5 pt-1 text-xs">
+                  <p className="text-zinc-300 line-clamp-2 leading-relaxed">
+                    <strong className="text-sky-300 font-semibold">Impact: </strong>
+                    {project.businessImpact}
+                  </p>
+                  <p className="text-zinc-400 line-clamp-2 leading-relaxed">
+                    <strong className="text-emerald-300 font-semibold font-mono">Tech: </strong>
+                    {project.technicalSummary}
+                  </p>
+                </div>
 
                 {/* Tech Stack Chips */}
                 <div className="flex flex-wrap gap-1.5 pt-2">
                   {project.techStack.slice(0, 4).map((tech, i) => (
                     <span
                       key={i}
-                      className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/5 text-zinc-400 border border-white/5"
+                      className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/5 text-zinc-300 border border-white/5"
                     >
                       {tech}
                     </span>
@@ -171,11 +167,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
 
               <button
                 onClick={() => onSelectProject(project)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold transition-all ${
-                  mode === 'business'
-                    ? 'text-sky-400 hover:text-sky-300 hover:bg-sky-950/30'
-                    : 'text-emerald-400 hover:text-emerald-300 hover:bg-emerald-950/30 font-mono'
-                }`}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-sky-400 hover:text-sky-300 hover:bg-sky-950/30 transition-all"
               >
                 <span>Deep Case Study</span>
                 <ArrowRight className="w-3.5 h-3.5" />

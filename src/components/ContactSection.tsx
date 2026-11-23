@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
-import { Mail, Copy, Check, Github, Linkedin, Send, Sparkles, MessageSquare } from 'lucide-react';
+import { Mail, Copy, Check, Github, Linkedin, Send, MessageSquare } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
-interface ContactSectionProps {
-  mode: 'business' | 'tech';
-}
-
-export const ContactSection: React.FC<ContactSectionProps> = ({ mode }) => {
+export const ContactSection: React.FC = () => {
   const [copied, setCopied] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', roleType: 'Full-Time Engineering', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', roleType: 'Full-Time AI / Full-Stack Role', message: '' });
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(PORTFOLIO_DATA.personal.email);
@@ -34,7 +30,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ mode }) => {
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
-            Let's Build Something <span className={mode === 'business' ? 'text-sky-400' : 'text-emerald-400 font-mono'}>Exceptional</span>.
+            Let's Build Something <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">Exceptional</span>.
           </h2>
 
           <p className="text-zinc-300 text-sm sm:text-base leading-relaxed">
@@ -76,7 +72,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ mode }) => {
               className="px-4 py-2.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/5 text-xs font-semibold transition-all flex items-center gap-2"
             >
               <Github className="w-4 h-4" />
-              <span>github.com/parth022002</span>
+              <span>GitHub</span>
             </a>
             <a
               href={PORTFOLIO_DATA.personal.linkedin}
@@ -85,7 +81,16 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ mode }) => {
               className="px-4 py-2.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/5 text-xs font-semibold transition-all flex items-center gap-2"
             >
               <Linkedin className="w-4 h-4 text-sky-400" />
-              <span>LinkedIn Profile</span>
+              <span>LinkedIn</span>
+            </a>
+            <a
+              href={PORTFOLIO_DATA.personal.linktree}
+              target="_blank"
+              rel="noreferrer"
+              className="px-4 py-2.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/5 text-xs font-semibold transition-all flex items-center gap-2"
+            >
+              <span className="font-bold text-emerald-400">🌳</span>
+              <span>Linktree</span>
             </a>
           </div>
         </div>
@@ -100,7 +105,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ mode }) => {
                 </div>
                 <h3 className="text-xl font-bold text-white">Message Received</h3>
                 <p className="text-xs text-zinc-400 max-w-sm mx-auto">
-                  Thank you! Your message has been logged. Parth will reply within 24 hours at the email provided.
+                  Thank you! Your message has been received. Parth will reply within 24 hours at the email provided.
                 </p>
                 <button
                   onClick={() => setFormSubmitted(false)}
@@ -164,11 +169,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ mode }) => {
 
                 <button
                   type="submit"
-                  className={`w-full py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg ${
-                    mode === 'business'
-                      ? 'bg-sky-500 hover:bg-sky-400 text-white shadow-sky-500/25'
-                      : 'bg-emerald-500 hover:bg-emerald-400 text-black font-mono shadow-emerald-500/25'
-                  }`}
+                  className="w-full py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white shadow-sky-500/25"
                 >
                   <Send className="w-4 h-4" />
                   <span>Send Direct Inquiry</span>

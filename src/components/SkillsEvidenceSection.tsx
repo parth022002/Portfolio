@@ -3,17 +3,14 @@ import { Award, CheckCircle, ExternalLink, ArrowRight, Sparkles } from 'lucide-r
 import { PORTFOLIO_DATA, Project } from '../data/portfolioData';
 
 interface SkillsEvidenceSectionProps {
-  mode: 'business' | 'tech';
   onSelectProjectById: (id: string) => void;
 }
 
 export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
-  mode,
   onSelectProjectById
 }) => {
   const [selectedSkill, setSelectedSkill] = useState<string>("TensorFlow");
 
-  // Find which category and projects link to this skill
   let linkedProjects: Project[] = [];
   PORTFOLIO_DATA.skillsConstellation.forEach(cat => {
     const s = cat.skills.find(item => item.name === selectedSkill);
@@ -30,7 +27,7 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
           <span>Verifiable Competency Graph</span>
         </div>
         <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          Skills Grounded in <span className={mode === 'business' ? 'text-sky-400' : 'text-emerald-400 font-mono'}>Concrete Evidence</span>
+          Skills Grounded in <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">Concrete Evidence</span>
         </h2>
         <p className="text-zinc-400 text-sm sm:text-base mt-2">
           Never rely on arbitrary self-rated percentage bars. Select any capability below to inspect the exact production projects and verified credentials that substantiate it.
@@ -58,9 +55,7 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
                       onClick={() => setSelectedSkill(skill.name)}
                       className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all flex items-center gap-2 border ${
                         isSelected
-                          ? mode === 'business'
-                            ? 'bg-sky-500 text-white border-sky-400 shadow-md shadow-sky-500/20'
-                            : 'bg-emerald-500 text-black border-emerald-400 font-mono font-bold shadow-md shadow-emerald-500/20'
+                          ? 'bg-sky-500 text-white border-sky-400 shadow-md shadow-sky-500/20'
                           : 'bg-zinc-800/60 hover:bg-zinc-800 text-zinc-300 hover:text-white border-white/5'
                       }`}
                     >
