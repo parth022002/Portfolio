@@ -33,10 +33,10 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-white/10 text-xs font-semibold text-zinc-400 mb-3">
             <Layers className="w-3.5 h-3.5 text-sky-400" />
-            <span>Proven Production Systems</span>
+            <span>Portfolio Projects</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">Engineering Work</span>
+            Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">Projects</span>
           </h2>
           <p className="text-zinc-400 text-sm sm:text-base mt-2 max-w-xl">
             Real-world systems combining deep technical architectures (TensorFlow, WebRTC, Next.js, LangChain) with measurable business impact.
