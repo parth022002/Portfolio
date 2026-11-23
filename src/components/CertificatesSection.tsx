@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, ExternalLink, X, CheckCircle2, ChevronDown, ChevronUp, Plus } from 'lucide-react';
 import { PORTFOLIO_DATA, Certificate } from '../data/portfolioData';
@@ -7,6 +7,16 @@ export const CertificatesSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [showAll, setShowAll] = useState<boolean>(false);
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
+
+  // Prevent background scroll when modal is open
+  useEffect(() => {
+    if (!selectedCert) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow || '';
+    };
+  }, [selectedCert]);
 
   const categories = ['All', 'AI & GenAI', 'Data Analytics', 'Software Engineering', 'Professional'];
 
@@ -189,8 +199,14 @@ export const CertificatesSection: React.FC = () => {
 
       {/* Certificate Lightbox Modal */}
       {selectedCert && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-3xl bg-[#090D16] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+        <div
+          onClick={() => setSelectedCert(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in overflow-hidden select-none"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-3xl bg-[#090D16] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] select-text"
+          >
             <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between bg-zinc-950">
               <div>
                 <div className="text-xs text-sky-400 font-mono font-semibold">{selectedCert.issuer}</div>

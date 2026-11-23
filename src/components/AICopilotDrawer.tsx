@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Sparkles, Send, Bot, User, FileText, CheckCircle2, ArrowRight } from 'lucide-react';
 import { PORTFOLIO_DATA, Project } from '../data/portfolioData';
 
@@ -19,6 +19,16 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
   onClose,
   preloadedProject
 }) => {
+  // Prevent background scroll when AI drawer is open
+  useEffect(() => {
+    if (!isOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow || '';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const [activeTab, setActiveTab] = useState<'chat' | 'jd-matcher'>('chat');

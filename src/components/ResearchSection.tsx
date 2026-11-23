@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { BookOpen, FileText, CheckCircle2, ArrowRight, Github, X } from 'lucide-react';
 import { PORTFOLIO_DATA, ResearchPaper } from '../data/portfolioData';
@@ -9,6 +9,16 @@ interface ResearchSectionProps {
 
 export const ResearchSection: React.FC<ResearchSectionProps> = ({ onSelectProjectById }) => {
   const [selectedPaper, setSelectedPaper] = useState<ResearchPaper | null>(null);
+
+  // Prevent background scroll when modal is open
+  useEffect(() => {
+    if (!selectedPaper) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow || '';
+    };
+  }, [selectedPaper]);
 
   return (
     <section id="research" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/5 relative">
@@ -157,8 +167,14 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onSelectProjec
 
       {/* Paper Detail Modal */}
       {selectedPaper && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-3xl bg-[#090D16] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+        <div
+          onClick={() => setSelectedPaper(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in overflow-hidden select-none"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-3xl bg-[#090D16] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] select-text"
+          >
             <div className="p-5 sm:p-6 border-b border-white/10 flex items-start justify-between bg-zinc-950">
               <div>
                 <span className="text-xs font-mono text-sky-400">{selectedPaper.domain}</span>
