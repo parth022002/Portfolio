@@ -44,6 +44,17 @@ export interface ResearchPaper {
   githubUrl?: string;
 }
 
+export interface JourneyItem {
+  id: string;
+  type: 'experience' | 'education';
+  title: string;
+  organization: string;
+  period: string;
+  description: string;
+  skills: string[];
+  relatedProjectId?: string;
+}
+
 export interface SkillCategory {
   categoryName: string;
   skills: {
@@ -487,20 +498,49 @@ export const PORTFOLIO_DATA = {
     }
   ],
 
-  experience: [
-    {
-      role: "Software Engineering Intern",
-      company: "CreArt Solutions",
-      period: "Jul 2023 - Aug 2023",
-      description: "Spearheaded real-time peer-to-peer video streaming implementation (VChat) leveraging WebRTC and PHP. Engineered signaling exchange protocol and reduced media latency by 28%.",
-      skills: ["WebRTC", "PHP", "JavaScript", "Network Traversal"]
-    },
-    {
-      role: "Bachelor of Technology in Computer Engineering",
-      company: "University Academic Program",
-      period: "Graduated 2024",
-      description: "Specialized in Artificial Intelligence, Distributed Systems, Database Management, and Software Engineering. Final Year Capstone: ProctorShield (Online AI Proctoring System).",
-      skills: ["Computer Vision", "Machine Learning", "System Design", "Cloud Architecture"]
-    }
-  ]
+  journey: {
+    experience: [
+      {
+        id: "creart-php-intern",
+        type: "experience",
+        title: "PHP Developer Intern",
+        organization: "CreArt Solution",
+        period: "27th July 2023 - 10th Aug 2023",
+        description: "In this intern i have developed web based application using php frameworks and WebRTC real-time systems.",
+        skills: ["PHP Frameworks", "Web Application", "WebRTC", "MySQL"],
+        relatedProjectId: "vchat"
+      },
+      {
+        id: "internsavy-android-intern",
+        type: "experience",
+        title: "Android Developer Intern",
+        organization: "INTERNSAVY",
+        period: "1st july 2023 - 27th July 2023",
+        description: "In this Internship i have learned Android Development, UI components, and mobile lifecycle architecture.",
+        skills: ["Android Development", "Java", "Mobile UI", "XML"]
+      }
+    ] as JourneyItem[],
+
+    education: [
+      {
+        id: "marwadi-be-cse",
+        type: "education",
+        title: "BE - Computer Science",
+        organization: "Marwadi Education Foundation - GTU",
+        period: "2020 - 2024",
+        description: "Graduated with comprehensive specialization in Software Engineering, Artificial Intelligence, and Distributed Database Architecture. Capstone: ProctorShield.",
+        skills: ["Computer Science", "Artificial Intelligence", "Distributed Systems", "Algorithms"],
+        relatedProjectId: "proctorshield"
+      },
+      {
+        id: "aditya-birla-intermediate",
+        type: "education",
+        title: "INTERMEDIATE",
+        organization: "Aditya Birla Higher Secondary School",
+        period: "2018 - 2020",
+        description: "Senior secondary education focused on Mathematics, Physics, Chemistry, and Foundations of Computer Science.",
+        skills: ["Mathematics", "Physics", "Computer Science Foundations"]
+      }
+    ] as JourneyItem[]
+  }
 };
