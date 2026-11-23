@@ -8,6 +8,91 @@ interface ProjectsSectionProps {
   onOpenVideo: (project: Project) => void;
 }
 
+// Browser Redirect Launch Icon Matching User Uploaded Sample Image
+const BrowserRedirectIcon: React.FC<{ className?: string }> = ({ className = "w-4 h-4" }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    {/* Browser window frame with opening for arrow */}
+    <path d="M14 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-9" />
+    {/* Top tab bar header line */}
+    <path d="M3 8h18" />
+    {/* 3 Window Dots on top bar */}
+    <circle cx="5.5" cy="5.5" r="0.75" fill="currentColor" stroke="none" />
+    <circle cx="8" cy="5.5" r="0.75" fill="currentColor" stroke="none" />
+    <circle cx="10.5" cy="5.5" r="0.75" fill="currentColor" stroke="none" />
+    {/* Launch Arrow extending out of top-right */}
+    <polyline points="15 3 21 3 21 9" />
+    <line x1="10" y1="14" x2="21" y2="3" />
+  </svg>
+);
+
+// 2 to 3 Bullet Points Description Helper
+const getProjectHighlights = (project: Project): string[] => {
+  if (project.highlights && project.highlights.length > 0) {
+    return project.highlights.slice(0, 3);
+  }
+
+  const customHighlights: Record<string, string[]> = {
+    proctorshield: [
+      "Real-time WebRTC media streaming with multi-task TensorFlow neural networks.",
+      "Sub-140ms edge inference for face verification, head-pose & audio anomalies.",
+      "99.2% precision automated fraud detection across 1,000+ concurrent test-takers."
+    ],
+    nexspace: [
+      "High-performance social networking platform built with Next.js App Router & TypeScript.",
+      "Client-side optimistic UI state mutations with sub-65ms edge API responses.",
+      "98/100 Lighthouse performance with zero tracker scripts and instant routing."
+    ],
+    "chat-with-pdf": [
+      "Context-grounded enterprise RAG document intelligence powered by LangChain & FAISS.",
+      "Parses, chunks, and vectorizes 100-page complex PDF reports in 3.2 seconds.",
+      "100% cited answers with zero hallucination verification guardrails."
+    ],
+    "spotify-clone": [
+      "Full-scale music streaming architecture with Redux Toolkit global audio state.",
+      "Continuous zero-stutter playback with 3-track ahead predictive preload caching.",
+      "Integrated Stripe customer portal and automated subscription webhooks."
+    ],
+    "echo-assistant": [
+      "Multimodal desktop voice assistant bridging Eel web UI with native Python APIs.",
+      "Speech-to-text NLP dispatcher with 96.8% voice recognition accuracy.",
+      "Sub-350ms OS automation executing 40+ system commands and email drafts."
+    ],
+    taskflow: [
+      "MERN collaborative task platform featuring drag-and-drop Kanban workflows.",
+      "Granular role-based access control (Admin, Manager, Contributor) with JWT auth.",
+      "Sub-45ms task query response supporting 500+ active team collaborators."
+    ],
+    shoesavvy: [
+      "Full-stack e-commerce engine with normalized MySQL relational catalog schema.",
+      "Dynamic instant category filtering and secure server-side session management.",
+      "ACID-compliant checkout with atomic inventory synchronization."
+    ],
+    vchat: [
+      "Encrypted peer-to-peer WebRTC video calling with PHP signaling server.",
+      "STUN/NAT traversal protocol ensuring direct peer streaming across firewalls.",
+      "Sub-80ms end-to-end media latency with adaptive jitter buffer optimization."
+    ]
+  };
+
+  if (customHighlights[project.id]) {
+    return customHighlights[project.id];
+  }
+
+  return [
+    project.tagline,
+    project.technicalSummary,
+    project.businessImpact
+  ].slice(0, 3);
+};
+
 export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
   onSelectProject,
   onOpenVideo
@@ -124,16 +209,14 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
                   {project.tagline}
                 </p>
 
-                {/* Business Impact & Technical Highlights */}
-                <div className="space-y-1.5 pt-1 text-xs">
-                  <p className="text-zinc-300 line-clamp-2 leading-relaxed">
-                    <strong className="text-sky-300 font-semibold">Impact: </strong>
-                    {project.businessImpact}
-                  </p>
-                  <p className="text-zinc-400 line-clamp-2 leading-relaxed">
-                    <strong className="text-emerald-300 font-semibold font-mono">Tech: </strong>
-                    {project.technicalSummary}
-                  </p>
+                {/* 2 to 3 Bullet Points Description (Max 3 Points) */}
+                <div className="space-y-2 pt-1 text-xs">
+                  {getProjectHighlights(project).map((point, i) => (
+                    <div key={i} className="flex items-start gap-2 text-zinc-300 leading-relaxed">
+                      <span className="w-1.5 h-1.5 rounded-full bg-sky-400 mt-1.5 flex-shrink-0 shadow-[0_0_6px_#38BDF8]" />
+                      <span className="line-clamp-2">{point}</span>
+                    </div>
+                  ))}
                 </div>
 
                 {/* Tech Stack Chips */}
@@ -156,38 +239,47 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
             </div>
 
             {/* Bottom Actions Bar */}
-            <div className="p-5 sm:p-6 pt-0 border-t border-white/5 mt-4 flex items-center justify-between gap-3 text-xs">
+            <div className="p-5 sm:p-6 pt-3 border-t border-white/5 mt-4 flex items-center justify-between gap-3 text-xs">
               <div className="flex items-center gap-2">
-                {project.liveUrl && (
+                {/* 1. GitHub Logo Link */}
+                <a
+                  href={project.githubUrl || PORTFOLIO_DATA.personal.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-2.5 rounded-xl bg-zinc-800/90 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-white/10 hover:border-sky-500/40 transition-all hover:scale-110 shadow-sm flex items-center justify-center group/gh"
+                  title="View GitHub Repository"
+                >
+                  <Github className="w-4 h-4 group-hover/gh:text-sky-400 transition-colors" />
+                </a>
+
+                {/* 2. Deployed Live Website Redirect Symbol (Matches User Sample Image) */}
+                {project.liveUrl ? (
                   <a
                     href={project.liveUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="p-2 rounded-lg bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-all hover:scale-110"
-                    title="Live Demo"
+                    className="p-2.5 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 text-sky-400 hover:text-sky-300 border border-sky-500/30 hover:border-sky-400 transition-all hover:scale-110 shadow-sm flex items-center justify-center group/live"
+                    title="Open Deployed Live Website"
                   >
-                    <ExternalLink className="w-3.5 h-3.5" />
+                    <BrowserRedirectIcon className="w-4 h-4 group-hover/live:scale-110 transition-transform" />
                   </a>
-                )}
-                {project.githubUrl && (
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-2 rounded-lg bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-all hover:scale-110"
-                    title="GitHub Code"
+                ) : (
+                  <span
+                    className="p-2.5 rounded-xl bg-zinc-900/60 text-zinc-600 border border-white/5 flex items-center justify-center cursor-not-allowed"
+                    title="Deployment in progress"
                   >
-                    <Github className="w-3.5 h-3.5" />
-                  </a>
+                    <BrowserRedirectIcon className="w-4 h-4 opacity-40" />
+                  </span>
                 )}
               </div>
 
+              {/* Deep Case Study Button */}
               <button
                 onClick={() => onSelectProject(project)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-sky-400 hover:text-sky-300 hover:bg-sky-950/30 transition-all hover:translate-x-0.5"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-semibold text-zinc-200 hover:text-white border border-white/10 hover:border-sky-500/30 transition-all hover:translate-x-0.5 shadow-sm"
               >
-                <span>Deep Case Study</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <span>Case Study</span>
+                <ArrowRight className="w-3.5 h-3.5 text-sky-400" />
               </button>
             </div>
           </motion.div>

@@ -11,6 +11,7 @@ export interface Project {
   businessImpact: string;
   technicalSummary: string;
   problemStatement: string;
+  highlights?: string[];
   solutionArchitecture: string;
   techStack: string[];
   keyMetrics: { label: string; value: string }[];
