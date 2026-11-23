@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, Play, ArrowRight, Layers, ChevronDown, ChevronUp } from 'lucide-react';
+import { ExternalLink, Github, Play, ArrowRight, Layers, ChevronDown, ChevronUp, Plus } from 'lucide-react';
 import { PORTFOLIO_DATA, Project } from '../data/portfolioData';
 
 interface ProjectsSectionProps {
@@ -192,39 +192,75 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
             </div>
           </motion.div>
         ))}
+
+        {/* 6th Slot: Show More Interactive Card (Positioned Next to the 5th Project) */}
+        {!showAll && hasMore && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            whileHover={{ y: -6, scale: 1.02 }}
+            onClick={() => setShowAll(true)}
+            className="group rounded-2xl border-2 border-dashed border-sky-500/30 hover:border-sky-400 bg-gradient-to-b from-[#0A0E17]/90 via-[#0C1527]/70 to-[#0A0E17]/90 hover:bg-[#0C1527] p-6 sm:p-8 flex flex-col justify-between items-center text-center shadow-xl glow-hover cursor-pointer relative overflow-hidden transition-all duration-300 min-h-[380px]"
+          >
+            {/* Ambient Background Glow */}
+            <div className="absolute inset-0 bg-gradient-to-br from-sky-500/5 via-indigo-500/5 to-emerald-500/5 pointer-events-none group-hover:opacity-100 opacity-60 transition-opacity" />
+
+            {/* Top Badge */}
+            <div className="relative z-10 w-full flex justify-between items-center text-xs">
+              <span className="px-2.5 py-1 rounded-md font-mono font-bold bg-sky-950/70 text-sky-400 border border-sky-500/30">
+                +{filteredProjects.length - initialCount} More
+              </span>
+              <span className="px-2.5 py-1 rounded-md font-medium bg-white/5 text-zinc-400 border border-white/5">
+                Full Portfolio
+              </span>
+            </div>
+
+            {/* Middle Call to Action */}
+            <div className="relative z-10 space-y-4 my-auto py-6">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-sky-500/20 to-indigo-500/20 border border-sky-500/40 flex items-center justify-center mx-auto group-hover:scale-110 group-hover:shadow-[0_0_25px_rgba(56,189,248,0.35)] transition-all duration-300">
+                <Plus className="w-8 h-8 text-sky-400 group-hover:rotate-90 transition-transform duration-500" />
+              </div>
+
+              <div>
+                <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-sky-300 transition-colors tracking-tight">
+                  Show More Projects
+                </h3>
+                <p className="text-xs text-zinc-400 mt-2 max-w-xs leading-relaxed mx-auto">
+                  Click to inspect all {filteredProjects.length} engineering applications spanning AI proctoring, enterprise RAG, streaming, and full-stack systems.
+                </p>
+              </div>
+            </div>
+
+            {/* Bottom Button Pill */}
+            <div className="relative z-10 w-full pt-4 border-t border-white/5 flex items-center justify-center">
+              <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-semibold text-xs transition-all shadow-md shadow-sky-500/20 group-hover:shadow-sky-500/40">
+                <span>View All {filteredProjects.length} Projects</span>
+                <ChevronDown className="w-3.5 h-3.5 group-hover:translate-y-0.5 transition-transform" />
+              </span>
+            </div>
+          </motion.div>
+        )}
       </div>
 
-      {/* Show More / Show Less Toggle Button */}
-      {hasMore && (
+      {/* Show Less Button at the end of the expanded project section */}
+      {showAll && hasMore && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
           className="flex justify-center mt-12 sm:mt-16"
         >
-          {!showAll ? (
-            <button
-              onClick={() => setShowAll(true)}
-              className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-sky-500/20 via-indigo-500/20 to-emerald-500/20 hover:from-sky-500/30 hover:via-indigo-500/30 hover:to-emerald-500/30 border border-sky-500/30 hover:border-sky-400/50 text-white font-semibold text-sm transition-all duration-300 shadow-xl shadow-sky-500/10 hover:shadow-sky-500/25 hover:scale-105 active:scale-95 flex items-center gap-3 backdrop-blur-md group cursor-pointer"
-            >
-              <span>Show More Projects</span>
-              <span className="px-2.5 py-0.5 rounded-full bg-sky-500/20 text-xs text-sky-300 font-mono border border-sky-500/30">
-                +{filteredProjects.length - initialCount} More
-              </span>
-              <ChevronDown className="w-4 h-4 text-sky-400 group-hover:translate-y-0.5 transition-transform" />
-            </button>
-          ) : (
-            <button
-              onClick={() => {
-                setShowAll(false);
-                document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="px-7 py-3 rounded-2xl bg-zinc-900/90 hover:bg-zinc-800 border border-white/10 hover:border-white/20 text-zinc-300 hover:text-white font-semibold text-sm transition-all duration-300 shadow-lg hover:scale-105 active:scale-95 flex items-center gap-2.5 backdrop-blur-md group cursor-pointer"
-            >
-              <span>Show Less</span>
-              <ChevronUp className="w-4 h-4 text-zinc-400 group-hover:-translate-y-0.5 transition-transform" />
-            </button>
-          )}
+          <button
+            onClick={() => {
+              setShowAll(false);
+              document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="px-8 py-3.5 rounded-2xl bg-zinc-900/90 hover:bg-zinc-800 border border-white/10 hover:border-white/20 text-zinc-300 hover:text-white font-semibold text-sm transition-all duration-300 shadow-lg hover:scale-105 active:scale-95 flex items-center gap-2.5 backdrop-blur-md group cursor-pointer"
+          >
+            <span>Show Less (Show Top 5)</span>
+            <ChevronUp className="w-4 h-4 text-zinc-400 group-hover:-translate-y-0.5 transition-transform" />
+          </button>
         </motion.div>
       )}
     </section>
