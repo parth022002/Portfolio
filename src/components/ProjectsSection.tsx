@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, Play, ArrowRight, Layers, ChevronDown, ChevronUp, Plus } from 'lucide-react';
+import { ExternalLink, Github, ArrowRight, Layers, ChevronDown, ChevronUp, Plus } from 'lucide-react';
 import { PORTFOLIO_DATA, Project } from '../data/portfolioData';
 
 interface ProjectsSectionProps {
   onSelectProject: (project: Project) => void;
-  onOpenVideo: (project: Project) => void;
 }
 
 // Browser Redirect Launch Icon Matching User Uploaded Sample Image
@@ -94,8 +93,7 @@ const getProjectHighlights = (project: Project): string[] => {
 };
 
 export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
-  onSelectProject,
-  onOpenVideo
+  onSelectProject
 }) => {
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [showAll, setShowAll] = useState<boolean>(false);
@@ -185,15 +183,6 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
                     {project.category}
                   </span>
                 </div>
-
-                {/* Video Explainer Button on Hover */}
-                <button
-                  onClick={() => onOpenVideo(project)}
-                  className="absolute bottom-3 right-3 px-3 py-1.5 rounded-lg bg-black/80 hover:bg-black text-white text-xs font-medium border border-white/15 backdrop-blur-md flex items-center gap-1.5 shadow-lg group/btn transition-transform hover:scale-105"
-                >
-                  <Play className="w-3.5 h-3.5 text-sky-400 fill-sky-400 group-hover/btn:scale-110 transition-transform" />
-                  <span>3-Min Explainer</span>
-                </button>
               </div>
 
               {/* Card Body */}

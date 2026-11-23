@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, ExternalLink, Github, Play, FileText, Cpu, CheckCircle2, Sparkles, Clock, ArrowRight } from 'lucide-react';
+import { X, ExternalLink, Github, FileText, Cpu, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
 import { Project } from '../data/portfolioData';
 
 interface ProjectModalProps {
@@ -15,8 +15,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
 }) => {
   if (!project) return null;
 
-  const [activeTab, setActiveTab] = useState<'overview' | 'video' | 'architecture' | 'evidence'>('overview');
-  const [activeChapterIndex, setActiveChapterIndex] = useState(0);
+  const [activeTab, setActiveTab] = useState<'overview' | 'architecture' | 'evidence'>('overview');
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-black/80 backdrop-blur-md animate-fade-in">
@@ -61,18 +60,6 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
           >
             <FileText className="w-3.5 h-3.5" />
             <span>Problem & Outcome</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('video')}
-            className={`py-3.5 border-b-2 transition-all flex items-center gap-2 ${
-              activeTab === 'video'
-                ? 'border-sky-400 text-sky-400'
-                : 'border-transparent text-zinc-400 hover:text-white'
-            }`}
-          >
-            <Play className="w-3.5 h-3.5" />
-            <span>Video Explainer (3-Min)</span>
           </button>
 
           <button
@@ -153,60 +140,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
             </div>
           )}
 
-          {/* TAB 2: VIDEO EXPLAINER */}
-          {activeTab === 'video' && (
-            <div className="space-y-6">
-              {/* Video Player Container */}
-              <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-white/10 shadow-2xl">
-                <video
-                  src="/intro.mp4"
-                  controls
-                  className="w-full h-full object-contain"
-                  poster={project.img}
-                />
-              </div>
-
-              {/* Chapters Selector */}
-              <div>
-                <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-400 mb-2 flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-sky-400" />
-                  <span>Interactive Chapters (Video Production Bible Spec)</span>
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {project.videoChapters.map((ch, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setActiveChapterIndex(idx)}
-                      className={`p-2.5 rounded-lg text-left text-xs border transition-all flex items-start gap-2.5 ${
-                        activeChapterIndex === idx
-                          ? 'bg-sky-950/40 border-sky-500/40 text-white'
-                          : 'bg-zinc-900/50 border-white/5 text-zinc-400 hover:text-white'
-                      }`}
-                    >
-                      <span className="font-mono text-sky-400 font-bold">{ch.time}</span>
-                      <div>
-                        <div className="font-semibold text-zinc-200">{ch.title}</div>
-                        <div className="text-[11px] text-zinc-400 mt-0.5">{ch.desc}</div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Synchronized Transcript Box */}
-              <div className="p-4 rounded-xl bg-zinc-950 border border-white/10 space-y-2">
-                <div className="flex items-center justify-between text-xs text-zinc-400">
-                  <span className="font-mono text-[11px] uppercase">Transcript Snapshot</span>
-                  <span className="text-[10px] text-emerald-400">● AI Presenter Sync</span>
-                </div>
-                <p className="text-xs text-zinc-300 leading-relaxed italic">
-                  "{project.transcriptSnippet}"
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* TAB 3: ARCHITECTURE */}
+          {/* TAB 2: ARCHITECTURE */}
           {activeTab === 'architecture' && (
             <div className="space-y-6">
               <div className="p-4 rounded-xl bg-zinc-950 border border-white/10 font-mono text-xs text-zinc-300 space-y-3">

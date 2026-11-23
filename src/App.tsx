@@ -69,7 +69,6 @@ export const App: React.FC = () => {
         {/* 7. Deep Case Study Projects Grid with Scroll Reveal */}
         <ProjectsSection
           onSelectProject={(project) => setSelectedProject(project)}
-          onOpenVideo={(project) => setSelectedProject(project)}
         />
 
         {/* 8. Skills & Verifiable Evidence Constellation */}
