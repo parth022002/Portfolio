@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Volume2, VolumeX, Play, Pause, ArrowDown, Mail, Download, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Play, Pause, ArrowDown, Mail, Download, Sparkles, ChevronDown } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 export const HeroSection: React.FC = () => {
@@ -241,6 +241,44 @@ export const HeroSection: React.FC = () => {
             </div>
           </motion.div>
         ))}
+      </motion.div>
+
+      {/* Luxury Animated Scroll Down Indicator Button (From Reference) */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1, duration: 0.8 }}
+        className="flex flex-col items-center justify-center mt-12 sm:mt-16"
+      >
+        <button
+          onClick={() => {
+            document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+          }}
+          className="group flex flex-col items-center gap-2.5 text-zinc-500 hover:text-sky-400 transition-all duration-300 focus:outline-none cursor-pointer"
+          title="Scroll to explore projects"
+        >
+          <span className="text-[10px] font-mono uppercase tracking-[0.28em] font-bold text-zinc-400 group-hover:text-sky-300 transition-colors">
+            Scroll To Explore
+          </span>
+
+          {/* Mouse Frame Silhouette with Animated Scrolling Bead */}
+          <div className="w-5 h-8 rounded-full border-2 border-white/20 group-hover:border-sky-400 flex items-start justify-center p-1 transition-all duration-300 shadow-md group-hover:shadow-[0_0_15px_rgba(56,189,248,0.35)]">
+            <motion.div
+              animate={{
+                y: [0, 11, 0],
+                opacity: [1, 0.25, 1],
+              }}
+              transition={{
+                duration: 1.8,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+              className="w-1.5 h-1.5 rounded-full bg-sky-400 shadow-[0_0_6px_#38BDF8]"
+            />
+          </div>
+
+          <ChevronDown className="w-4 h-4 text-zinc-500 group-hover:text-sky-400 animate-bounce -mt-1 transition-colors" />
+        </button>
       </motion.div>
     </section>
   );

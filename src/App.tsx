@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ScrollProgress } from './components/ScrollProgress';
 import { CursorSpotlight } from './components/CursorSpotlight';
+import { CustomCursor } from './components/CustomCursor';
+import { AmbientBackground } from './components/AmbientBackground';
 import { TechMarquee } from './components/TechMarquee';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
@@ -42,10 +44,14 @@ export const App: React.FC = () => {
       {/* 1. Top Reading Scroll Progress Bar */}
       <ScrollProgress />
 
-      {/* 2. Ambient Cursor Spotlight Glow */}
-      <CursorSpotlight />
+      {/* 2. Ambient Aurora Mesh Gradients & Tactile Grain (From Reference) */}
+      <AmbientBackground />
 
-      {/* 3. Header Navigation with logo1, centered links, and right social icons */}
+      {/* 3. Ambient Cursor Glow & Interactive Custom Follower */}
+      <CursorSpotlight />
+      <CustomCursor />
+
+      {/* 4. Header Navigation with logo1, centered links, and right social icons */}
       <Navbar />
 
       {/* Main Page Content */}
