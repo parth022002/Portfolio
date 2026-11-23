@@ -46,31 +46,6 @@ export const HeroSection: React.FC = () => {
 
   return (
     <section id="hero" className="relative pt-10 sm:pt-14 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-[85vh] flex flex-col justify-center">
-      {/* Floating 3D Telemetry HUD Chips in Margins */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 1 }}
-        className="hidden xl:flex absolute top-28 -left-4 items-center gap-2.5 px-3.5 py-1.5 rounded-2xl bg-zinc-950/80 border border-sky-500/30 backdrop-blur-xl shadow-2xl shadow-sky-500/10 animate-float pointer-events-none"
-      >
-        <div className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-        <div className="text-[11px] font-mono text-zinc-300">
-          <span className="text-sky-400 font-bold">NEURAL INFERENCE</span> • &lt; 140MS
-        </div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 1.1, duration: 0.8 }}
-        className="hidden xl:flex absolute top-36 -right-4 items-center gap-2 px-3.5 py-1.5 rounded-2xl bg-zinc-950/80 border border-indigo-500/30 backdrop-blur-xl shadow-2xl shadow-indigo-500/10 animate-float pointer-events-none"
-        style={{ animationDelay: '2.5s' }}
-      >
-        <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
-        <div className="text-[11px] font-mono text-zinc-300">
-          <span className="text-indigo-400 font-bold">3D SPATIAL ENGINE</span> • ACTIVE
-        </div>
-      </motion.div>
       {/* Main Split Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center my-auto">
         {/* Left Side: Animated Text & Story with Framer Motion */}

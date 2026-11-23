@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Background3DCanvas } from './components/Background3DCanvas';
 import { ScrollProgress } from './components/ScrollProgress';
 import { CursorSpotlight } from './components/CursorSpotlight';
 import { TechMarquee } from './components/TechMarquee';
@@ -43,13 +42,10 @@ export const App: React.FC = () => {
       {/* 1. Top Reading Scroll Progress Bar */}
       <ScrollProgress />
 
-      {/* 2. Interactive 3D Background Canvas (Rotating Polyhedron & 3D Particle Cloud) */}
-      <Background3DCanvas />
-
-      {/* 3. Ambient Cursor Spotlight Glow */}
+      {/* 2. Ambient Cursor Spotlight Glow */}
       <CursorSpotlight />
 
-      {/* 4. Header Navigation with logo1, centered links, and right social icons */}
+      {/* 3. Header Navigation with logo1, centered links, and right social icons */}
       <Navbar />
 
       {/* Main Page Content */}
