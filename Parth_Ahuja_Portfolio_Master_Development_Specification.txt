@@ -1,0 +1,1553 @@
+PARTH AHUJA  /  MASTER BUILD DOCUMENT
+
+AI-NATIVE PERSONAL PORTFOLIO
+
+Master product, UX, architecture, AI, content, social, analytics and development specification
+
+Version: Version 4.0  |  30 September 2026
+
+Research basis: current market scan + supplied portfolio concepts
+
+Audience: developer, designer, AI engineer, content producer, future maintainer
+
+PRODUCT PRINCIPLE  The portfolio must prove capability through evidence, interaction and speed. AI should reduce visitor effort, not become a prerequisite for understanding Parth.
+
+DOCUMENT PURPOSE
+
+This is the master implementation document for Parth Ahuja's professional portfolio website. It converts the earlier portfolio concepts into a single production plan and intentionally leaves detailed video production to the companion Video Production Bible.
+
+Executive Build Summary
+
+Dimension
+
+Decision
+
+Product
+
+Premium professional portfolio that behaves like a lightweight digital product rather than a static résumé.
+
+Primary audience
+
+Recruiters/HR, hiring managers, technical interviewers, collaborators and curious visitors.
+
+Core proof
+
+Projects, live demos, GitHub repositories, documents, videos, certificates, research and role-specific evidence.
+
+AI
+
+Grounded portfolio chatbot + contextual project Q&A + evidence retrieval + role/JD matching + guided tour.
+
+Avatar
+
+Optional AI avatar entry point and prerecorded introduction; all content remains understandable without it.
+
+Design
+
+Editorial/professional visual system with subtle product UI, purposeful motion and optional Lab mode.
+
+Engineering
+
+Next.js App Router, TypeScript, Tailwind, shadcn/Radix, Supabase/Postgres, pgvector, Vercel; provider abstraction for AI.
+
+Source of truth
+
+Structured content database/CMS with versioned evidence assets and a single AI knowledge layer.
+
+Video
+
+Companion production system creates project explainers from PPT + browser demo + AI presenter segments; videos are integrated into project pages.
+
+Launch principle
+
+Ship the professional core first; advanced AI/avatar/3D features must degrade gracefully.
+
+1. Product Vision and Positioning
+
+The site should communicate a coherent intersection of business analytics, product thinking, operations/supply-chain problem solving, software development and practical AI implementation. Positioning should be based on evidence that is actually published, not generic labels.
+
+Primary experience promise
+
+A visitor should be able to understand who Parth is in seconds, identify relevant work in under a minute, open proof without friction, and ask an AI assistant for the exact evidence they need.
+
+Core jobs-to-be-done
+
+• “Tell me who Parth is and what roles he is pursuing.”
+
+• “Show me the strongest work, not an exhaustive list first.”
+
+• “Let me verify a project through its live URL, GitHub, report, slides or video.”
+
+• “Let me understand skills through evidence rather than self-rated percentages.”
+
+• “Let me ask one question and jump directly to the supporting project or résumé section.”
+
+• “Show me how AI is actually used in the portfolio itself.”
+
+2. Site Map and Exact Page Model
+
+Route / template
+
+Purpose
+
+Core modules
+
+Priority
+
+/
+
+Homepage / conversion
+
+Hero, positioning, proof strip, featured projects, social hub, experience snapshot, certificates preview, skills preview, AI CTA, contact CTA
+
+P0
+
+/showcase
+
+Visual showcase hub
+
+Animated project grid, certificate wall, skills constellation/evidence graph, filters, quick-view drawer
+
+P0
+
+/work
+
+Full project archive
+
+Search, filters, project cards, status, category, stack and evidence actions
+
+P0
+
+/work/[slug]
+
+Project case study
+
+Problem, goal, role, process, architecture, demo, video, GitHub, live link, document, slides, results, lessons, Ask AI
+
+P0
+
+/experience
+
+Experience timeline
+
+Internships/employment, education-to-work context, evidence links
+
+P0
+
+/skills
+
+Capability explorer
+
+Skill families, evidence counts, linked projects/certificates/research, filters
+
+P0
+
+/certificates
+
+Credential showcase
+
+Certificate cards, issuer, date, credential URL, viewer/lightbox, related skills
+
+P0
+
+/research
+
+Research library
+
+Research cards, paper pages, methods, findings, limitations, related analytics
+
+P1
+
+/research/[slug]
+
+Research detail
+
+Abstract, methodology, data, results, paper/document, visualizations, Explain with AI
+
+P1
+
+/resume
+
+Interactive résumé
+
+Web resume, PDF download, 60-second intro video, AI Q&A, last verified date
+
+P0
+
+/about
+
+Personal narrative
+
+About story, principles, education, interests, social proof
+
+P0
+
+/ai
+
+Dedicated AI experience
+
+Chat, quick prompts, source citations, role match, project compare, portfolio tour
+
+P1
+
+/lab
+
+Experimental layer
+
+Parth.OS terminal, interaction demos, optional 3D/WebGPU, build notes
+
+P2
+
+/contact
+
+Conversion
+
+Email form, direct email link, LinkedIn, availability, social links, privacy note
+
+P0
+
+/privacy
+
+Privacy
+
+AI/chat/analytics disclosure and data handling
+
+P0
+
+/404
+
+Recovery
+
+Useful links and AI/site search escape hatch
+
+P0
+
+Dynamic content
+
+Scales with portfolio
+
+Unlimited projects/certificates/research records from CMS
+
+P0
+
+Recommended public information architecture: 16 named routes + dynamic detail templates. The homepage and /showcase are intentionally different: Home is recruiter-first; Showcase is the visually rich “wow” surface.
+
+3. Homepage Layout
+
+Order
+
+Section
+
+What appears
+
+Interaction
+
+1
+
+Top navigation
+
+Logo, Home, Work, Showcase, Experience, Skills, Research, Resume, Contact; AI and social shortcuts
+
+Sticky, compact on scroll
+
+2
+
+Hero
+
+Positioning headline, 1-2 line summary, primary CTAs, portrait/avatar card
+
+Subtle reveal, optional avatar intro
+
+3
+
+Proof strip
+
+Projects, internships, certifications, domains, selected platforms
+
+Clickable evidence chips
+
+4
+
+Featured work
+
+3-5 strongest projects
+
+Hover preview; open detail page
+
+5
+
+Project video rail
+
+Latest 2-4 explainers
+
+Poster-first; play on intent
+
+6
+
+Skills snapshot
+
+Capability families tied to evidence
+
+Click to filter /skills
+
+7
+
+Certificates preview
+
+Selected credentials
+
+Lightbox / /certificates
+
+8
+
+Experience snapshot
+
+Timeline excerpt
+
+Open /experience
+
+9
+
+AI CTA
+
+“Ask Parth AI” + example questions
+
+Opens chat without blocking site
+
+10
+
+Social hub
+
+LinkedIn, GitHub, LeetCode, HackerRank, Kaggle, Instagram, optional X/Medium/Dev.to/Scholar
+
+Open externally
+
+11
+
+Contact
+
+Work-with-me CTA and contact route
+
+Form + email + LinkedIn
+
+12
+
+Footer
+
+Navigation, social, AI disclosure, last updated
+
+Minimal
+
+Showcase Hub: the requested all-in-one page
+
+The /showcase page is the visual “proof wall”. It should combine projects, certificates and skills in one highly polished screen rather than forcing visitors through multiple pages first.
+
+• Featured project cards with poster, status, category, stack and action icons.
+
+• Certificate strip with issuer logos, credential date and verified/open action.
+
+• Skill constellation or grouped capability map; each skill links to evidence.
+
+• Animated category filters: AI, Analytics, Product, Operations, Development, Research.
+
+• Quick-view drawer for projects: one-screen overview with Live / GitHub / Video / Document / Slides / Ask AI.
+
+• “Proof mode” to highlight only evidence-backed items, useful for recruiters.
+
+• Optional Lab-mode transition, but the default appearance stays professional.
+
+4. Project System - Deep Interactive Case Study
+
+Every project must be a first-class content object, not a card with a paragraph. Clicking any project opens a complete case study route.
+
+Project detail layout
+
+1. Breadcrumb + category + project status (Live / Prototype / Research / Archived).
+
+2. Large title + one-sentence problem/outcome hook.
+
+3. Hero screenshot or video poster; no autoplay sound.
+
+4. Sticky action bar: Live Project | GitHub | Watch Video | Read Document | View Slides | Ask AI | Share.
+
+5. At-a-glance facts: role, date, domain, tools, team context, deployment status.
+
+6. Problem -> goals -> approach -> solution -> evidence -> outcome -> lessons.
+
+7. Architecture diagram with a text equivalent.
+
+8. Interactive website/demo section where feasible.
+
+9. Project video with transcript, chapters and captions.
+
+10. Technical detail accordions for architecture, APIs, data, model, security, deployment and trade-offs.
+
+11. Evidence section linking exact screenshots, GitHub files, reports, dashboards and certificates where relevant.
+
+12. Related skills and certificates; clicking a skill returns to the evidence explorer.
+
+13. Context-aware “Ask about this project” AI panel restricted to project-approved content.
+
+14. Next project + Contact CTA.
+
+Project action contract
+
+Action
+
+Behavior
+
+Fallback
+
+Live Project
+
+Open deployment in new tab
+
+Hide action if no verified URL
+
+GitHub
+
+Open canonical repository
+
+Hide if private/unavailable
+
+Video
+
+Play hosted MP4/stream
+
+Poster + transcript still available
+
+Document
+
+Open/download versioned PDF
+
+Hide if not public
+
+Slides
+
+Open PPT/PDF presentation
+
+Hide if not public
+
+Ask AI
+
+Open project-scoped assistant
+
+Fallback to static case study
+
+Share
+
+Copy canonical project URL / Web Share API
+
+Copy link
+
+5. Certificate Showcase
+
+Certificates are proof assets, not decoration. Each credential should connect to the skills it supports and, when appropriate, to projects using the same capability.
+
+Certificate field
+
+Required behavior
+
+Title
+
+Readable credential name
+
+Issuer
+
+Official organization
+
+Date
+
+Month/year or verified year
+
+Credential URL / ID
+
+Open verification page when available
+
+Image/PDF
+
+Lightbox viewer; optimized
+
+Related skills
+
+Clickable skill evidence
+
+Related project/research
+
+Optional links
+
+Verification state
+
+Verified / self-uploaded / link unavailable
+
+Last verified
+
+CMS timestamp
+
+Certificate UI
+
+• Grid + filter by provider/category/year.
+
+• Hover/tap preview with title and issuer.
+
+• Full-screen certificate viewer with keyboard close and mobile support.
+
+• Credential verification button separated from image viewing.
+
+• AI action: “Explain what this certification demonstrates in Parth's portfolio.”
+
+• No arbitrary “certificate score”; show issuer, date and evidence.
+
+6. Skills & Evidence Explorer
+
+Replace self-rated percentages with evidence-backed capability mapping. A skill should answer “where have you actually used this?”
+
+Capability family
+
+Examples to model
+
+Evidence displayed
+
+Programming
+
+Python, Java, JavaScript, C, SQL
+
+Projects, GitHub, research, technical notes
+
+Frontend
+
+Next.js, React, Tailwind, HTML/CSS
+
+Live projects, UI screenshots, repos
+
+Backend / Data
+
+Flask, Django, PHP, MySQL, PostgreSQL, SQLite
+
+Architecture, APIs, deployments
+
+AI / ML
+
+LLMs, RAG, agents, TensorFlow/Keras, OpenCV
+
+AI projects, evaluations, diagrams
+
+Analytics
+
+Excel, statistics, visualization, BI tools
+
+Dashboards, reports, analysis projects
+
+Product / Business
+
+Discovery, requirements, strategy, GTM
+
+Case studies, capstone work, frameworks
+
+Operations
+
+Process analysis, supply chain, operations research
+
+Field studies, optimization/operations projects
+
+Tools / Platforms
+
+GitHub, Vercel, Supabase, APIs, deployment tools
+
+Live deployments, build notes
+
+Skill interaction
+
+1. Visitor selects a skill.
+
+2. Site shows evidence count and linked projects/certificates/research.
+
+3. Visitor opens one proof item.
+
+4. AI can answer a grounded follow-up such as “Where did this skill matter?”
+
+5. Visitor can share the filtered evidence view.
+
+7. Social & Professional Identity Hub
+
+Social links should be visible enough to discover but secondary to actual portfolio proof. Use one consistent social icon system and canonical URLs managed through CMS.
+
+Platform
+
+Use in portfolio
+
+Primary placement
+
+LinkedIn
+
+Professional profile / recruiter route
+
+Header + footer + contact
+
+GitHub
+
+Code verification / repositories
+
+Header/footer + each technical project
+
+LeetCode
+
+Problem-solving proof
+
+Social hub + skills
+
+HackerRank
+
+Skill assessments/certifications
+
+Social hub + relevant skills
+
+Kaggle
+
+Analytics/data science notebooks
+
+Social hub + analytics projects
+
+Instagram
+
+Personal/creative presence
+
+Footer/social hub
+
+X / Twitter
+
+Optional public writing/networking
+
+Social hub if active
+
+Social UX rules
+
+• Never invent or display a platform until the account exists and is current.
+
+• Open external profiles in a new tab with safe rel attributes.
+
+• Keep labels accessible; icon alone is not sufficient for screen readers.
+
+• Show only active platforms in the public social rail.
+
+8. Motion and Interaction Design System
+
+“Cool” should mean controlled, coherent and purposeful. Animation demonstrates frontend craft without making a recruiter wait.
+
+Motion tier
+
+Examples
+
+Guideline
+
+Tier 0
+
+Static content, key facts
+
+No motion dependency
+
+Tier 1
+
+Button hover, card lift, focus rings, icon transitions
+
+150-250ms
+
+Tier 2
+
+Section reveal, timeline, filtered-grid transitions
+
+250-500ms
+
+Tier 3
+
+Showcase transitions, project theater, avatar/AI state changes
+
+500-900ms; user-triggered
+
+Lab-only
+
+3D/WebGPU, terminal effects
+
+Optional; capability-detected
+
+• Prefer transform/opacity for cheap animation.
+
+• Respect prefers-reduced-motion and reduced-transparency.
+
+• Never hide essential information behind hover.
+
+• No automatic sound, no aggressive parallax, no perpetual motion on content-heavy sections.
+
+• Use a small number of motion motifs consistently: reveal, lift, morph, progress, spatial transition.
+
+9. AI Experience Suite
+
+AI use case
+
+User value
+
+Required data/tools
+
+Priority
+
+Portfolio chatbot
+
+Ask anything about Parth
+
+RAG + structured profile tools
+
+P0
+
+Project-specific Q&A
+
+Understand one project deeply
+
+Project scoped retrieval
+
+P0
+
+Show me the proof
+
+Turn an answer into evidence links
+
+Evidence graph + source tool
+
+P1
+
+Resume Q&A
+
+Ask where a skill/experience appears
+
+Resume chunks + profile records
+
+P1
+
+JD / role match
+
+Relate a role description to evidence and identify gaps
+
+Role parser + evidence retrieval
+
+P1
+
+Personalized tour
+
+3-minute path based on visitor intent
+
+Navigation planner + page metadata
+
+P1
+
+Project compare
+
+Compare two projects by capabilities/evidence
+
+Structured project tool
+
+P1
+
+Skill evidence
+
+Show projects/research/certs supporting a skill
+
+Evidence graph
+
+P1
+
+Research explainer
+
+Explain methods/findings with citations
+
+Research RAG
+
+P1
+
+Voice interface
+
+Speak questions / hear answers
+
+Realtime voice provider
+
+P2
+
+Avatar mode
+
+Optional synthetic presenter conversation
+
+Avatar + same agent layer
+
+P2
+
+Generative UI
+
+Render cards, evidence chips, comparisons
+
+Structured AI outputs
+
+P2
+
+Site guide
+
+Contextual next-step suggestions
+
+Page-aware rules/agent
+
+P2
+
+Multilingual
+
+Answer in selected language
+
+Language-aware response layer
+
+P2
+
+AI guardrails
+
+• AI must answer from approved portfolio data; it must never invent employers, metrics, titles, years or achievements.
+
+• Unsupported questions receive a transparent “not in my published portfolio” response.
+
+• Important answers include clickable evidence or route links.
+
+• The AI UI must not block navigation, resume access or contact.
+
+• Provider keys live server-side only; all public endpoints are rate-limited.
+
+• Chat/avatar disclosures identify the experience as AI-generated/synthetic where applicable.
+
+10. AI / RAG Architecture
+
+Use one portfolio intelligence layer for text chat, voice, avatar and contextual project explainers. This prevents content drift across multiple AI experiences.
+
+Layer
+
+Technology / pattern
+
+Responsibilities
+
+UI
+
+Next.js + React + Tailwind + shadcn/Radix
+
+Pages, drawers, chat sheet, command palette, evidence UI
+
+AI gateway
+
+Vercel route handlers / server actions + AI SDK/provider abstraction
+
+Streaming, sessions, model selection, rate limits
+
+Agent
+
+System prompt + tool calls + retrieval
+
+Intent classification, tool choice, response format, safety
+
+Knowledge
+
+Postgres + pgvector + metadata
+
+Embeddings and authoritative text chunks
+
+Structured tools
+
+getProject, searchPortfolio, getSkillEvidence, getResume, getContact, roleMatch
+
+Exact facts and navigation actions
+
+Realtime
+
+WebRTC provider / realtime voice
+
+Voice and avatar streaming when enabled
+
+Admin
+
+Protected CMS
+
+Create/update content, publish, re-index
+
+Observability
+
+Analytics + error monitoring + AI eval set
+
+Latency, failures, top questions, grounding checks
+
+RAG pipeline
+
+1. Write approved content into structured records/MDX.
+
+2. Chunk semantically by project section, skill evidence, certificate, experience item and research finding.
+
+3. Embed approved chunks and store metadata such as type, slug, visibility, version and source URL.
+
+4. Classify incoming questions: project, skill, resume, experience, contact, navigation, role match, research or general.
+
+5. Retrieve via semantic + keyword search with metadata filters.
+
+6. Call structured tools where exact facts/URLs are needed.
+
+7. Generate concise answer plus source links and next action.
+
+8. Log privacy-safe quality metrics and review unanswered questions as content gaps.
+
+11. Technical Stack
+
+Layer
+
+Recommended stack
+
+Why
+
+Framework
+
+Next.js App Router + TypeScript
+
+SSR/SEO, route hierarchy, strong deployment fit
+
+Styling
+
+Tailwind CSS
+
+Fast systemized UI development
+
+Components
+
+shadcn/ui + Radix primitives
+
+Accessible, composable primitives
+
+Animation
+
+Framer Motion / Motion
+
+Consistent transitions and layout animation
+
+Icons
+
+Lucide
+
+Accessible, consistent icon family
+
+Content
+
+Supabase Postgres + MDX/Markdown
+
+Structured data + rich case studies
+
+Vector search
+
+pgvector
+
+Keep relational content and embeddings together
+
+AI
+
+Provider abstraction + Vercel AI SDK/direct SDKs
+
+Streaming/tool calling and vendor flexibility
+
+Auth
+
+Supabase Auth
+
+Admin protection
+
+Storage
+
+Supabase Storage or Cloudflare R2
+
+Video, PDF, screenshots, certificate assets
+
+Email
+
+Resend or equivalent
+
+Contact delivery
+
+Rate limit
+
+Upstash Redis / platform-native
+
+Protect public AI endpoints
+
+Bot protection
+
+Cloudflare Turnstile
+
+Reduce spam/automation
+
+Hosting
+
+Vercel
+
+Next.js deployment and preview environments
+
+Analytics
+
+Vercel Analytics + optional PostHog
+
+Core product measurement
+
+Errors
+
+Sentry or equivalent
+
+Client/server issue tracking
+
+Testing
+
+Playwright + Vitest/Jest + accessibility checks
+
+E2E, unit and UX regression coverage
+
+12. Data Model / CMS
+
+Entity
+
+Key fields
+
+Relationships
+
+Profile
+
+name, headline, summary, availability, portrait, links, verified_at
+
+1:many social links; 1:many evidence
+
+Experience
+
+company, role, dates, description, evidence_ids
+
+skills, projects, documents
+
+Education
+
+institution, program, dates, focus, evidence
+
+profile
+
+Project
+
+slug, title, category, summary, problem, role, stack, status, outcome, featured
+
+assets, skills, certificates, research, links
+
+ProjectAsset
+
+project_id, type, URL, caption, transcript, alt_text, version
+
+project
+
+Skill
+
+name, family, tools, description, verified_at
+
+projects, research, certificates
+
+Certificate
+
+title, issuer, date, credential_url, image, verification_state
+
+skills, projects
+
+Research
+
+slug, title, abstract, method, sample/dataset, findings, limitations, document_url
+
+skills, projects
+
+SocialLink
+
+platform, URL, label, order, visible
+
+profile
+
+ResumeVersion
+
+file_url, version_label, verified_at
+
+profile
+
+KnowledgeChunk
+
+content, embedding, source_type, source_id, version, visibility
+
+AI retrieval
+
+AIFeedback
+
+session_id, category, rating, source_clicks, latency
+
+analytics
+
+Evidence graph
+
+The graph is the core differentiator behind the Skills, Projects, Certificates and AI experience: Skill -> Project -> Evidence -> Certificate/Research -> External proof. Visitors should be able to traverse this graph from any node.
+
+13. API and Route Contract
+
+Endpoint
+
+Method
+
+Purpose
+
+/api/ai/chat
+
+POST
+
+Grounded portfolio assistant
+
+/api/ai/project
+
+POST
+
+Project-scoped Q&A
+
+/api/ai/role-match
+
+POST
+
+Analyze pasted JD using published evidence
+
+/api/ai/tour
+
+POST
+
+Generate visitor tour
+
+/api/ai/compare
+
+POST
+
+Compare two projects
+
+/api/ai/feedback
+
+POST
+
+Store quality feedback
+
+/api/search
+
+GET
+
+Semantic/keyword portfolio search
+
+/api/avatar/session
+
+POST
+
+Initialize avatar/realtime session
+
+/api/projects
+
+GET/POST
+
+Project content management
+
+/api/projects/[slug]
+
+GET/PATCH
+
+Project detail data
+
+/api/certificates
+
+GET/POST
+
+Credential data
+
+/api/skills
+
+GET/POST
+
+Skill records
+
+/api/experience
+
+GET/POST
+
+Experience records
+
+/api/research
+
+GET/POST
+
+Research records
+
+/api/resume
+
+GET
+
+Resume metadata/download
+
+/api/contact
+
+POST
+
+Validate/send contact
+
+/api/admin/reindex
+
+POST
+
+Rebuild approved embeddings
+
+14. Performance, SEO, Accessibility and Security
+
+Performance
+
+• Poster-first media; lazy-load project videos and avatar sessions.
+
+• Optimize images with responsive sizes and modern formats.
+
+• Keep AI/chat/3D code split from the recruiter path.
+
+• Render core content server-side so it is usable with JavaScript disabled.
+
+• Use CDN/object storage for large assets.
+
+• Audit third-party scripts and load them only when necessary.
+
+SEO / AEO
+
+• Unique title/description/canonical per project and research page.
+
+• Person, WebSite, CreativeWork/SoftwareApplication and BreadcrumbList schema where appropriate.
+
+• XML sitemap and clean robots rules.
+
+• Plain semantic text equivalents for interactive and AI content.
+
+• Optional llms.txt / AI-readable profile manifest with explicit “do not infer” fields.
+
+• Stable URLs such as /work/chat-with-pdf.
+
+Accessibility
+
+• WCAG 2.2 AA as the quality target.
+
+• Keyboard access for navigation, AI, modals, filters and media.
+
+• Visible focus states.
+
+• Captions + transcript for every project video; text alternative for avatar.
+
+• No information only by color, sound or motion.
+
+• Reduced-motion and reduced-transparency support.
+
+Security and privacy
+
+• No AI/provider secrets in the browser.
+
+• Auth-protected CMS/admin; role-based publishing/reindexing.
+
+• Rate-limit AI/contact endpoints; add bot protection.
+
+• Validate all inputs and external URLs.
+
+• Treat retrieved text as untrusted data to reduce prompt-injection risk.
+
+• Minimize chat retention and clearly disclose analytics/AI behavior.
+
+• Whitelist asset types and size limits for CMS uploads.
+
+15. Analytics and Success Measurement
+
+Event
+
+Meaning
+
+resume_opened / resume_downloaded
+
+Recruiter intent
+
+project_opened
+
+Work interest
+
+live_demo_clicked
+
+Proof verification
+
+github_clicked
+
+Technical proof verification
+
+video_started / video_completed
+
+Video usefulness
+
+certificate_opened / credential_clicked
+
+Credential engagement
+
+skill_filtered / skill_evidence_opened
+
+Capability discovery
+
+ai_opened / ai_question_category
+
+AI adoption and visitor intent
+
+ai_source_clicked
+
+Trust/evidence usage
+
+avatar_started
+
+Advanced AI interest
+
+contact_started / contact_sent
+
+Conversion
+
+search_used / command_palette_used
+
+Findability
+
+lab_entered
+
+Experimental interest
+
+Quality dashboard
+
+• AI p50/p95 latency
+
+• AI fallback/error rate
+
+• AI source click-through
+
+• Top unanswered questions
+
+• Resume conversion from home
+
+• Contact conversion from project pages
+
+• Top project views
+
+• Video completion by project
+
+• Mobile vs desktop path completion
+
+• Broken-link/asset health
+
+16. Development Phases and Definition of Done
+
+Phase
+
+Scope
+
+Definition of done
+
+Phase 0
+
+Content foundation
+
+Verified profile, project inventory, resume, certificates, skills, socials, assets and URLs
+
+Phase 1
+
+Professional MVP
+
+Home, Showcase, Work, Project detail, Experience, Skills, Certificates, Resume, About, Contact, responsive design
+
+Phase 2
+
+Grounded AI
+
+Chat, project Q&A, evidence links, search, role match, feedback, analytics
+
+Phase 3
+
+Video integration
+
+All project video assets embedded with poster/transcript/chapters and responsive players
+
+Phase 4
+
+Avatar / voice
+
+Optional avatar intro + realtime voice/avatar + fallback to text
+
+Phase 5
+
+Lab / advanced interaction
+
+Command palette, Parth.OS, advanced motion, optional 3D/WebGPU
+
+Phase 6
+
+Optimization
+
+SEO/AEO, accessibility, performance, AI evaluation, broken-link monitoring
+
+Definition of done
+
+• Recruiter can reach resume, Work and Contact immediately.
+
+• Every published project has a truthful, complete detail page.
+
+• Every external action either works or is intentionally hidden.
+
+• Projects, certificates and skills are linked through the evidence graph.
+
+• AI answers are grounded and source-linked.
+
+• Video pages have captions/transcripts and poster-first loading.
+
+• Avatar failure does not break portfolio navigation.
+
+• Mobile has no horizontal overflow and supports the primary journey.
+
+• No provider secrets appear client-side.
+
+• Admin can publish a new project without front-end code changes.
+
+17. Content Migration and Portfolio Inventory
+
+The supplied builds should be treated as design/asset inputs, not as authoritative content. Historical placeholders and unsupported claims must not be copied into the production dataset.
+
+Content group
+
+Prepare before build
+
+Profile
+
+Verified headline, short bio, portrait, preferred opportunities, social URLs
+
+Resume
+
+Current PDF + web version + last-verified date
+
+Projects
+
+Title, category, problem, role, stack, outcome, live URL, GitHub, document, slides, video
+
+Project media
+
+Hero screenshot, gallery, architecture diagram, demo clips, captions, transcript
+
+Experience
+
+Internship/employment dates, responsibilities, evidence
+
+Skills
+
+Capability families + evidence links
+
+Certificates
+
+Issuer, title, date, credential link, image/PDF, related skill
+
+Research
+
+Abstract, method, data/sample, findings, limitations, paper/report
+
+Social
+
+LinkedIn, GitHub, LeetCode, HackerRank, Kaggle, Instagram and any active secondary platform
+
+AI knowledge
+
+Canonical facts, allowed claims, do-not-infer list, source mapping
+
+Featured project mix
+
+• One AI / LLM or agentic build showing modern AI implementation.
+
+• One analytics/research project showing analytical reasoning.
+
+• One operations/supply-chain or optimization project showing business problem solving.
+
+• One full-stack engineering project showing software depth.
+
+• One product strategy or platform concept showing product thinking.
+
+18. Inspiration and Current Market References
+
+Current market research suggests modern portfolios increasingly combine recruiter-scanable proof with interactive experiences. The specific references below are inspiration, not templates to copy.
+
+HeyGen pricing / avatar video — https://www.heygen.com/en-in/pricing  Current free plan shows 3 videos/month up to 1 minute, with one custom video avatar; paid tiers add longer videos, higher resolution and voice cloning.
+
+Synthesia pricing / Basic — https://help.synthesia.io/en/articles/15972650-what-are-synthesia-s-pricing-plans  Current Basic tier is free for exploring avatars and voices; exact allowances can change.
+
+Canva presentations — https://www.canva.com/presentations/  Supports presentations, screen recording, animations and video export; useful for the slide-to-video workflow.
+
+Canva PPT to Video — https://www.canva.com/features/ppt-to-video-converter/  Official workflow for uploading PPT, editing, adding narration and downloading MP4.
+
+OBS Studio — https://obsproject.com/  Free and open-source screen recording and streaming software; useful for browser walkthroughs.
+
+CapCut free video editor — https://www.capcut.com/features/free-ai-video-editor  Browser-based editing workflow for trimming, captions and finishing video.
+
+Current AI-native portfolio pattern — https://www.jfr3sam.com/  Example of a developer portfolio assistant grounded in portfolio content.
+
+Google Live Avatar / current trend signal — https://www.theverge.com/tech/1000328/google-gemini-ai-live-avatar-face  Recent 2026 example showing growing interest in realtime animated AI personas.
+
+Market interpretation
+
+The strongest product direction is not “everything is AI”. It is a professional portfolio where AI is an acceleration layer: search, explanation, evidence discovery, project Q&A and optional voice/avatar. This matches the observed market direction toward agentic and AI-native interfaces while retaining human-verifiable proof.
+
+19. Final Build Blueprint
+
+Area
+
+Final decision
+
+Visual identity
+
+Premium editorial + restrained product UI; deep ink, warm white, electric blue, violet/cyan AI states.
+
+Hero
+
+Clear positioning + immediate evidence CTA + optional short intro video/avatar.
+
+Showcase
+
+One highly interactive hub containing projects + certificates + skills.
+
+Projects
+
+Dynamic case study system with Live/GitHub/Video/Document/Slides/Ask AI actions.
+
+Certificates
+
+Visual credential wall connected to skills and evidence.
+
+Skills
+
+Capability families backed by linked evidence; no arbitrary percentages.
+
+Social
+
+LinkedIn, GitHub, LeetCode, HackerRank, Kaggle, Instagram + active secondary platforms.
+
+AI
+
+Grounded chatbot first; project Q&A, evidence mode, role match, tour and compare next.
+
+Avatar
+
+Optional and user-triggered; same knowledge layer as text AI.
+
+Motion
+
+Professional micro-interactions + showcase transitions; Lab is where the most experimental effects live.
+
+Video
+
+Companion Video Production Bible governs creation and integration.
+
+Operations
+
+CMS + content versioning + link/asset health + AI reindex/evaluation.
+
+Success
+
+Proof interaction, resume access, project engagement, contact conversion, AI usefulness and mobile completion.
+
+Implementation note: All factual profile fields, project metrics, dates and external URLs should be verified before production publication. The supplied HTML concepts contain useful design directions but also placeholder/example claims; do not migrate those claims as facts.
