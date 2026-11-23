@@ -20,10 +20,11 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-6 text-zinc-400">
+        <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-zinc-400">
           <a href="#projects" className="hover:text-white transition-colors">Projects</a>
           <a href="#evidence" className="hover:text-white transition-colors">Evidence</a>
-          <a href="#certificates" className="hover:text-white transition-colors">Credentials</a>
+          <a href="#certificates" className="hover:text-white transition-colors">Certificates</a>
+          <a href="#research" className="hover:text-white transition-colors">Research Papers</a>
           <a href={PORTFOLIO_DATA.personal.github} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</a>
           <a href={PORTFOLIO_DATA.personal.linkedin} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
           <a href={PORTFOLIO_DATA.personal.linktree} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Linktree</a>

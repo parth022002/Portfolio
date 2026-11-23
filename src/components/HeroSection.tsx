@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Volume2, VolumeX, Play, Pause, ArrowDown, Mail, Download, Sparkles, FolderGit2, Award, Calendar, Code2 } from 'lucide-react';
+import { Volume2, VolumeX, Play, Pause, ArrowDown, Mail, Download } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 export const HeroSection: React.FC = () => {
@@ -86,15 +86,26 @@ export const HeroSection: React.FC = () => {
         {/* Right Side: AI Avatar Video Explainer */}
         <div className="lg:col-span-5">
           <div className="relative rounded-2xl p-2 bg-gradient-to-b from-white/10 via-white/5 to-transparent border border-white/10 shadow-2xl backdrop-blur-md group">
-            {/* Top Indicator Bar */}
+            {/* Top Indicator Bar with Animated Name & Soundwave Visualizer */}
             <div className="flex items-center justify-between px-3 py-2 text-xs text-zinc-400 mb-1">
+              {/* Left: Animated Name with Pulsing Shimmer */}
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
-                <span className="font-mono text-[11px] font-semibold text-zinc-200">AI Avatar • Parth Ahuja</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400" />
+                <span className="font-mono text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-teal-300 to-indigo-400 animate-pulse tracking-wide">
+                  Parth Ahuja • AI Presenter
+                </span>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-900 border border-white/10 text-zinc-400">
-                1080p Video Walkthrough
-              </span>
+
+              {/* Right: Soundwave Equalizer (Removed '1080p Video Walkthrough') */}
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-900/90 border border-white/10 text-zinc-400 text-[10px] font-mono">
+                <div className="flex items-end gap-0.5 h-3">
+                  <span className="w-0.5 h-2 bg-sky-400 animate-pulse rounded-full" />
+                  <span className="w-0.5 h-3 bg-emerald-400 animate-pulse delay-75 rounded-full" />
+                  <span className="w-0.5 h-1.5 bg-indigo-400 animate-pulse delay-150 rounded-full" />
+                  <span className="w-0.5 h-2.5 bg-violet-400 animate-pulse delay-100 rounded-full" />
+                </div>
+                <span>Live Audio</span>
+              </div>
             </div>
 
             {/* Video Container */}
@@ -141,16 +152,21 @@ export const HeroSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Bottom Caption Pill */}
+            {/* Bottom Caption Bar (Removed 'Interactive Avatar Demo' & 'v4.0 Spec Ready') */}
             <div className="px-3 pt-2 pb-1 text-[11px] text-zinc-400 flex items-center justify-between">
-              <span>Interactive Avatar Demo</span>
-              <span className="text-sky-400 font-mono">v4.0 Spec Ready</span>
+              <span className="text-zinc-300 font-medium flex items-center gap-1.5">
+                <span>🎥</span>
+                <span>Project Walkthrough & Architecture</span>
+              </span>
+              <span className="text-sky-400 font-mono font-semibold">
+                Interactive Overview
+              </span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Metric Counters Strip (Updated to: Projects Done, Certificates, Experience, Repositories) */}
+      {/* Metric Counters Strip (Removed '4+ Years of Engineering' -> 14+ Projects, 16+ Certifications, 2+ Research Papers, 25+ Code Repos) */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 pt-8 border-t border-white/10 max-w-5xl mx-auto w-full">
         {PORTFOLIO_DATA.personal.stats.map((stat, idx) => (
           <div

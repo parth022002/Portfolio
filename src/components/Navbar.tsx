@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Github, Linkedin, Menu, X, ArrowUpRight } from 'lucide-react';
+import { Github, Linkedin, Menu, X } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 export const Navbar: React.FC = () => {
@@ -19,7 +19,6 @@ export const Navbar: React.FC = () => {
                   alt="Logo 1"
                   className="w-full h-full object-contain"
                   onError={() => {
-                    // Try logo1.svg fallback or stylized letter
                     setLogoError(true);
                   }}
                 />
@@ -46,12 +45,21 @@ export const Navbar: React.FC = () => {
           </a>
         </div>
 
-        {/* Center: Navigation Tabs */}
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400 absolute left-1/2 -translate-x-1/2">
+        {/* Center: Navigation Tabs (Projects, Evidence & Skills, Certificates, Research Papers, Journey, Contact) */}
+        <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs sm:text-sm font-medium text-zinc-400 absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
           <a href="#projects" className="hover:text-white transition-colors">Projects</a>
           <a href="#evidence" className="hover:text-white transition-colors">Evidence & Skills</a>
-          <a href="#certificates" className="hover:text-white transition-colors">Credentials</a>
+          <a href="#certificates" className="hover:text-white transition-colors">Certificates</a>
+          <a href="#research" className="hover:text-white transition-colors">Research Papers</a>
           <a href="#experience" className="hover:text-white transition-colors">Journey</a>
+          <a href="#contact" className="hover:text-white transition-colors">Contact</a>
+        </nav>
+
+        {/* Medium Screen Nav (md only) */}
+        <nav className="hidden md:flex lg:hidden items-center gap-4 text-xs font-medium text-zinc-400 absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
+          <a href="#projects" className="hover:text-white transition-colors">Projects</a>
+          <a href="#certificates" className="hover:text-white transition-colors">Certificates</a>
+          <a href="#research" className="hover:text-white transition-colors">Research</a>
           <a href="#contact" className="hover:text-white transition-colors">Contact</a>
         </nav>
 
@@ -87,7 +95,6 @@ export const Navbar: React.FC = () => {
             className="p-2 rounded-xl text-zinc-400 hover:text-emerald-400 hover:bg-zinc-800/80 border border-transparent hover:border-white/10 transition-all"
             title="Linktree"
           >
-            {/* Official Linktree Vector Icon */}
             <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
               <path d="m13.736 5.853 4.005-4.117 2.325 2.38-4.117 4.005h5.908v3.305h-5.937l4.146 4.146-2.325 2.38-4.005-4.117v6.17h-3.472v-6.17l-4.005 4.117-2.325-2.38 4.146-4.146H2.147V8.121h5.908L3.938 4.116l2.325-2.38 4.005 4.117V0h3.468v5.853z"/>
             </svg>
@@ -135,7 +142,14 @@ export const Navbar: React.FC = () => {
             onClick={() => setMobileMenuOpen(false)}
             className="block py-2 text-zinc-300 hover:text-white text-sm"
           >
-            Credentials (16+)
+            Certificates (16+)
+          </a>
+          <a
+            href="#research"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-2 text-zinc-300 hover:text-white text-sm"
+          >
+            Research Papers (2+)
           </a>
           <a
             href="#experience"

@@ -30,6 +30,20 @@ export interface Certificate {
   verified: boolean;
 }
 
+export interface ResearchPaper {
+  id: string;
+  title: string;
+  subtitle: string;
+  date: string;
+  domain: string;
+  abstract: string;
+  methodology: string[];
+  keyFindings: string[];
+  relatedProjectId?: string;
+  paperUrl?: string;
+  githubUrl?: string;
+}
+
 export interface SkillCategory {
   categoryName: string;
   skills: {
@@ -54,7 +68,7 @@ export const PORTFOLIO_DATA = {
     stats: [
       { label: "Projects Completed", value: "14+" },
       { label: "Verified Certifications", value: "16+" },
-      { label: "Years of Engineering", value: "4+" },
+      { label: "Research Papers", value: "2+" },
       { label: "Code Repositories", value: "25+" },
     ]
   },
@@ -284,6 +298,51 @@ export const PORTFOLIO_DATA = {
       relatedSkills: ["WebRTC", "PHP", "Real-Time Streaming", "Networking"]
     }
   ] as Project[],
+
+  researchPapers: [
+    {
+      id: "paper-proctorshield-ai",
+      title: "AI-Powered Real-Time Remote Examination Integrity & Multi-Modal Behavioral Anomaly Detection",
+      subtitle: "Low-Latency Computer Vision & Audio Analysis at Edge for Scalable Academic Supervision",
+      date: "Research & Capstone Publication",
+      domain: "Computer Vision & Applied AI",
+      abstract: "Addresses the vulnerability of decentralized online testing environments by proposing an edge-optimized multi-modal supervision pipeline. Evaluates a quantized TensorFlow neural architecture processing WebRTC video frames to detect multi-face anomalies, head pose deviations, and background acoustical interference in sub-140ms inference windows.",
+      methodology: [
+        "WebRTC RTP Media Stream Decoupling",
+        "Quantized Multi-Task CNN for Facial Landmark Localization",
+        "Acoustic Wavelet Audio Anomaly Discrimination",
+        "Deterministic SQLite Audit Trail with Cryptographic Timestamping"
+      ],
+      keyFindings: [
+        "Achieved 99.2% precision on secondary face detection without false positives from ambient shadows",
+        "Reduced bandwidth overhead by 45% using selective keyframe delta streaming",
+        "Maintained client-side CPU consumption below 18% on consumer laptop hardware"
+      ],
+      relatedProjectId: "proctorshield",
+      githubUrl: "https://github.com/parth022002/ProctorShield"
+    },
+    {
+      id: "paper-rag-chunking-optimization",
+      title: "Context-Grounded Neural Document Ingestion & Chunking Optimization for Complex Enterprise Corpora",
+      subtitle: "Mitigating Hallucination in Multi-Table and Heterogeneous PDF Retrieval via Hierarchical FAISS Spaces",
+      date: "AI Engineering Working Paper",
+      domain: "Natural Language Processing & RAG",
+      abstract: "Investigates semantic drift and context degradation when traditional recursive character chunkers encounter structured tables and financial clauses in unstructured PDFs. Introduces a hybrid hierarchical retrieval methodology combining vector embeddings with dense sentence re-ranking.",
+      methodology: [
+        "Recursive Structural Semantic Chunking",
+        "High-Dimensional FAISS Vector Indexing",
+        "Reciprocal Rank Fusion (RRF) for Multi-Query Hybrid Search",
+        "Grounding Constraints & Zero-Hallucination Prompt Ensembles"
+      ],
+      keyFindings: [
+        "Improved complex table query extraction accuracy from 64% to 94.8%",
+        "Eliminated hallucinations across 100+ page test corpora through exact page-level grounding",
+        "Demonstrated sub-1.8s end-to-end question-answering latency on local CPU execution"
+      ],
+      relatedProjectId: "chat-with-pdf",
+      githubUrl: "https://github.com/parth022002/Chat-with-pdf"
+    }
+  ] as ResearchPaper[],
 
   certificates: [
     {

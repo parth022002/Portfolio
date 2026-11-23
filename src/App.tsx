@@ -5,6 +5,7 @@ import { ProjectsSection } from './components/ProjectsSection';
 import { ProjectModal } from './components/ProjectModal';
 import { SkillsEvidenceSection } from './components/SkillsEvidenceSection';
 import { CertificatesSection } from './components/CertificatesSection';
+import { ResearchSection } from './components/ResearchSection';
 import { ExperienceSection } from './components/ExperienceSection';
 import { ContactSection } from './components/ContactSection';
 import { AICopilotDrawer } from './components/AICopilotDrawer';
@@ -54,13 +55,18 @@ export const App: React.FC = () => {
           onSelectProjectById={handleSelectProjectById}
         />
 
-        {/* 5. 16+ Verified Credentials Wall */}
+        {/* 5. 16+ Verified Certificates Wall */}
         <CertificatesSection />
 
-        {/* 6. Career & Academic Trajectory */}
+        {/* 6. Research & Technical Working Papers */}
+        <ResearchSection
+          onSelectProjectById={handleSelectProjectById}
+        />
+
+        {/* 7. Career & Academic Trajectory */}
         <ExperienceSection />
 
-        {/* 7. Direct Contact Hub & Inquiry Form */}
+        {/* 8. Direct Contact Hub & Inquiry Form */}
         <ContactSection />
       </main>
 
