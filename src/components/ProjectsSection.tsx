@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github, Play, ArrowRight, Layers } from 'lucide-react';
+import { ExternalLink, Github, Play, ArrowRight, Layers, ChevronDown, ChevronUp } from 'lucide-react';
 import { PORTFOLIO_DATA, Project } from '../data/portfolioData';
 
 interface ProjectsSectionProps {
@@ -13,12 +13,17 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
   onOpenVideo
 }) => {
   const [activeCategory, setActiveCategory] = useState<string>('All');
+  const [showAll, setShowAll] = useState<boolean>(false);
 
   const categories = ['All', 'AI & GenAI', 'Full Stack', 'Data & Real-time', 'E-commerce'];
 
   const filteredProjects = activeCategory === 'All'
     ? PORTFOLIO_DATA.projects
     : PORTFOLIO_DATA.projects.filter(p => p.category === activeCategory);
+
+  const initialCount = 5;
+  const displayedProjects = showAll ? filteredProjects : filteredProjects.slice(0, initialCount);
+  const hasMore = filteredProjects.length > initialCount;
 
   return (
     <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
@@ -63,7 +68,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
 
       {/* Projects Grid with Staggered Scroll Animation */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-        {filteredProjects.map((project, idx) => (
+        {displayedProjects.map((project, idx) => (
           <motion.div
             key={project.id}
             initial={{ opacity: 0, y: 35 }}
@@ -188,6 +193,40 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
           </motion.div>
         ))}
       </div>
+
+      {/* Show More / Show Less Toggle Button */}
+      {hasMore && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="flex justify-center mt-12 sm:mt-16"
+        >
+          {!showAll ? (
+            <button
+              onClick={() => setShowAll(true)}
+              className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-sky-500/20 via-indigo-500/20 to-emerald-500/20 hover:from-sky-500/30 hover:via-indigo-500/30 hover:to-emerald-500/30 border border-sky-500/30 hover:border-sky-400/50 text-white font-semibold text-sm transition-all duration-300 shadow-xl shadow-sky-500/10 hover:shadow-sky-500/25 hover:scale-105 active:scale-95 flex items-center gap-3 backdrop-blur-md group cursor-pointer"
+            >
+              <span>Show More Projects</span>
+              <span className="px-2.5 py-0.5 rounded-full bg-sky-500/20 text-xs text-sky-300 font-mono border border-sky-500/30">
+                +{filteredProjects.length - initialCount} More
+              </span>
+              <ChevronDown className="w-4 h-4 text-sky-400 group-hover:translate-y-0.5 transition-transform" />
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                setShowAll(false);
+                document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="px-7 py-3 rounded-2xl bg-zinc-900/90 hover:bg-zinc-800 border border-white/10 hover:border-white/20 text-zinc-300 hover:text-white font-semibold text-sm transition-all duration-300 shadow-lg hover:scale-105 active:scale-95 flex items-center gap-2.5 backdrop-blur-md group cursor-pointer"
+            >
+              <span>Show Less</span>
+              <ChevronUp className="w-4 h-4 text-zinc-400 group-hover:-translate-y-0.5 transition-transform" />
+            </button>
+          )}
+        </motion.div>
+      )}
     </section>
   );
 };
