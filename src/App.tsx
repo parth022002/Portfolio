@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollProgress } from './components/ScrollProgress';
+import { StarfieldCanvas } from './components/StarfieldCanvas';
 import { CursorSpotlight } from './components/CursorSpotlight';
 import { CustomCursor } from './components/CustomCursor';
 import { AmbientBackground } from './components/AmbientBackground';
@@ -44,7 +45,10 @@ export const App: React.FC = () => {
       {/* 1. Top Reading Scroll Progress Bar */}
       <ScrollProgress />
 
-      {/* 2. Ambient Aurora Mesh Gradients & Tactile Grain (From Reference) */}
+      {/* 2. 3D Cosmic Starlight, Tech Flares & Star Breaks */}
+      <StarfieldCanvas />
+
+      {/* 3. Ambient Aurora Mesh Gradients & Tactile Grain (From Reference) */}
       <AmbientBackground />
 
       {/* 3. Ambient Cursor Glow & Interactive Custom Follower */}
