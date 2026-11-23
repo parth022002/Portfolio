@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Mail, Copy, Check, Github, Linkedin, Send, MessageSquare } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
@@ -20,10 +21,16 @@ export const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/5">
+    <section id="contact" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/5 relative">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         {/* Left Column: Direct Outreach & Social Identity */}
-        <div className="lg:col-span-5 space-y-6">
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.8 }}
+          className="lg:col-span-5 space-y-6"
+        >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-white/10 text-xs font-semibold text-zinc-400">
             <MessageSquare className="w-3.5 h-3.5 text-sky-400" />
             <span>Direct Inquiry & Collaboration</span>
@@ -37,8 +44,11 @@ export const ContactSection: React.FC = () => {
             Whether you are discussing a full-time engineering opportunity, technical architecture consulting, or evaluating AI product integrations, I'd welcome a conversation.
           </p>
 
-          {/* Email Quick-Copy Card */}
-          <div className="p-5 rounded-2xl bg-zinc-900/60 border border-white/10 space-y-3">
+          {/* Email Quick-Copy Card with Hover Scale */}
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            className="p-5 rounded-2xl bg-zinc-900/60 border border-white/10 space-y-3 shadow-lg hover:border-sky-500/30 transition-colors"
+          >
             <span className="text-xs font-mono uppercase text-zinc-400">Primary Contact Email</span>
             <div className="flex items-center justify-between gap-3">
               <span className="text-sm sm:text-base font-mono font-bold text-white truncate">
@@ -46,7 +56,7 @@ export const ContactSection: React.FC = () => {
               </span>
               <button
                 onClick={handleCopyEmail}
-                className="px-3.5 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-white transition-all flex items-center gap-1.5 border border-white/10"
+                className="px-3.5 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-white transition-all flex items-center gap-1.5 border border-white/10 hover:scale-105 active:scale-95"
               >
                 {copied ? (
                   <>
@@ -61,11 +71,13 @@ export const ContactSection: React.FC = () => {
                 )}
               </button>
             </div>
-          </div>
+          </motion.div>
 
           {/* Social Links Matrix */}
           <div className="flex flex-wrap gap-3 pt-2">
-            <a
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               href={PORTFOLIO_DATA.personal.github}
               target="_blank"
               rel="noreferrer"
@@ -73,8 +85,10 @@ export const ContactSection: React.FC = () => {
             >
               <Github className="w-4 h-4" />
               <span>GitHub</span>
-            </a>
-            <a
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               href={PORTFOLIO_DATA.personal.linkedin}
               target="_blank"
               rel="noreferrer"
@@ -82,8 +96,10 @@ export const ContactSection: React.FC = () => {
             >
               <Linkedin className="w-4 h-4 text-sky-400" />
               <span>LinkedIn</span>
-            </a>
-            <a
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               href={PORTFOLIO_DATA.personal.linktree}
               target="_blank"
               rel="noreferrer"
@@ -91,13 +107,19 @@ export const ContactSection: React.FC = () => {
             >
               <span className="font-bold text-emerald-400">🌳</span>
               <span>Linktree</span>
-            </a>
+            </motion.a>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right Column: Contact Inquiry Form */}
-        <div className="lg:col-span-7">
-          <div className="p-6 sm:p-8 rounded-2xl bg-zinc-900/40 border border-white/10 backdrop-blur-md">
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.8 }}
+          className="lg:col-span-7"
+        >
+          <div className="p-6 sm:p-8 rounded-2xl bg-zinc-900/40 border border-white/10 backdrop-blur-md shadow-2xl">
             {formSubmitted ? (
               <div className="py-12 text-center space-y-4">
                 <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
@@ -109,7 +131,7 @@ export const ContactSection: React.FC = () => {
                 </p>
                 <button
                   onClick={() => setFormSubmitted(false)}
-                  className="px-4 py-2 rounded-xl bg-zinc-800 text-xs text-white font-medium hover:bg-zinc-700"
+                  className="px-4 py-2 rounded-xl bg-zinc-800 text-xs text-white font-medium hover:bg-zinc-700 transition-colors"
                 >
                   Send Another Message
                 </button>
@@ -125,7 +147,7 @@ export const ContactSection: React.FC = () => {
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="e.g. Sarah Jenkins"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950/80 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-sky-500"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950/80 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-sky-500 transition-colors"
                     />
                   </div>
                   <div>
@@ -136,7 +158,7 @@ export const ContactSection: React.FC = () => {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="e.g. sarah@company.com"
-                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950/80 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-sky-500"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950/80 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-sky-500 transition-colors"
                     />
                   </div>
                 </div>
@@ -146,7 +168,7 @@ export const ContactSection: React.FC = () => {
                   <select
                     value={formData.roleType}
                     onChange={(e) => setFormData({ ...formData, roleType: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950/80 border border-white/10 text-white focus:outline-none focus:border-sky-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950/80 border border-white/10 text-white focus:outline-none focus:border-sky-500 transition-colors"
                   >
                     <option>Full-Time AI / Full-Stack Role</option>
                     <option>Technical Contract / Consulting</option>
@@ -163,21 +185,23 @@ export const ContactSection: React.FC = () => {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Tell me about your team, tech stack, or the project challenge you are addressing..."
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950/80 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-sky-500"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950/80 border border-white/10 text-white placeholder-zinc-500 focus:outline-none focus:border-sky-500 transition-colors"
                   />
                 </div>
 
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
                   type="submit"
                   className="w-full py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white shadow-sky-500/25"
                 >
                   <Send className="w-4 h-4" />
                   <span>Send Direct Inquiry</span>
-                </button>
+                </motion.button>
               </form>
             )}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

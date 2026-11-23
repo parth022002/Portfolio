@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { BookOpen, FileText, CheckCircle2, ArrowRight, Github, Sparkles, X, Award } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { BookOpen, FileText, CheckCircle2, ArrowRight, Github, X } from 'lucide-react';
 import { PORTFOLIO_DATA, ResearchPaper } from '../data/portfolioData';
 
 interface ResearchSectionProps {
@@ -10,9 +11,15 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onSelectProjec
   const [selectedPaper, setSelectedPaper] = useState<ResearchPaper | null>(null);
 
   return (
-    <section id="research" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/5">
+    <section id="research" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/5 relative">
       {/* Section Header */}
-      <div className="text-center max-w-3xl mx-auto mb-12">
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.7 }}
+        className="text-center max-w-3xl mx-auto mb-12"
+      >
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-white/10 text-xs font-semibold text-zinc-400 mb-3">
           <BookOpen className="w-3.5 h-3.5 text-sky-400" />
           <span>Academic & Applied AI Research</span>
@@ -23,13 +30,18 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onSelectProjec
         <p className="text-zinc-400 text-sm sm:text-base mt-2">
           Empirical investigation evaluating quantized edge inference, WebRTC stream decoupling, and low-latency anomaly detection.
         </p>
-      </div>
+      </motion.div>
 
       {/* Featured Research Paper Showcase Card */}
       <div className="max-w-4xl mx-auto">
         {PORTFOLIO_DATA.researchPapers.map((paper) => (
-          <div
+          <motion.div
             key={paper.id}
+            initial={{ opacity: 0, scale: 0.96, y: 30 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.8 }}
+            whileHover={{ y: -6 }}
             className="p-6 sm:p-10 rounded-3xl bg-[#090E17]/90 border border-white/10 hover:border-sky-500/40 transition-all duration-300 shadow-2xl glow-hover relative overflow-hidden group"
           >
             {/* Ambient Background Accent */}
@@ -77,23 +89,27 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onSelectProjec
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                   {paper.methodology.map((m, i) => (
-                    <div key={i} className="p-3 rounded-xl bg-white/5 border border-white/5 font-mono text-zinc-300 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
+                    <motion.div
+                      key={i}
+                      whileHover={{ scale: 1.02, x: 2 }}
+                      className="p-3 rounded-xl bg-white/5 border border-white/5 font-mono text-zinc-300 flex items-center gap-2 transition-colors hover:border-sky-500/30"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
                       <span>{m}</span>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>
 
-              {/* Empirical Findings */}
-              <div className="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/20 space-y-2 text-xs">
+              {/* Empirical Findings with Animated Progress Fill */}
+              <div className="p-5 rounded-xl bg-emerald-950/20 border border-emerald-500/20 space-y-3 text-xs">
                 <span className="font-mono font-bold text-emerald-400 uppercase text-[11px] block">
                   Key Validated Benchmarks:
                 </span>
-                <div className="space-y-1.5">
+                <div className="space-y-2">
                   {paper.keyFindings.map((f, idx) => (
-                    <div key={idx} className="flex items-start gap-2 text-zinc-300">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <div key={idx} className="flex items-start gap-2.5 text-zinc-300">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
                       <span>{f}</span>
                     </div>
                   ))}
@@ -108,7 +124,7 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onSelectProjec
                       href={paper.githubUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-semibold transition-colors flex items-center gap-2 border border-white/10"
+                      className="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white font-semibold transition-all flex items-center gap-2 border border-white/10 hover:scale-105 active:scale-95"
                     >
                       <Github className="w-4 h-4" />
                       <span>Code Repository</span>
@@ -118,7 +134,7 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onSelectProjec
                   {paper.relatedProjectId && onSelectProjectById && (
                     <button
                       onClick={() => onSelectProjectById(paper.relatedProjectId!)}
-                      className="px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-semibold transition-colors flex items-center gap-2 shadow-md shadow-sky-500/20"
+                      className="px-4 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-semibold transition-all flex items-center gap-2 shadow-md shadow-sky-500/20 hover:scale-105 active:scale-95"
                     >
                       <span>Inspect ProctorShield</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -128,14 +144,14 @@ export const ResearchSection: React.FC<ResearchSectionProps> = ({ onSelectProjec
 
                 <button
                   onClick={() => setSelectedPaper(paper)}
-                  className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/10 font-medium transition-colors flex items-center gap-1.5"
+                  className="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/10 font-medium transition-all flex items-center gap-1.5 hover:scale-105 active:scale-95"
                 >
                   <FileText className="w-4 h-4 text-sky-400" />
                   <span>Full Paper Summary</span>
                 </button>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
 

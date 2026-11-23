@@ -1,12 +1,29 @@
 import React, { useRef, useState } from 'react';
-import { Volume2, VolumeX, Play, Pause, ArrowDown, Mail, Download } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Volume2, VolumeX, Play, Pause, ArrowDown, Mail, Download, Sparkles } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 export const HeroSection: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [showSoundPrompt, setShowSoundPrompt] = useState(true);
+
+  // 3D Card tilt state
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setTilt({ x: y * -14, y: x * 14 });
+  };
+
+  const handleCardMouseLeave = () => {
+    setTilt({ x: 0, y: 0 });
+  };
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -28,36 +45,57 @@ export const HeroSection: React.FC = () => {
   };
 
   return (
-    <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-[90vh] flex flex-col justify-center">
-      {/* Ambient background glow */}
-      <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[350px] bg-sky-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
-      <div className="absolute top-1/3 right-1/4 -translate-y-1/2 w-[450px] h-[300px] bg-violet-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
-
+    <section className="relative pt-28 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-[92vh] flex flex-col justify-center">
       {/* Main Split Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center my-auto">
-        {/* Left Side: Animated Text & Story */}
-        <div className="lg:col-span-7 space-y-6 text-left">
-          {/* Top Status Tag */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-white/10 text-xs font-semibold backdrop-blur-md">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center my-auto">
+        {/* Left Side: Animated Text & Story with Framer Motion */}
+        <motion.div
+          initial={{ opacity: 0, x: -35 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="lg:col-span-7 space-y-6 text-left"
+        >
+          {/* Top Status Tag with Pulse */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-white/10 text-xs font-semibold backdrop-blur-md shadow-lg"
+          >
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
             <span className="text-zinc-300">Full-Stack AI Engineer & Business Analytics Strategist</span>
-          </div>
+          </motion.div>
 
-          {/* Animated Main Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.12]">
+          {/* Animated Main Headline with text glow */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35, duration: 0.8 }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.12]"
+          >
             Engineering <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-indigo-300 to-emerald-400 animate-gradient">Production AI</span> & High-Impact Digital Products.
-          </h1>
+          </motion.h1>
 
           {/* Description */}
-          <p className="text-base sm:text-lg text-zinc-300 leading-relaxed max-w-2xl font-normal">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="text-base sm:text-lg text-zinc-300 leading-relaxed max-w-2xl font-normal"
+          >
             Hi, I'm <strong className="text-white font-semibold">Parth Ahuja</strong>. I bridge technical systems engineering (TensorFlow, WebRTC, Next.js, LangChain) with data-driven product strategy. Builder of 14+ end-to-end applications designed for verifiable performance, scale, and high-ROI automation.
-          </p>
+          </motion.p>
 
           {/* Action Buttons Cluster */}
-          <div className="flex flex-wrap items-center gap-3.5 pt-2">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.65, duration: 0.8 }}
+            className="flex flex-wrap items-center gap-3.5 pt-2"
+          >
             <a
               href="#contact"
-              className="px-6 py-3 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-sky-500/25 flex items-center gap-2 hover:scale-[1.02] active:scale-95"
+              className="px-6 py-3 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-sky-500/25 flex items-center gap-2 hover:scale-105 active:scale-95"
             >
               <Mail className="w-4 h-4" />
               <span>Contact Me</span>
@@ -67,7 +105,7 @@ export const HeroSection: React.FC = () => {
               href="/resume.pdf"
               target="_blank"
               rel="noreferrer"
-              className="px-6 py-3 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 hover:text-white border border-white/10 font-semibold text-sm transition-all duration-300 flex items-center gap-2 backdrop-blur-md hover:scale-[1.02] active:scale-95"
+              className="px-6 py-3 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 hover:text-white border border-white/10 font-semibold text-sm transition-all duration-300 flex items-center gap-2 backdrop-blur-md hover:scale-105 active:scale-95"
             >
               <Download className="w-4 h-4 text-zinc-400" />
               <span>View Résumé</span>
@@ -75,20 +113,34 @@ export const HeroSection: React.FC = () => {
 
             <a
               href="#projects"
-              className="px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/5 font-semibold text-sm transition-all duration-300 flex items-center gap-2"
+              className="px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/5 font-semibold text-sm transition-all duration-300 flex items-center gap-2 hover:scale-105 active:scale-95"
             >
               <span>Explore Projects</span>
               <ArrowDown className="w-4 h-4" />
             </a>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        {/* Right Side: AI Avatar Video Explainer */}
-        <div className="lg:col-span-5">
-          <div className="relative rounded-2xl p-2 bg-gradient-to-b from-white/10 via-white/5 to-transparent border border-white/10 shadow-2xl backdrop-blur-md group">
-            {/* Top Indicator Bar with Animated Name & Soundwave Visualizer */}
+        {/* Right Side: 3D Interactive Avatar Video Card with Cursor Tilt */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92, x: 35 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
+          className="lg:col-span-5"
+          style={{ perspective: 1200 }}
+        >
+          <div
+            ref={cardRef}
+            onMouseMove={handleCardMouseMove}
+            onMouseLeave={handleCardMouseLeave}
+            style={{
+              transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+              transition: 'transform 0.15s ease-out',
+            }}
+            className="relative rounded-2xl p-2.5 bg-gradient-to-b from-white/15 via-white/5 to-transparent border border-white/10 shadow-2xl backdrop-blur-md group hover:border-sky-500/30 transition-shadow duration-300"
+          >
+            {/* Top Indicator Bar with Animated Name & Equalizer */}
             <div className="flex items-center justify-between px-3 py-2 text-xs text-zinc-400 mb-1">
-              {/* Left: Animated Name with Pulsing Shimmer */}
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400" />
                 <span className="font-mono text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-teal-300 to-indigo-400 animate-pulse tracking-wide">
@@ -96,7 +148,7 @@ export const HeroSection: React.FC = () => {
                 </span>
               </div>
 
-              {/* Right: Soundwave Equalizer (Removed '1080p Video Walkthrough') */}
+              {/* Soundwave Equalizer */}
               <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-zinc-900/90 border border-white/10 text-zinc-400 text-[10px] font-mono">
                 <div className="flex items-end gap-0.5 h-3">
                   <span className="w-0.5 h-2 bg-sky-400 animate-pulse rounded-full" />
@@ -109,7 +161,7 @@ export const HeroSection: React.FC = () => {
             </div>
 
             {/* Video Container */}
-            <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-black/90 border border-white/5">
+            <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-black/90 border border-white/5 shadow-inner">
               <video
                 ref={videoRef}
                 src="/intro.mp4"
@@ -136,7 +188,7 @@ export const HeroSection: React.FC = () => {
               <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-auto">
                 <button
                   onClick={togglePlay}
-                  className="p-2 rounded-full bg-black/70 hover:bg-black text-white border border-white/15 backdrop-blur-md transition-all shadow-md"
+                  className="p-2 rounded-full bg-black/70 hover:bg-black text-white border border-white/15 backdrop-blur-md transition-all shadow-md hover:scale-110 active:scale-95"
                   title={isPlaying ? "Pause video" : "Play video"}
                 >
                   {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-white" />}
@@ -144,7 +196,7 @@ export const HeroSection: React.FC = () => {
 
                 <button
                   onClick={toggleMute}
-                  className="p-2 rounded-full bg-black/70 hover:bg-black text-white border border-white/15 backdrop-blur-md transition-all shadow-md"
+                  className="p-2 rounded-full bg-black/70 hover:bg-black text-white border border-white/15 backdrop-blur-md transition-all shadow-md hover:scale-110 active:scale-95"
                   title={isMuted ? "Unmute audio" : "Mute audio"}
                 >
                   {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5 text-sky-400" />}
@@ -152,8 +204,8 @@ export const HeroSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Bottom Caption Bar (Removed 'Interactive Avatar Demo' & 'v4.0 Spec Ready') */}
-            <div className="px-3 pt-2 pb-1 text-[11px] text-zinc-400 flex items-center justify-between">
+            {/* Bottom Caption Bar */}
+            <div className="px-3 pt-2.5 pb-1 text-[11px] text-zinc-400 flex items-center justify-between">
               <span className="text-zinc-300 font-medium flex items-center gap-1.5">
                 <span>🎥</span>
                 <span>Project Walkthrough & Architecture</span>
@@ -163,15 +215,23 @@ export const HeroSection: React.FC = () => {
               </span>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Metric Counters Strip (Removed '4+ Years of Engineering' -> 14+ Projects, 16+ Certifications, 2+ Research Papers, 25+ Code Repos) */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 pt-8 border-t border-white/10 max-w-5xl mx-auto w-full">
+      {/* Metric Counters Strip with Staggered Scroll Animation */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 pt-8 border-t border-white/10 max-w-5xl mx-auto w-full"
+      >
         {PORTFOLIO_DATA.personal.stats.map((stat, idx) => (
-          <div
+          <motion.div
             key={idx}
-            className="p-4 rounded-xl bg-zinc-900/40 border border-white/5 backdrop-blur-sm text-center hover:border-white/10 transition-colors"
+            whileHover={{ y: -4, scale: 1.02 }}
+            transition={{ duration: 0.2 }}
+            className="p-4 rounded-xl bg-zinc-900/40 border border-white/5 backdrop-blur-sm text-center hover:border-sky-500/30 transition-all duration-300"
           >
             <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-sky-400 font-mono mb-1">
               {stat.value}
@@ -179,9 +239,9 @@ export const HeroSection: React.FC = () => {
             <div className="text-xs text-zinc-400 font-medium">
               {stat.label}
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 };

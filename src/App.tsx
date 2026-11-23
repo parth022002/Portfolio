@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { Background3DCanvas } from './components/Background3DCanvas';
+import { ScrollProgress } from './components/ScrollProgress';
+import { CursorSpotlight } from './components/CursorSpotlight';
+import { TechMarquee } from './components/TechMarquee';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { ProjectsSection } from './components/ProjectsSection';
@@ -35,38 +39,50 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#07090E] text-[#F8FAFC] selection:bg-sky-500/30 selection:text-sky-200">
-      {/* 1. Header Navigation with logo1, centered links, and right social icons */}
+    <div className="relative min-h-screen bg-[#07090E] text-[#F8FAFC] selection:bg-sky-500/30 selection:text-sky-200 overflow-x-hidden">
+      {/* 1. Top Reading Scroll Progress Bar */}
+      <ScrollProgress />
+
+      {/* 2. Interactive 3D Background Canvas (Rotating Polyhedron & 3D Particle Cloud) */}
+      <Background3DCanvas />
+
+      {/* 3. Ambient Cursor Spotlight Glow */}
+      <CursorSpotlight />
+
+      {/* 4. Header Navigation with logo1, centered links, and right social icons */}
       <Navbar />
 
       {/* Main Page Content */}
       <main>
-        {/* 2. Hero Section: Left Text + Right AI Avatar Video + Clean Number Counters */}
+        {/* 5. Hero Section: Left Animated Story + Right 3D Tilt Avatar Video */}
         <HeroSection />
 
-        {/* 3. Deep Case Study Projects Grid */}
+        {/* 6. Infinite Animated Capabilities Marquee */}
+        <TechMarquee />
+
+        {/* 7. Deep Case Study Projects Grid with Scroll Reveal */}
         <ProjectsSection
           onSelectProject={(project) => setSelectedProject(project)}
           onOpenVideo={(project) => setSelectedProject(project)}
         />
 
-        {/* 4. Skills & Verifiable Evidence Constellation */}
+        {/* 8. Skills & Verifiable Evidence Constellation */}
         <SkillsEvidenceSection
           onSelectProjectById={handleSelectProjectById}
         />
 
-        {/* 5. 16+ Verified Certificates Wall */}
+        {/* 9. 16+ Verified Certificates Wall */}
         <CertificatesSection />
 
-        {/* 6. Research & Technical Working Papers */}
+        {/* 10. Research & Technical Publications */}
         <ResearchSection
           onSelectProjectById={handleSelectProjectById}
         />
 
-        {/* 7. Career & Academic Trajectory */}
+        {/* 11. Career & Academic Trajectory */}
         <ExperienceSection />
 
-        {/* 8. Direct Contact Hub & Inquiry Form */}
+        {/* 12. Direct Contact Hub & Inquiry Form */}
         <ContactSection />
       </main>
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ExternalLink, Github, Play, ArrowRight, Layers, Sparkles, CheckCircle2 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ExternalLink, Github, Play, ArrowRight, Layers } from 'lucide-react';
 import { PORTFOLIO_DATA, Project } from '../data/portfolioData';
 
 interface ProjectsSectionProps {
@@ -20,9 +21,15 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
     : PORTFOLIO_DATA.projects.filter(p => p.category === activeCategory);
 
   return (
-    <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* Section Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+    <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
+      {/* Section Header with Scroll Reveal */}
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.7 }}
+        className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6"
+      >
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-white/10 text-xs font-semibold text-zinc-400 mb-3">
             <Layers className="w-3.5 h-3.5 text-sky-400" />
@@ -42,9 +49,9 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${
+              className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
                 activeCategory === cat
-                  ? 'bg-sky-500 text-white shadow-md shadow-sky-500/20'
+                  ? 'bg-sky-500 text-white shadow-md shadow-sky-500/25 scale-105'
                   : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/5'
               }`}
             >
@@ -52,14 +59,19 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
             </button>
           ))}
         </div>
-      </div>
+      </motion.div>
 
-      {/* Projects Grid */}
+      {/* Projects Grid with Staggered Scroll Animation */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-        {filteredProjects.map((project) => (
-          <div
+        {filteredProjects.map((project, idx) => (
+          <motion.div
             key={project.id}
-            className="group rounded-2xl overflow-hidden border border-white/5 hover:border-sky-500/30 bg-[#0A0E17]/70 hover:bg-[#0A0E17] transition-all duration-300 flex flex-col justify-between glow-hover"
+            initial={{ opacity: 0, y: 35 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, delay: idx * 0.08 }}
+            whileHover={{ y: -6 }}
+            className="group rounded-2xl overflow-hidden border border-white/5 hover:border-sky-500/40 bg-[#0A0E17]/80 hover:bg-[#0A0E17] transition-all duration-300 flex flex-col justify-between shadow-xl glow-hover"
           >
             {/* Top Image Preview & Quick Actions */}
             <div>
@@ -67,7 +79,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
                 <img
                   src={project.img}
                   alt={project.title}
-                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-108"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = '/hero.png';
                   }}
@@ -124,7 +136,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
                   {project.techStack.slice(0, 4).map((tech, i) => (
                     <span
                       key={i}
-                      className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/5 text-zinc-300 border border-white/5"
+                      className="px-2 py-0.5 rounded text-[11px] font-mono bg-white/5 text-zinc-300 border border-white/5 group-hover:border-sky-500/20 transition-colors"
                     >
                       {tech}
                     </span>
@@ -146,7 +158,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
                     href={project.liveUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="p-2 rounded-lg bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
+                    className="p-2 rounded-lg bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-all hover:scale-110"
                     title="Live Demo"
                   >
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -157,7 +169,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
                     href={project.githubUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="p-2 rounded-lg bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
+                    className="p-2 rounded-lg bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-all hover:scale-110"
                     title="GitHub Code"
                   >
                     <Github className="w-3.5 h-3.5" />
@@ -167,13 +179,13 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
 
               <button
                 onClick={() => onSelectProject(project)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-sky-400 hover:text-sky-300 hover:bg-sky-950/30 transition-all"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold text-sky-400 hover:text-sky-300 hover:bg-sky-950/30 transition-all hover:translate-x-0.5"
               >
                 <span>Deep Case Study</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
