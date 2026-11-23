@@ -45,12 +45,12 @@ export const Navbar: React.FC = () => {
           </a>
         </div>
 
-        {/* Center: Navigation Tabs (Projects, Evidence & Skills, Certificates, Research Papers, Journey, Contact) */}
+        {/* Center: Navigation Tabs (Projects, Evidence & Skills, Certificates, Research Paper, Journey, Contact) */}
         <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs sm:text-sm font-medium text-zinc-400 absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
           <a href="#projects" className="hover:text-white transition-colors">Projects</a>
           <a href="#evidence" className="hover:text-white transition-colors">Evidence & Skills</a>
           <a href="#certificates" className="hover:text-white transition-colors">Certificates</a>
-          <a href="#research" className="hover:text-white transition-colors">Research Papers</a>
+          <a href="#research" className="hover:text-white transition-colors">Research Paper</a>
           <a href="#experience" className="hover:text-white transition-colors">Journey</a>
           <a href="#contact" className="hover:text-white transition-colors">Contact</a>
         </nav>
@@ -149,7 +149,7 @@ export const Navbar: React.FC = () => {
             onClick={() => setMobileMenuOpen(false)}
             className="block py-2 text-zinc-300 hover:text-white text-sm"
           >
-            Research Papers (2+)
+            Research Paper (1)
           </a>
           <a
             href="#experience"
