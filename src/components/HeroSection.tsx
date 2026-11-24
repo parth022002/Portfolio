@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Volume2, VolumeX, Play, Pause, ArrowDown, Mail, Download, Sparkles, ChevronDown } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
@@ -9,6 +9,58 @@ export const HeroSection: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [showSoundPrompt, setShowSoundPrompt] = useState(true);
+
+  // Automatically mute video audio when scrolling away from hero or switching tabs
+  useEffect(() => {
+    const handleScroll = () => {
+      // If user scrolls down past the hero viewport (> 320px)
+      if (window.scrollY > 320) {
+        if (videoRef.current && !videoRef.current.muted) {
+          videoRef.current.muted = true;
+          setIsMuted(true);
+        }
+      }
+    };
+
+    const section = document.getElementById('hero');
+    let observer: IntersectionObserver | null = null;
+
+    if (section && typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            // If hero is less than 35% visible, automatically mute audio
+            if (!entry.isIntersecting || entry.intersectionRatio < 0.35) {
+              if (videoRef.current && !videoRef.current.muted) {
+                videoRef.current.muted = true;
+                setIsMuted(true);
+              }
+            }
+          });
+        },
+        { threshold: [0, 0.1, 0.35, 0.6] }
+      );
+      observer.observe(section);
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.hidden && videoRef.current && !videoRef.current.muted) {
+        videoRef.current.muted = true;
+        setIsMuted(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, []);
 
   // 3D Card tilt state
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
