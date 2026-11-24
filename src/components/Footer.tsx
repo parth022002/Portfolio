@@ -1,17 +1,8 @@
 import React from 'react';
-import { ArrowUp, Download, Home } from 'lucide-react';
+import { Download } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 export const Footer: React.FC = () => {
-  const scrollToHero = () => {
-    const heroEl = document.getElementById('hero');
-    if (heroEl) {
-      heroEl.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
   const navLinks = [
     { label: 'Projects', href: '#projects' },
     { label: 'Skills & Evidence', href: '#evidence' },
@@ -23,7 +14,7 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="border-t border-white/10 bg-[#05070B]/95 backdrop-blur-md text-zinc-400 text-xs py-10 px-4 sm:px-6 lg:px-8 relative z-20">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         
         {/* Left Side: Brand Identity & Copyright */}
         <div className="flex items-center gap-3">
@@ -40,8 +31,8 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Center: Resume Download Button + All Pages Links */}
-        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+        {/* Right / Center: Resume Download Button + All Pages Links */}
+        <div className="flex flex-wrap items-center justify-center md:justify-end gap-4 sm:gap-6">
           {/* Resume Download Button */}
           <a
             href="/resume.pdf"
@@ -70,19 +61,6 @@ export const Footer: React.FC = () => {
               </a>
             ))}
           </nav>
-        </div>
-
-        {/* Right Side: "My Page" Button (Goes to Main / Hero Section) */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={scrollToHero}
-            className="px-4 py-2 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 hover:border-sky-500/30 transition-all flex items-center gap-2 text-xs font-semibold shadow-sm hover:scale-105 active:scale-95 group"
-            title="Return to Main / Hero Section"
-          >
-            <Home className="w-3.5 h-3.5 text-sky-400 group-hover:scale-110 transition-transform" />
-            <span>My Page</span>
-            <ArrowUp className="w-3 h-3 text-zinc-500 group-hover:text-white group-hover:-translate-y-0.5 transition-all" />
-          </button>
         </div>
 
       </div>
