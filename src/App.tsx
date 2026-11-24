@@ -79,13 +79,13 @@ export const App: React.FC = () => {
         {/* 9. 49+ Verified Certificates Wall */}
         <CertificatesSection />
 
-        {/* 10. Research & Technical Papers */}
+        {/* 10. Career & Academic Trajectory (Journey Section) */}
+        <ExperienceSection onSelectProjectById={handleSelectProjectById} />
+
+        {/* 11. Research & Technical Papers (Research Section) */}
         <ResearchSection
           onSelectProjectById={handleSelectProjectById}
         />
-
-        {/* 11. Career & Academic Trajectory */}
-        <ExperienceSection onSelectProjectById={handleSelectProjectById} />
 
         {/* 12. Direct Contact Hub & Inquiry Form */}
         <ContactSection />

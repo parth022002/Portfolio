@@ -7,8 +7,8 @@ export const Footer: React.FC = () => {
     { label: 'Projects', href: '#projects' },
     { label: 'Skills & Evidence', href: '#evidence' },
     { label: 'Certificates', href: '#certificates' },
-    { label: 'Research', href: '#research' },
     { label: 'Journey', href: '#journey' },
+    { label: 'Research', href: '#research' },
     { label: 'Contact', href: '#contact' },
   ];
 
