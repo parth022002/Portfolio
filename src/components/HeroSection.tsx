@@ -259,11 +259,10 @@ export const HeroSection: React.FC = () => {
             <div className="px-3 pt-2.5 pb-1 text-[11px] text-zinc-400 flex items-center justify-between">
               <span className="text-zinc-300 font-medium flex items-center gap-1.5 truncate">
                 <span>🎥</span>
-                <span className="text-white font-semibold">ProctorShield:</span>
-                <span>Project Walkthrough & Business Impact</span>
+                <span className="text-white font-semibold">Executive Introduction & Portfolio Overview</span>
               </span>
               <span className="text-sky-400 font-mono font-semibold shrink-0 pl-2">
-                Interactive Demo
+                Portfolio Tour
               </span>
             </div>
           </div>
