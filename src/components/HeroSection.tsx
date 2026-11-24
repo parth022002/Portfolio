@@ -120,25 +120,27 @@ export const HeroSection: React.FC = () => {
             </a>
           </motion.div>
 
-          {/* Social Profile Pill Buttons (Matching Reference Design) */}
+          {/* Social Profile Pill Buttons (Compact with Connect Label) */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.75, duration: 0.8 }}
-            className="flex flex-wrap items-center gap-3 sm:gap-3.5 pt-3"
+            className="flex flex-wrap items-center gap-2.5 sm:gap-3 pt-3"
           >
+            <span className="text-xs font-mono text-zinc-400 font-semibold tracking-wider uppercase">Connect:</span>
+
             {/* GitHub Button */}
             <a
               href={PORTFOLIO_DATA.personal.github}
               target="_blank"
               rel="noreferrer"
-              className="px-4 sm:px-5 py-2.5 rounded-2xl bg-[#121620]/90 hover:bg-[#1A2234] border border-white/10 hover:border-white/30 text-white font-semibold text-sm sm:text-base flex items-center gap-3 transition-all duration-200 shadow-md hover:scale-105 active:scale-95 group backdrop-blur-md cursor-pointer"
+              className="px-3 py-1.5 rounded-xl bg-[#121620]/90 hover:bg-[#1A2234] border border-white/10 hover:border-white/30 text-white font-bold text-xs flex items-center gap-2 transition-all duration-200 shadow-sm hover:scale-105 active:scale-95 group backdrop-blur-md cursor-pointer"
               title="GitHub Profile"
             >
               <img
                 src="/icons/github.png"
                 alt="GitHub"
-                className="w-5 h-5 sm:w-6 sm:h-6 object-contain rounded-full shadow-sm"
+                className="w-4 h-4 object-contain rounded-full shadow-sm"
               />
               <span className="tracking-tight text-white font-bold">GitHub</span>
             </a>
@@ -148,13 +150,13 @@ export const HeroSection: React.FC = () => {
               href={PORTFOLIO_DATA.personal.linkedin}
               target="_blank"
               rel="noreferrer"
-              className="px-4 sm:px-5 py-2.5 rounded-2xl bg-[#121620]/90 hover:bg-[#1A2234] border border-white/10 hover:border-sky-500/40 text-white font-semibold text-sm sm:text-base flex items-center gap-3 transition-all duration-200 shadow-md hover:scale-105 active:scale-95 group backdrop-blur-md cursor-pointer"
+              className="px-3 py-1.5 rounded-xl bg-[#121620]/90 hover:bg-[#1A2234] border border-white/10 hover:border-sky-500/40 text-white font-bold text-xs flex items-center gap-2 transition-all duration-200 shadow-sm hover:scale-105 active:scale-95 group backdrop-blur-md cursor-pointer"
               title="LinkedIn Profile"
             >
               <img
                 src="/icons/linkedin.png"
                 alt="LinkedIn"
-                className="w-5 h-5 sm:w-6 sm:h-6 object-contain rounded-[4px] shadow-sm"
+                className="w-4 h-4 object-contain rounded-[3px] shadow-sm"
               />
               <span className="tracking-tight text-white font-bold">LinkedIn</span>
             </a>
@@ -164,13 +166,13 @@ export const HeroSection: React.FC = () => {
               href={PORTFOLIO_DATA.personal.linktree}
               target="_blank"
               rel="noreferrer"
-              className="px-4 sm:px-5 py-2.5 rounded-2xl bg-[#121620]/90 hover:bg-[#1A2234] border border-white/10 hover:border-emerald-500/40 text-white font-semibold text-sm sm:text-base flex items-center gap-3 transition-all duration-200 shadow-md hover:scale-105 active:scale-95 group backdrop-blur-md cursor-pointer"
+              className="px-3 py-1.5 rounded-xl bg-[#121620]/90 hover:bg-[#1A2234] border border-white/10 hover:border-emerald-500/40 text-white font-bold text-xs flex items-center gap-2 transition-all duration-200 shadow-sm hover:scale-105 active:scale-95 group backdrop-blur-md cursor-pointer"
               title="Linktree Profile"
             >
               <img
                 src="/icons/linktree.png"
                 alt="Linktree"
-                className="w-5 h-5 sm:w-6 sm:h-6 object-contain rounded-[5px] shadow-sm"
+                className="w-4 h-4 object-contain rounded-[4px] shadow-sm"
               />
               <span className="tracking-tight text-white font-bold">Linktree</span>
             </a>
