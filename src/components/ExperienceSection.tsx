@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Briefcase, GraduationCap, Calendar, Compass, ArrowRight, MapPin, CheckCircle2, Sparkles, Building2 } from 'lucide-react';
+import { Briefcase, GraduationCap, Calendar, Compass, ArrowRight, MapPin, Sparkles, Building2 } from 'lucide-react';
 import { PORTFOLIO_DATA, JourneyItem } from '../data/portfolioData';
 
 interface ExperienceSectionProps {
@@ -15,118 +15,196 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
   const experienceItems = PORTFOLIO_DATA.journey.experience;
   const educationItems = PORTFOLIO_DATA.journey.education;
 
-  // Render a single journey card
-  const renderCard = (item: JourneyItem, index: number, accentColor: 'rose' | 'sky') => {
-    const isExperience = item.type === 'experience';
-    const borderAccent = accentColor === 'rose' ? 'hover:border-rose-400/50' : 'hover:border-sky-400/50';
-    const badgeBg = accentColor === 'rose' ? 'bg-rose-950/70 text-rose-300 border-rose-500/30' : 'bg-sky-950/70 text-sky-300 border-sky-500/30';
-    const dotColor = accentColor === 'rose' ? 'bg-rose-400' : 'bg-sky-400';
+  // Render individual card content for an alternating timeline node
+  const renderCardContent = (item: JourneyItem, isEven: boolean, accentColor: 'rose' | 'sky') => {
+    const isRose = accentColor === 'rose';
+    const borderHover = isRose ? 'hover:border-rose-400/40' : 'hover:border-sky-400/40';
+    const glowShadow = isRose ? 'group-hover:shadow-[0_0_30px_rgba(251,113,133,0.12)]' : 'group-hover:shadow-[0_0_30px_rgba(56,189,248,0.12)]';
+    const dotColor = isRose ? 'bg-rose-400' : 'bg-sky-400';
+    const dotGlow = isRose ? 'shadow-[0_0_8px_rgba(251,113,133,0.8)]' : 'shadow-[0_0_8px_rgba(56,189,248,0.8)]';
 
     return (
       <motion.div
-        key={item.id}
-        initial={{ opacity: 0, y: 25 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, x: isEven ? -25 : 25 }}
+        whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, margin: '-50px' }}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
-        whileHover={{ y: -4 }}
-        className={`relative p-6 sm:p-7 rounded-2xl bg-[#090E18]/85 border border-white/10 ${borderAccent} transition-all duration-300 shadow-xl backdrop-blur-md flex flex-col justify-between group`}
+        transition={{ duration: 0.5 }}
+        className={`relative p-6 sm:p-7 rounded-2xl bg-[#090E17]/80 border border-white/10 ${borderHover} transition-all duration-300 shadow-xl backdrop-blur-md ${glowShadow}`}
       >
-        {/* Glow ambient background on hover */}
-        <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${
-          accentColor === 'rose' ? 'from-rose-500/5' : 'from-sky-500/5'
-        } via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none`} />
+        {/* Connector Arm to Central Stem (Desktop Only) */}
+        <div
+          className={`hidden md:block absolute ${
+            isEven ? '-right-6' : '-left-6'
+          } top-8 w-6 border-t-2 border-dashed ${
+            isRose ? 'border-rose-400/50 group-hover:border-rose-400' : 'border-sky-400/50 group-hover:border-sky-400'
+          } transition-colors pointer-events-none`}
+        />
 
-        <div className="relative z-10 space-y-4">
-          {/* Card Top Pill Row */}
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            {/* Period Badge */}
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-900 border border-white/10 text-xs font-mono font-semibold text-zinc-300">
-              <Calendar className="w-3.5 h-3.5 text-zinc-400" />
-              <span>{item.period}</span>
-            </div>
-
-            {/* Status / Highlight Badge */}
-            {item.badge && (
-              <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${badgeBg}`}>
-                <span className={`w-1.5 h-1.5 rounded-full ${dotColor} animate-pulse`} />
-                <span>{item.badge}</span>
-              </span>
-            )}
+        {/* Top Meta Row: Date & Status Badge */}
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+          {/* Coral/Rose or Sky Date (Echoing Reference Image) */}
+          <div
+            className={`font-mono font-semibold text-xs sm:text-sm flex items-center gap-1.5 ${
+              isRose ? 'text-rose-400' : 'text-sky-400'
+            }`}
+          >
+            <Calendar className="w-3.5 h-3.5" />
+            <span>{item.period}</span>
           </div>
 
-          {/* Title & Organization */}
-          <div>
-            <h4 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight group-hover:text-white transition-colors">
-              {item.title}
-            </h4>
-            <div className="flex flex-wrap items-center gap-2 mt-1.5 text-xs sm:text-sm text-zinc-400 font-medium">
-              <span className="flex items-center gap-1 text-zinc-300 font-semibold">
-                <Building2 className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
-                <span>{item.organization}</span>
-              </span>
-              {item.location && (
-                <>
-                  <span className="text-zinc-600">·</span>
-                  <span className="flex items-center gap-1 text-zinc-400">
-                    <MapPin className="w-3 h-3 text-zinc-500 flex-shrink-0" />
-                    <span>{item.location}</span>
-                  </span>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Lead Summary */}
-          <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed">
-            {item.description}
-          </p>
-
-          {/* Bullet Point Highlights */}
-          {item.highlights && item.highlights.length > 0 && (
-            <div className="space-y-2 pt-1 border-t border-white/5">
-              <div className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider font-semibold">
-                Key Contributions & Scope:
-              </div>
-              <ul className="space-y-2">
-                {item.highlights.map((highlight, hIdx) => (
-                  <li key={hIdx} className="text-xs text-zinc-300 flex items-start gap-2.5 leading-relaxed">
-                    <span className={`w-1.5 h-1.5 rounded-full ${dotColor} flex-shrink-0 mt-1.5 shadow-sm`} />
-                    <span>{highlight}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Skills / Tech Stack Chips */}
-          {item.skills && item.skills.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 pt-2 border-t border-white/5">
-              {item.skills.map((skill, sIdx) => (
-                <span
-                  key={sIdx}
-                  className="px-2.5 py-1 rounded-lg bg-zinc-900/90 text-zinc-300 font-mono text-[11px] border border-white/5 group-hover:border-white/10"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
+          {/* Status / Highlight Badge */}
+          {item.badge && (
+            <span
+              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${
+                isRose
+                  ? 'bg-rose-500/10 text-rose-300 border-rose-500/30'
+                  : 'bg-sky-500/10 text-sky-300 border-sky-500/30'
+              }`}
+            >
+              <span className={`w-1.5 h-1.5 rounded-full ${dotColor} animate-pulse`} />
+              <span>{item.badge}</span>
+            </span>
           )}
         </div>
 
-        {/* Optional Action Button linking to related project */}
+        {/* Role / Degree Title (Modern luminous typography, avoiding heavy box aesthetics) */}
+        <h4 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight group-hover:text-white transition-colors mb-2">
+          {item.title}
+        </h4>
+
+        {/* Organization & Location */}
+        <div className="flex flex-wrap items-center gap-2 mb-3.5">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/[0.06] border border-white/10 text-xs font-semibold text-zinc-200">
+            {item.type === 'experience' ? (
+              <Building2 className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
+            ) : (
+              <GraduationCap className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" />
+            )}
+            <span>{item.organization}</span>
+          </span>
+          {item.location && (
+            <span className="inline-flex items-center gap-1 text-xs text-zinc-400">
+              <MapPin className="w-3 h-3 text-zinc-500 flex-shrink-0" />
+              <span>{item.location}</span>
+            </span>
+          )}
+        </div>
+
+        {/* Italic Lead Description */}
+        <p className="text-zinc-300 text-xs sm:text-sm italic leading-relaxed mb-4">
+          "{item.description}"
+        </p>
+
+        {/* Bullet Point Highlights / Key Achievements */}
+        {item.highlights && item.highlights.length > 0 && (
+          <div className="space-y-2 pt-3 border-t border-white/5 mb-4">
+            <div className="text-[11px] font-mono text-zinc-400 uppercase tracking-wider font-semibold">
+              Key Contributions & Scope:
+            </div>
+            <ul className="space-y-2">
+              {item.highlights.map((highlight, hIdx) => (
+                <li key={hIdx} className="text-xs text-zinc-300 flex items-start gap-2.5 leading-relaxed">
+                  <span className={`w-1.5 h-1.5 rounded-full ${dotColor} ${dotGlow} flex-shrink-0 mt-1.5`} />
+                  <span>{highlight}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Skills Chips */}
+        <div className="flex flex-wrap gap-1.5 pt-2 border-t border-white/5">
+          {item.skills.map((s, si) => (
+            <span
+              key={si}
+              className="px-2.5 py-1 rounded-lg bg-white/[0.04] text-zinc-300 font-mono text-[11px] border border-white/5 group-hover:border-white/10 transition-colors"
+            >
+              {s}
+            </span>
+          ))}
+        </div>
+
+        {/* Related Project Action Button */}
         {item.relatedProjectId && onSelectProjectById && (
-          <div className="relative z-10 pt-4 mt-4 border-t border-white/5 flex items-center justify-end">
+          <div className="pt-3">
             <button
               onClick={() => onSelectProjectById(item.relatedProjectId!)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-800/80 hover:bg-sky-500 text-zinc-300 hover:text-white text-xs font-semibold transition-all duration-200 cursor-pointer shadow-sm group/btn"
+              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl ${
+                isRose
+                  ? 'bg-rose-500/10 hover:bg-rose-500 text-rose-300 hover:text-white border-rose-500/30 shadow-rose-500/10'
+                  : 'bg-sky-500/10 hover:bg-sky-500 text-sky-300 hover:text-white border-sky-500/30 shadow-sky-500/10'
+              } border text-xs font-semibold transition-all shadow-md cursor-pointer`}
             >
+              <Sparkles className="w-3.5 h-3.5" />
               <span>Explore Architecture</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
+              <ArrowRight className="w-3 h-3" />
             </button>
           </div>
         )}
       </motion.div>
+    );
+  };
+
+  // Reusable Alternating Timeline Track (Matching Reference Image Layout)
+  const renderTimelineTrack = (items: JourneyItem[], accentColor: 'rose' | 'sky') => {
+    const isRose = accentColor === 'rose';
+
+    return (
+      <div className="relative max-w-5xl mx-auto py-6">
+        {/* Central Vertical Glowing Line */}
+        <div
+          className={`absolute left-4 md:left-1/2 -translate-x-1/2 top-4 bottom-4 w-[2px] ${
+            isRose
+              ? 'bg-gradient-to-b from-rose-500/80 via-rose-400 to-rose-600/60 shadow-[0_0_12px_rgba(251,113,133,0.5)]'
+              : 'bg-gradient-to-b from-sky-500/80 via-sky-400 to-sky-600/60 shadow-[0_0_12px_rgba(56,189,248,0.5)]'
+          }`}
+        />
+
+        <div className="space-y-12 sm:space-y-16">
+          {items.map((item, idx) => {
+            const isEven = idx % 2 === 0;
+
+            return (
+              <div
+                key={item.id}
+                className="relative flex flex-col md:flex-row items-center justify-between w-full group"
+              >
+                {/* Central Concentric Pulsing Node (Matching Reference) */}
+                <div className="absolute left-4 md:left-1/2 -translate-x-1/2 z-20 flex items-center justify-center top-8 -translate-y-1/2">
+                  <motion.div
+                    whileHover={{ scale: 1.25 }}
+                    className={`w-8 h-8 rounded-full border-2 ${
+                      isRose
+                        ? 'border-rose-400 shadow-[0_0_18px_rgba(251,113,133,0.85)]'
+                        : 'border-sky-400 shadow-[0_0_18px_rgba(56,189,248,0.85)]'
+                    } bg-[#07090E] flex items-center justify-center cursor-pointer transition-transform duration-200`}
+                  >
+                    <div
+                      className={`w-2.5 h-2.5 rounded-full ${isRose ? 'bg-rose-400' : 'bg-sky-400'} animate-pulse`}
+                    />
+                  </motion.div>
+                </div>
+
+                {/* Left Side (Even items on desktop) / Main Slot on Mobile */}
+                <div
+                  className={`w-full md:w-[45%] pl-12 md:pl-0 ${
+                    isEven ? 'md:mr-auto md:block' : 'md:hidden'
+                  }`}
+                >
+                  {renderCardContent(item, isEven, accentColor)}
+                </div>
+
+                {/* Right Side (Odd items on desktop only) */}
+                {!isEven && (
+                  <div className="hidden md:block md:w-[45%] md:ml-auto">
+                    {renderCardContent(item, isEven, accentColor)}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
     );
   };
 
@@ -139,32 +217,32 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
       <motion.div
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
+        viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.7 }}
-        className="text-center max-w-3xl mx-auto mb-12"
+        className="text-center max-w-3xl mx-auto mb-14"
       >
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-white/10 text-xs font-semibold text-zinc-400 mb-3 shadow-md">
           <Compass className="w-3.5 h-3.5 text-rose-400 animate-spin-slow" />
-          <span>Professional Trajectory & Academic Pedigree</span>
+          <span>Professional & Academic Trajectory</span>
         </div>
         <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
           My <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-sky-400 to-emerald-400">Journey</span>
         </h2>
         <p className="text-zinc-400 text-sm sm:text-base mt-2">
-          From computer engineering fundamentals to high-impact industry internships and postgraduate product & business analytics strategy.
+          From foundational computer science academics to specialized industry internships.
         </p>
 
         {/* View Switcher Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mt-8">
+        <div className="flex items-center justify-center gap-2 mt-8">
           <button
             onClick={() => setActiveTab('all')}
-            className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer border ${
+            className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 cursor-pointer border ${
               activeTab === 'all'
                 ? 'bg-rose-500 text-white border-rose-400 shadow-lg shadow-rose-500/25 scale-105'
                 : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-400 hover:text-white border-white/5'
             }`}
           >
-            <span>All Milestones (6)</span>
+            <span>All Journey (6)</span>
           </button>
           <button
             onClick={() => setActiveTab('experience')}
@@ -175,7 +253,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
             }`}
           >
             <Briefcase className="w-3.5 h-3.5" />
-            <span>Internships (3)</span>
+            <span>Experience (3)</span>
           </button>
           <button
             onClick={() => setActiveTab('education')}
@@ -191,57 +269,51 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
         </div>
       </motion.div>
 
-      {/* Main Content Layout */}
+      {/* Main Alternating Timeline Display */}
       <AnimatePresence mode="wait">
         {activeTab === 'all' && (
           <motion.div
             key="all-view"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-start"
+            className="space-y-20"
           >
-            {/* Left Track: Internships & Industry Experience */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-3 pb-3 border-b border-white/10">
-                <div className="w-8 h-8 rounded-xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-400 shadow-sm">
-                  <Briefcase className="w-4 h-4" />
+            {/* Experience Section (Matching User Reference Image 1) */}
+            <div>
+              <div className="flex items-center justify-center gap-3 mb-12">
+                <div className="w-10 h-10 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 shadow-lg shadow-rose-500/10">
+                  <Briefcase className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white tracking-tight">
-                    Industry Internships
+                  <h3 className="text-xl sm:text-2xl font-black text-white tracking-wider uppercase font-mono">
+                    EXPERIENCE
                   </h3>
                   <p className="text-xs text-zinc-400">
-                    Production implementations, analytics & mobile development
+                    Industry internships, production deployments & analytics
                   </p>
                 </div>
               </div>
-
-              <div className="space-y-6">
-                {experienceItems.map((item, idx) => renderCard(item, idx, 'rose'))}
-              </div>
+              {renderTimelineTrack(experienceItems, 'rose')}
             </div>
 
-            {/* Right Track: Academic Pedigree & Degrees */}
-            <div className="space-y-6">
-              <div className="flex items-center gap-3 pb-3 border-b border-white/10">
-                <div className="w-8 h-8 rounded-xl bg-sky-500/20 border border-sky-500/40 flex items-center justify-center text-sky-400 shadow-sm">
-                  <GraduationCap className="w-4 h-4" />
+            {/* Education Section (Matching User Reference Image 2) */}
+            <div>
+              <div className="flex items-center justify-center gap-3 mb-12">
+                <div className="w-10 h-10 rounded-2xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 shadow-lg shadow-sky-500/10">
+                  <GraduationCap className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white tracking-tight">
-                    Academic Education
+                  <h3 className="text-xl sm:text-2xl font-black text-white tracking-wider uppercase font-mono">
+                    EDUCATION
                   </h3>
                   <p className="text-xs text-zinc-400">
-                    Postgraduate management, computer engineering & foundations
+                    Academic institutions, management & foundational STEM
                   </p>
                 </div>
               </div>
-
-              <div className="space-y-6">
-                {educationItems.map((item, idx) => renderCard(item, idx, 'sky'))}
-              </div>
+              {renderTimelineTrack(educationItems, 'sky')}
             </div>
           </motion.div>
         )}
@@ -249,26 +321,50 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
         {activeTab === 'experience' && (
           <motion.div
             key="experience-view"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="max-w-3xl mx-auto space-y-6"
           >
-            {experienceItems.map((item, idx) => renderCard(item, idx, 'rose'))}
+            <div className="flex items-center justify-center gap-3 mb-12">
+              <div className="w-10 h-10 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 shadow-lg shadow-rose-500/10">
+                <Briefcase className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-xl sm:text-2xl font-black text-white tracking-wider uppercase font-mono">
+                  EXPERIENCE
+                </h3>
+                <p className="text-xs text-zinc-400">
+                  Industry internships, production deployments & analytics
+                </p>
+              </div>
+            </div>
+            {renderTimelineTrack(experienceItems, 'rose')}
           </motion.div>
         )}
 
         {activeTab === 'education' && (
           <motion.div
             key="education-view"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="max-w-3xl mx-auto space-y-6"
           >
-            {educationItems.map((item, idx) => renderCard(item, idx, 'sky'))}
+            <div className="flex items-center justify-center gap-3 mb-12">
+              <div className="w-10 h-10 rounded-2xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 shadow-lg shadow-sky-500/10">
+                <GraduationCap className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-xl sm:text-2xl font-black text-white tracking-wider uppercase font-mono">
+                  EDUCATION
+                </h3>
+                <p className="text-xs text-zinc-400">
+                  Academic institutions, management & foundational STEM
+                </p>
+              </div>
+            </div>
+            {renderTimelineTrack(educationItems, 'sky')}
           </motion.div>
         )}
       </AnimatePresence>
