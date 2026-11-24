@@ -147,7 +147,7 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, x: -35 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="lg:col-span-7 space-y-6 text-left"
+          className="lg:col-span-7 space-y-6 text-left order-2 lg:order-1"
         >
           {/* Animated Main Headline */}
           <motion.h1
@@ -266,12 +266,12 @@ export const HeroSection: React.FC = () => {
           </motion.div>
         </motion.div>
 
-        {/* Right Side: 3D Interactive Avatar Video Card with Cursor Tilt */}
+        {/* Right Side: 3D Interactive Avatar Video Card with Cursor Tilt (Appears first on phone view) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.92, x: 35 }}
           animate={{ opacity: 1, scale: 1, x: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
-          className="lg:col-span-5 w-full max-w-lg mx-auto lg:max-w-none"
+          className="lg:col-span-5 w-full max-w-lg mx-auto lg:max-w-none order-1 lg:order-2"
           style={{ perspective: 1200 }}
         >
           <div

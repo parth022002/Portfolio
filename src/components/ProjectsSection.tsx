@@ -336,7 +336,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
     ? PORTFOLIO_DATA.projects.filter(p => p.projectType === 'ACADEMIC')
     : PORTFOLIO_DATA.projects.filter(p => p.category === activeCategory);
 
-  const initialCount = 6;
+  const initialCount = 3;
   const displayedProjects = showAll ? filteredProjects : filteredProjects.slice(0, initialCount);
   const hasMore = filteredProjects.length > initialCount;
 
@@ -472,7 +472,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({
               }}
               className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-sky-500 via-indigo-600 to-sky-500 hover:from-sky-400 hover:via-indigo-500 hover:to-sky-400 text-white font-bold text-sm transition-all duration-300 shadow-xl shadow-sky-500/25 hover:shadow-sky-500/40 hover:scale-105 active:scale-95 flex items-center gap-3 cursor-pointer border border-sky-400/40 group"
             >
-              <span>{showAll ? `Show Less (Top ${initialCount} Projects)` : `Show More Projects (${filteredProjects.length - initialCount} Remaining)`}</span>
+              <span>{showAll ? 'Show Less (Top 3 Projects)' : `See More Projects (${filteredProjects.length - initialCount} Remaining)`}</span>
               {showAll ? (
                 <ChevronUp className="w-4 h-4 text-white group-hover:-translate-y-0.5 transition-transform" />
               ) : (
