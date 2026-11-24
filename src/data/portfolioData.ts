@@ -62,6 +62,9 @@ export interface JourneyItem {
   organization: string;
   period: string;
   description: string;
+  highlights?: string[];
+  location?: string;
+  badge?: string;
   skills: string[];
   relatedProjectId?: string;
 }
@@ -1178,45 +1181,99 @@ export const PORTFOLIO_DATA = {
   journey: {
     experience: [
       {
+        id: "oasis-infobyte-intern",
+        type: "experience",
+        title: "Data Analytics Intern",
+        organization: "OASIS INFOBYTE",
+        location: "Remote",
+        period: "Feb 2026 – March 2026",
+        badge: "Recent Internship",
+        description: "Conducted exploratory data analytics, built interactive executive Tableau KPI dashboards, and presented workflow optimization proposals to guide non-technical stakeholder decisions.",
+        highlights: [
+          "Cleaned and analysed 5+ datasets (10,000+ records) using Python, SQL, and Excel to uncover operational trends and anomalies.",
+          "Built Tableau dashboards and Excel reports to track KPIs, replacing manual data pulls with decision-ready views.",
+          "Pinpointed workflow inefficiencies and presented structured optimization and automation recommendations to guide non-technical stakeholders' decisions."
+        ],
+        skills: ["Python", "SQL", "Microsoft Excel", "Tableau", "Data Analytics", "KPI Reporting", "Process Optimization", "Stakeholder Communication"]
+      },
+      {
         id: "creart-php-intern",
         type: "experience",
-        title: "PHP Developer Intern",
-        organization: "CreArt Solution",
-        period: "27th July 2023 - 10th Aug 2023",
-        description: "In this intern i have developed web based application using php frameworks and WebRTC real-time systems.",
-        skills: ["PHP Frameworks", "Web Application", "WebRTC", "MySQL"],
+        title: "PHP Web Developer",
+        organization: "CreArt Solutions Pvt Ltd",
+        location: "Remote",
+        period: "July 2023 – August 2023",
+        badge: "Client-Facing Systems",
+        description: "Engineered responsive client-facing WebRTC communication modules and tuned relational database queries to boost application throughput.",
+        highlights: [
+          "Developed 5 responsive modules for a client-facing video-calling application using PHP, JavaScript, HTML/CSS, and MySQL to meet client specifications.",
+          "Optimized 10+ SQL queries to boost backend performance and resolved 15+ UI and functional bugs prior to deployment."
+        ],
+        skills: ["PHP", "MySQL", "JavaScript", "HTML5", "CSS3", "WebRTC", "Query Optimization", "Full-Stack Web"],
         relatedProjectId: "vchat"
       },
       {
         id: "internsavy-android-intern",
         type: "experience",
-        title: "Android Developer Intern",
+        title: "Android Application Development",
         organization: "INTERNSAVY",
-        period: "1st july 2023 - 27th July 2023",
-        description: "In this Internship i have learned Android Development, UI components, and mobile lifecycle architecture.",
-        skills: ["Android Development", "Java", "Mobile UI", "XML"]
+        location: "Remote",
+        period: "July 2023 – July 2023",
+        badge: "Mobile Engineering",
+        description: "Built responsive native mobile features and collaborated in Agile sprint cycles to deliver tested, bug-free Android deliverables.",
+        highlights: [
+          "Built 3+ responsive Android features using Java and Android Studio, testing and resolving 15+ bugs to boost app usability and stability.",
+          "Collaborated in an Agile environment to refine sprint deliverables and consistently ship project milestones on schedule."
+        ],
+        skills: ["Android Development", "Java", "Android Studio", "Mobile UI", "Agile Methodologies", "Bug Resolution"]
       }
     ] as JourneyItem[],
 
     education: [
       {
+        id: "jagsom-pgdm",
+        type: "education",
+        title: "Postgrade PGDM",
+        organization: "JAGSoM (Jagdish Sheth School of Management)",
+        location: "Bengaluru, India",
+        period: "2025 – 2027",
+        badge: "Currently Pursuing",
+        description: "Post Graduate Diploma in Management specializing in Business Analytics, Product Management, and Technology Strategy. Integrating software engineering architecture with data-driven corporate strategy.",
+        highlights: [
+          "Core concentration in Business Analytics, Product Strategy, and Technology Commercialization.",
+          "Selected among top finalists for executive masterclasses and campus innovation leadership initiatives."
+        ],
+        skills: ["Business Analytics", "Product Strategy", "Technology Management", "Data-Driven Strategy", "Operations Analytics"]
+      },
+      {
         id: "marwadi-be-cse",
         type: "education",
-        title: "BE - Computer Science",
-        organization: "Marwadi Education Foundation - GTU",
-        period: "2020 - 2024",
-        description: "Graduated with comprehensive specialization in Software Engineering, Artificial Intelligence, and Distributed Database Architecture. Capstone: ProctorShield.",
-        skills: ["Computer Science", "Artificial Intelligence", "Distributed Systems", "Algorithms"],
+        title: "Undergrade BE - Computer Science",
+        organization: "Gujarat Technological University MU",
+        location: "Rajkot, Gujarat",
+        period: "2020 – 2024",
+        badge: "Graduated with Distinction",
+        description: "Four-year Bachelor of Engineering in Computer Science with rigorous specializations in Software Engineering, Artificial Intelligence, and Distributed Database Architecture. Capstone: ProctorShield.",
+        highlights: [
+          "Engineered ProctorShield: Flagship AI examination integrity platform leveraging WebRTC and quantized TensorFlow neural models.",
+          "Active competitive participant in IEEE Algorithm Arena, Regional SSIP Hackathons, and INTELLIFY 2023."
+        ],
+        skills: ["Computer Science", "Artificial Intelligence", "Distributed Systems", "Software Engineering", "Algorithms"],
         relatedProjectId: "proctorshield"
       },
       {
         id: "aditya-birla-intermediate",
         type: "education",
-        title: "INTERMEDIATE",
+        title: "Intermediate (Class XII - Science)",
         organization: "Aditya Birla Higher Secondary School",
-        period: "2018 - 2020",
+        location: "Gujarat, India",
+        period: "2018 – 2020",
+        badge: "Science Foundation",
         description: "Senior secondary education focused on Mathematics, Physics, Chemistry, and Foundations of Computer Science.",
-        skills: ["Mathematics", "Physics", "Computer Science Foundations"]
+        highlights: [
+          "Developed core programming problem-solving fundamentals, analytical mathematics, and algorithmic logic."
+        ],
+        skills: ["Mathematics", "Physics", "Computer Science Foundations", "Problem Solving"]
       }
     ] as JourneyItem[]
   }

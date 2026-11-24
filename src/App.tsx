@@ -85,7 +85,7 @@ export const App: React.FC = () => {
         />
 
         {/* 11. Career & Academic Trajectory */}
-        <ExperienceSection />
+        <ExperienceSection onSelectProjectById={handleSelectProjectById} />
 
         {/* 12. Direct Contact Hub & Inquiry Form */}
         <ContactSection />
