@@ -95,8 +95,8 @@ export const Footer: React.FC = () => {
             className="flex items-center gap-2 group hover:opacity-90 transition-all cursor-pointer"
             title="Return to Main / Hero Section"
           >
-            <div className="w-8 h-8 rounded-xl overflow-hidden border border-white/10 bg-zinc-900 flex items-center justify-center p-1 shadow-sm group-hover:border-sky-500/40 transition-colors">
-              <img src="/logo1.svg" alt="Parth Ahuja Logo" className="w-full h-full object-contain" />
+            <div className="w-8 h-8 rounded-full overflow-hidden border border-white/10 ring-1 ring-sky-500/20 flex items-center justify-center shadow-sm group-hover:ring-sky-500/60 transition-all flex-shrink-0">
+              <img src="/parth-profile.jpg" alt="Parth Ahuja" className="w-full h-full object-cover object-top" />
             </div>
             <span className="text-zinc-200 font-bold text-sm tracking-tight group-hover:text-sky-400 transition-colors">
               Parth Ahuja &copy; {new Date().getFullYear()}

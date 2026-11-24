@@ -4,7 +4,6 @@ import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [logoError, setLogoError] = useState(false);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-[#07090E]/85 backdrop-blur-md border-b border-white/5">
@@ -25,26 +24,12 @@ export const Navbar: React.FC = () => {
             className="flex items-center gap-2.5 group cursor-pointer"
             title="Go to Main / Hero Section"
           >
-            <div className="w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center transition-transform group-hover:scale-105">
-              {!logoError ? (
-                <img
-                  src="/logo1.png"
-                  alt="Logo 1"
-                  className="w-full h-full object-contain"
-                  onError={() => {
-                    setLogoError(true);
-                  }}
-                />
-              ) : (
-                <img
-                  src="/logo1.svg"
-                  alt="Logo 1"
-                  className="w-full h-full object-contain"
-                  onError={(e) => {
-                    (e.target as HTMLElement).style.display = 'none';
-                  }}
-                />
-              )}
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full overflow-hidden border border-white/10 ring-2 ring-sky-500/20 group-hover:ring-sky-500/60 shadow-md transition-all flex items-center justify-center flex-shrink-0">
+              <img
+                src="/parth-profile.jpg"
+                alt="Parth Ahuja"
+                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+              />
             </div>
             <div>
               <span className="font-bold text-white tracking-tight group-hover:text-sky-400 transition-colors text-sm sm:text-base">
