@@ -1,43 +1,90 @@
 import React from 'react';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, Download, Home } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 export const Footer: React.FC = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const scrollToHero = () => {
+    const heroEl = document.getElementById('hero');
+    if (heroEl) {
+      heroEl.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
+  const navLinks = [
+    { label: 'Projects', href: '#projects' },
+    { label: 'Skills & Evidence', href: '#evidence' },
+    { label: 'Certificates', href: '#certificates' },
+    { label: 'Research', href: '#research' },
+    { label: 'Journey', href: '#journey' },
+    { label: 'Contact', href: '#contact' },
+  ];
+
   return (
-    <footer className="border-t border-white/5 bg-[#05070B] text-zinc-500 text-xs py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+    <footer className="border-t border-white/10 bg-[#05070B]/95 backdrop-blur-md text-zinc-400 text-xs py-10 px-4 sm:px-6 lg:px-8 relative z-20">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8">
+        
+        {/* Left Side: Brand Identity & Copyright */}
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg overflow-hidden border border-white/10 bg-zinc-900 flex items-center justify-center p-0.5">
-            <img src="/logo1.svg" alt="Logo" className="w-full h-full object-contain" />
+          <div className="w-9 h-9 rounded-xl overflow-hidden border border-white/10 bg-zinc-900 flex items-center justify-center p-1 shadow-sm">
+            <img src="/logo1.svg" alt="Parth Ahuja Logo" className="w-full h-full object-contain" />
           </div>
           <div>
-            <div className="text-zinc-300 font-semibold">Parth Ahuja &copy; {new Date().getFullYear()}</div>
-            <div className="text-[11px] text-zinc-500">Full-Stack AI Engineer & Business Analytics Strategist</div>
+            <div className="text-zinc-200 font-bold text-sm tracking-tight">
+              Parth Ahuja &copy; {new Date().getFullYear()}
+            </div>
+            <div className="text-[11px] text-zinc-500 font-mono">
+              Full-Stack AI Engineer & Business Analytics Strategist
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-zinc-400">
-          <a href="#projects" className="hover:text-white transition-colors">Projects</a>
-          <a href="#evidence" className="hover:text-white transition-colors">Evidence</a>
-          <a href="#certificates" className="hover:text-white transition-colors">Certificates</a>
-          <a href="#research" className="hover:text-white transition-colors">Research Paper</a>
-          <a href={PORTFOLIO_DATA.personal.github} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</a>
-          <a href={PORTFOLIO_DATA.personal.linkedin} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
-          <a href={PORTFOLIO_DATA.personal.linktree} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Linktree</a>
+        {/* Center: Resume Download Button + All Pages Links */}
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+          {/* Resume Download Button */}
+          <a
+            href="/resume.pdf"
+            download="Parth_Ahuja_Resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="px-4 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-semibold text-xs transition-all shadow-md shadow-sky-500/20 hover:scale-105 active:scale-95 flex items-center gap-2 group"
+            title="Download Parth Ahuja's Resume (PDF)"
+          >
+            <Download className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform" />
+            <span>Download Résumé</span>
+          </a>
+
+          {/* Vertical Separator */}
+          <span className="hidden sm:inline w-px h-4 bg-white/10" />
+
+          {/* All Pages / Sections Navigation Links */}
+          <nav className="flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-zinc-400">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="hover:text-white transition-colors py-1 hover:underline underline-offset-4 decoration-sky-400/50"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
         </div>
 
-        <button
-          onClick={scrollToTop}
-          className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/10 transition-colors flex items-center gap-1.5"
-          title="Return to top"
-        >
-          <span>Top</span>
-          <ArrowUp className="w-3.5 h-3.5" />
-        </button>
+        {/* Right Side: "My Page" Button (Goes to Main / Hero Section) */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={scrollToHero}
+            className="px-4 py-2 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 hover:border-sky-500/30 transition-all flex items-center gap-2 text-xs font-semibold shadow-sm hover:scale-105 active:scale-95 group"
+            title="Return to Main / Hero Section"
+          >
+            <Home className="w-3.5 h-3.5 text-sky-400 group-hover:scale-110 transition-transform" />
+            <span>My Page</span>
+            <ArrowUp className="w-3 h-3 text-zinc-500 group-hover:text-white group-hover:-translate-y-0.5 transition-all" />
+          </button>
+        </div>
+
       </div>
     </footer>
   );
