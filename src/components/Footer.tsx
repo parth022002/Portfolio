@@ -50,18 +50,31 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Center: Brand Identity & Copyright */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-6 border-t border-white/5 w-full max-w-2xl text-center">
-          <div className="w-8 h-8 rounded-xl overflow-hidden border border-white/10 bg-zinc-900 flex items-center justify-center p-1 shadow-sm">
-            <img src="/logo1.svg" alt="Parth Ahuja Logo" className="w-full h-full object-contain" />
-          </div>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-            <span className="text-zinc-200 font-bold text-sm tracking-tight">
+          <a
+            href="#hero"
+            onClick={(e) => {
+              e.preventDefault();
+              const heroEl = document.getElementById('hero');
+              if (heroEl) {
+                heroEl.scrollIntoView({ behavior: 'smooth' });
+              } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+            className="flex items-center gap-2 group hover:opacity-90 transition-all cursor-pointer"
+            title="Return to Main / Hero Section"
+          >
+            <div className="w-8 h-8 rounded-xl overflow-hidden border border-white/10 bg-zinc-900 flex items-center justify-center p-1 shadow-sm group-hover:border-sky-500/40 transition-colors">
+              <img src="/logo1.svg" alt="Parth Ahuja Logo" className="w-full h-full object-contain" />
+            </div>
+            <span className="text-zinc-200 font-bold text-sm tracking-tight group-hover:text-sky-400 transition-colors">
               Parth Ahuja &copy; {new Date().getFullYear()}
             </span>
-            <span className="hidden sm:inline text-zinc-600">•</span>
-            <span className="text-[11px] text-zinc-500 font-mono">
-              Full-Stack AI Engineer & Business Analytics Strategist
-            </span>
-          </div>
+          </a>
+          <span className="hidden sm:inline text-zinc-600">•</span>
+          <span className="text-[11px] text-zinc-500 font-mono">
+            Full-Stack AI Engineer & Business Analytics Strategist
+          </span>
         </div>
 
       </div>

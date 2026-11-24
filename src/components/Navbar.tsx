@@ -11,7 +11,20 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between relative">
         {/* Left: Logo 1 */}
         <div className="flex items-center gap-3 z-10">
-          <a href="#" className="flex items-center gap-2.5 group">
+          <a
+            href="#hero"
+            onClick={(e) => {
+              e.preventDefault();
+              const heroEl = document.getElementById('hero');
+              if (heroEl) {
+                heroEl.scrollIntoView({ behavior: 'smooth' });
+              } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+            className="flex items-center gap-2.5 group cursor-pointer"
+            title="Go to Main / Hero Section"
+          >
             <div className="w-9 h-9 rounded-xl overflow-hidden border border-white/10 bg-zinc-900/80 flex items-center justify-center p-0.5 shadow-md shadow-sky-500/10 group-hover:border-sky-500/40 transition-all">
               {!logoError ? (
                 <img
