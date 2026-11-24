@@ -70,11 +70,11 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
     );
   }, [selectedSkill]);
 
-  // Categories list
+  // Categories list with concise, punchy labels
   const categories = [
     { id: "Top 25 Core", label: "⭐ Top 25 Core" },
-    { id: "Business Analysis & Product Strategy", label: "Product & Strategy" },
-    { id: "Data Analytics & Business Intelligence", label: "Data & BI" },
+    { id: "Business Analysis & Product Strategy", label: "Strategy & Product" },
+    { id: "Data Analytics & Business Intelligence", label: "Data Analytics & BI" },
     { id: "AI, ML & Engineering", label: "AI & Machine Learning" },
     { id: "Full-Stack Web & Software Engineering", label: "Full-Stack & Web" },
     { id: "Databases, Cloud & DevOps", label: "Cloud & Databases" },
@@ -113,7 +113,7 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.7 }}
-        className="text-center max-w-3xl mx-auto mb-12"
+        className="text-center max-w-3xl mx-auto mb-10"
       >
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-white/10 text-xs font-semibold text-zinc-400 mb-3">
           <Award className="w-3.5 h-3.5 text-sky-400" />
@@ -127,10 +127,30 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
         </p>
       </motion.div>
 
-      {/* Clean Category Tabs & Minimal Search */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-        {/* Horizontal Category Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
+      {/* Unified Search & Wrapped Category Bar (Zero horizontal scrollbars, zero cutoffs!) */}
+      <div className="flex flex-col items-center justify-center gap-4 mb-10">
+        {/* Centered Search Bar */}
+        <div className="relative w-full max-w-md">
+          <Search className="w-4 h-4 text-zinc-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search any of 100 skills (e.g. SQL, Python, Agile, Next.js)..."
+            className="w-full pl-11 pr-10 py-2.5 rounded-full bg-zinc-900/90 border border-white/10 text-xs sm:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-sky-500/60 shadow-lg shadow-black/30 transition-all"
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-zinc-400 hover:text-white"
+            >
+              ×
+            </button>
+          )}
+        </div>
+
+        {/* Category Pills (Cleanly wrapped on all screen sizes, no cut-off!) */}
+        <div className="flex flex-wrap items-center justify-center gap-2 max-w-4xl">
           {categories.map((cat) => {
             const isActive = activeCategory === cat.id && !searchQuery;
             return (
@@ -140,36 +160,16 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
                   setActiveCategory(cat.id);
                   setSearchQuery("");
                 }}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 ${
+                className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${
                   isActive
-                    ? 'bg-sky-500 text-white shadow-md shadow-sky-500/25 scale-102'
-                    : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/5'
+                    ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/25 scale-105'
+                    : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/5 hover:border-white/15'
                 }`}
               >
                 {cat.label}
               </button>
             );
           })}
-        </div>
-
-        {/* Search Bar */}
-        <div className="relative w-full md:w-64 flex-shrink-0">
-          <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search 100 skills..."
-            className="w-full pl-9 pr-8 py-1.5 rounded-full bg-zinc-900/80 border border-white/10 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-sky-500/50 transition-colors"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-zinc-500 hover:text-white"
-            >
-              ×
-            </button>
-          )}
         </div>
       </div>
 
@@ -185,7 +185,7 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
         >
           <div className="p-6 rounded-2xl bg-zinc-900/30 border border-white/5 backdrop-blur-sm">
             <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-white/5 text-xs text-zinc-400">
-              <span className="font-mono text-[11px] uppercase tracking-wider">
+              <span className="font-mono text-[11px] uppercase tracking-wider font-semibold text-zinc-300">
                 {searchQuery ? `Search Results (${displayedSkills.length})` : activeCategory}
               </span>
               <span className="text-[11px] text-zinc-500">Click any skill to inspect evidence</span>
@@ -201,7 +201,7 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
                     whileHover={{ scale: 1.04 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={() => setSelectedSkill(s.name)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all duration-200 flex items-center gap-2 border ${
+                    className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all duration-200 flex items-center gap-2 border cursor-pointer ${
                       isSelected
                         ? 'bg-sky-500/20 border-sky-400 text-sky-200 shadow-md shadow-sky-500/15 scale-105'
                         : 'bg-zinc-900/80 hover:bg-zinc-800/90 text-zinc-300 hover:text-white border-white/5 hover:border-white/10'
@@ -229,12 +229,12 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
               </div>
             )}
 
-            {/* Show More / Show Less Toggle (only in Top 25 Core view when not searching) */}
+            {/* Show More / Show Less Toggle */}
             {activeCategory === "Top 25 Core" && !searchQuery && (
               <div className="pt-6 mt-4 border-t border-white/5 text-center">
                 <button
                   onClick={() => setShowAll(!showAll)}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-800/60 hover:bg-zinc-800 text-xs font-semibold text-zinc-300 hover:text-white border border-white/5 transition-all"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-800/70 hover:bg-zinc-800 text-xs font-semibold text-zinc-300 hover:text-white border border-white/10 transition-all cursor-pointer shadow-md"
                 >
                   <span>{showAll ? "Show Top 25 Only" : "Show All 100 Ranked Capabilities"}</span>
                   {showAll ? (
@@ -321,7 +321,7 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
                         </div>
                         <button
                           onClick={() => onSelectProjectById(p.id)}
-                          className="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-sky-500 text-zinc-400 hover:text-white text-[11px] font-semibold transition-all flex items-center gap-1 flex-shrink-0"
+                          className="px-2.5 py-1.5 rounded-lg bg-zinc-800 hover:bg-sky-500 text-zinc-400 hover:text-white text-[11px] font-semibold transition-all flex items-center gap-1 flex-shrink-0 cursor-pointer"
                           title="View Project Details"
                         >
                           <span>Inspect</span>
