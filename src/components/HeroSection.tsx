@@ -53,24 +53,13 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, x: -35 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="lg:col-span-7 space-y-5 sm:space-y-6 text-left"
+          className="lg:col-span-7 space-y-6 text-left"
         >
-          {/* Top Status Tag with Pulse: PGDM Business Analytics, JAGSoM · Class of 2027 */}
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-900/90 border border-white/10 text-xs font-semibold backdrop-blur-md shadow-lg"
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            <span className="text-zinc-200">PGDM Business Analytics, JAGSoM · Class of 2027</span>
-          </motion.div>
-
           {/* Animated Main Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.8 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
             className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.12]"
           >
             Turning{' '}
@@ -80,44 +69,21 @@ export const HeroSection: React.FC = () => {
             into Decisions That Move Business.
           </motion.h1>
 
-          {/* Brand Positioning Statement */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.45, duration: 0.8 }}
-            className="text-base sm:text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400 font-mono tracking-tight"
-          >
-            “I turn messy data and AI into decisions businesses can act on.”
-          </motion.div>
-
           {/* Subtext */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55, duration: 0.8 }}
-            className="text-sm sm:text-base text-zinc-300 leading-relaxed max-w-2xl font-normal"
+            transition={{ delay: 0.35, duration: 0.8 }}
+            className="text-base sm:text-lg text-zinc-300 leading-relaxed max-w-2xl font-normal"
           >
             Hi, I'm <strong className="text-white font-semibold">Parth Ahuja</strong>, a PGDM (Business Analytics) candidate at Jagdish Sheth School of Management, graduating in May 2027, with a B.E. in Computer Science. I combine requirements gathering, KPI analysis, and hands-on AI engineering (Python, SQL, Tableau, LangGraph, RAG) to build solutions across supply chain, operations, and product analytics.
           </motion.p>
-
-          {/* Availability Line */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.65, duration: 0.8 }}
-            className="flex items-center gap-2.5 text-xs font-mono text-zinc-400 bg-white/[0.03] border border-white/5 rounded-xl px-3.5 py-2.5 max-w-2xl"
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-400 flex-shrink-0 animate-pulse" />
-            <span className="leading-tight">
-              Available for full-time roles from <strong className="text-zinc-200">May 2027</strong> · Business Analyst · Data Analyst · Product Analyst · AI & Analytics
-            </span>
-          </motion.div>
 
           {/* Action Buttons Cluster: Contact Me · View Résumé · See My Work */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.75, duration: 0.8 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
             className="flex flex-wrap items-center gap-3.5 pt-1"
           >
             <a
