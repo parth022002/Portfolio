@@ -10,14 +10,29 @@ export const HeroSection: React.FC = () => {
   const [isMuted, setIsMuted] = useState(true);
   const [showSoundPrompt, setShowSoundPrompt] = useState(true);
 
-  // Automatically mute video audio when scrolling away from hero or switching tabs
+  // Track whether the user has unmuted audio so we can automatically restore it when returning to Hero
+  const wasUnmutedByUserRef = useRef(false);
+
+  // Automatically mute video audio when scrolling away from hero, and resume when returning
   useEffect(() => {
     const handleScroll = () => {
-      // If user scrolls down past the hero viewport (> 320px)
+      if (!videoRef.current) return;
+
+      // When scrolled down past the hero viewport (> 320px)
       if (window.scrollY > 320) {
-        if (videoRef.current && !videoRef.current.muted) {
+        if (!videoRef.current.muted) {
           videoRef.current.muted = true;
           setIsMuted(true);
+        }
+      } else if (window.scrollY < 180) {
+        // When scrolled back up to the hero section, resume audio if user previously unmuted
+        if (wasUnmutedByUserRef.current && videoRef.current.muted) {
+          videoRef.current.muted = false;
+          setIsMuted(false);
+          if (videoRef.current.paused) {
+            videoRef.current.play().catch(() => {});
+            setIsPlaying(true);
+          }
         }
       }
     };
@@ -29,24 +44,49 @@ export const HeroSection: React.FC = () => {
       observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
+            if (!videoRef.current) return;
+
             // If hero is less than 35% visible, automatically mute audio
             if (!entry.isIntersecting || entry.intersectionRatio < 0.35) {
-              if (videoRef.current && !videoRef.current.muted) {
+              if (!videoRef.current.muted) {
                 videoRef.current.muted = true;
                 setIsMuted(true);
+              }
+            } else if (entry.intersectionRatio >= 0.5) {
+              // If back in hero section (>= 50% visible), resume audio if user enabled it
+              if (wasUnmutedByUserRef.current && videoRef.current.muted) {
+                videoRef.current.muted = false;
+                setIsMuted(false);
+                if (videoRef.current.paused) {
+                  videoRef.current.play().catch(() => {});
+                  setIsPlaying(true);
+                }
               }
             }
           });
         },
-        { threshold: [0, 0.1, 0.35, 0.6] }
+        { threshold: [0, 0.1, 0.35, 0.5, 0.75] }
       );
       observer.observe(section);
     }
 
     const handleVisibilityChange = () => {
-      if (document.hidden && videoRef.current && !videoRef.current.muted) {
-        videoRef.current.muted = true;
-        setIsMuted(true);
+      if (!videoRef.current) return;
+      if (document.hidden) {
+        if (!videoRef.current.muted) {
+          videoRef.current.muted = true;
+          setIsMuted(true);
+        }
+      } else {
+        // Returned to tab: if in hero section and user had unmuted, restore audio
+        if (wasUnmutedByUserRef.current && window.scrollY < 250) {
+          videoRef.current.muted = false;
+          setIsMuted(false);
+          if (videoRef.current.paused) {
+            videoRef.current.play().catch(() => {});
+            setIsPlaying(true);
+          }
+        }
       }
     };
 
@@ -90,8 +130,10 @@ export const HeroSection: React.FC = () => {
 
   const toggleMute = () => {
     if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
+      const nextMuted = !isMuted;
+      videoRef.current.muted = nextMuted;
+      setIsMuted(nextMuted);
+      wasUnmutedByUserRef.current = !nextMuted;
       setShowSoundPrompt(false);
     }
   };
