@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { X, Sparkles, Send, Bot, User, FileText, CheckCircle2, ArrowRight } from 'lucide-react';
-import { PORTFOLIO_DATA, Project } from '../data/portfolioData';
+import React, { useState, useRef, useEffect } from 'react';
+import { X, Sparkles, Send, Bot, User, FileText, ArrowRight, ExternalLink, RefreshCw } from 'lucide-react';
+import { Project } from '../data/portfolioData';
+import { getGroundedCopilotAnswer } from '../data/copilotKnowledge';
 
 interface AICopilotDrawerProps {
   isOpen: boolean;
@@ -11,7 +12,8 @@ interface AICopilotDrawerProps {
 interface Message {
   sender: 'user' | 'ai';
   text: string;
-  sourceLink?: string;
+  sourceLink?: { label: string; url: string };
+  suggestedFollowUps?: string[];
 }
 
 export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
@@ -26,12 +28,31 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
     {
       sender: 'ai',
       text: preloadedProject
-        ? `Hello! I'm Parth's portfolio copilot. What would you like to know about ${preloadedProject.title}? I can explain its TensorFlow inference pipeline, WebRTC architecture, business impact, or code structure.`
-        : "Hello! I'm Parth Ahuja's AI Portfolio Assistant. I'm strictly grounded in Parth's verified projects, code repositories, and 49+ certifications. What would you like to discover today?"
+        ? `Hello! I'm Parth's portfolio copilot. What would you like to know about **${preloadedProject.title}**? I can explain its AI architecture, business impact, tech stack, or ROI metrics.`
+        : "Hello! I'm Parth Ahuja's AI Portfolio Assistant. I'm strictly grounded in Parth's verified projects, 3 internships, Business Analytics degree at JAGSoM, and 49+ certifications. What would you like to know about his work?",
+      suggestedFollowUps: preloadedProject
+        ? [
+            `What is the business impact of ${preloadedProject.title}?`,
+            `What is the tech stack of ${preloadedProject.title}?`,
+            'What other projects has Parth built?'
+          ]
+        : [
+            'Tell me about ProctorShield & AI',
+            'What is Parth’s Business Analytics background?',
+            'Tell me about his OASIS Infobyte internship',
+            'What are his key skills & certifications?'
+          ]
     }
   ]);
   const [input, setInput] = useState('');
-  
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to bottom of messages
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, isTyping]);
+
   // JD Matcher State
   const [jdText, setJdText] = useState('');
   const [jdResult, setJdResult] = useState<{
@@ -40,11 +61,12 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
     recommendedProjects: string[];
   } | null>(null);
 
-  const suggestedQuestions = [
-    "What is ProctorShield's AI architecture?",
-    "What are Parth's primary technical skills?",
-    "Does Parth have credentials in Generative AI?",
-    "How can I contact Parth for an interview?"
+  const initialQuickPrompts = [
+    'Tell me about ProctorShield',
+    'What is his Business Analytics background?',
+    'What did he do at OASIS Infobyte?',
+    'What are his core technical skills?',
+    'How can I contact Parth?'
   ];
 
   const handleSend = (textToSend?: string) => {
@@ -52,43 +74,87 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
     if (!q.trim()) return;
 
     const userMsg: Message = { sender: 'user', text: q };
-    setMessages(prev => [...prev, userMsg]);
+    setMessages((prev) => [...prev, userMsg]);
     if (!textToSend) setInput('');
+    setIsTyping(true);
 
     // Grounded knowledge matching
     setTimeout(() => {
-      const lower = q.toLowerCase();
-      let responseText = "";
-
-      if (lower.includes('proctorshield') || lower.includes('proctor')) {
-        responseText = "ProctorShield is Parth's flagship AI examination proctoring system. It combines WebRTC with a quantized TensorFlow model to detect multi-face anomalies, head pose deviations, and audio events with 99.2% precision and sub-140ms latency.";
-      } else if (lower.includes('skill') || lower.includes('stack')) {
-        responseText = "Parth excels across Python (TensorFlow, OpenCV, LangChain), TypeScript/JavaScript (Next.js, React, Node.js), Relational/NoSQL databases (PostgreSQL, MongoDB, SQLite), and real-time protocols (WebRTC).";
-      } else if (lower.includes('generative') || lower.includes('genai') || lower.includes('rag') || lower.includes('cert')) {
-        responseText = "Parth holds verified Microsoft & LinkedIn certifications in Generative AI, and has built 'Chat With PDF' using LangChain, FAISS vector search, and character chunking to ensure zero-hallucination document intelligence.";
-      } else if (lower.includes('contact') || lower.includes('hire') || lower.includes('email') || lower.includes('interview')) {
-        responseText = "You can reach Parth directly at parth022002@gmail.com, on LinkedIn at https://www.linkedin.com/in/parth--ahuja/, or explore his repositories at https://github.com/parth022002.";
-      } else {
-        responseText = `Based on Parth's portfolio knowledge base, he has engineered 14+ full-scale systems spanning AI proctoring, scalable social feeds (NexSpace), audio streaming (Spotify Clone), and RAG pipelines. Every project is accompanied by live demo URLs and GitHub repos.`;
-      }
-
-      setMessages(prev => [...prev, { sender: 'ai', text: responseText }]);
-    }, 400);
+      const response = getGroundedCopilotAnswer(q, preloadedProject);
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: 'ai',
+          text: response.text,
+          sourceLink: response.sourceLink,
+          suggestedFollowUps: response.suggestedFollowUps
+        }
+      ]);
+      setIsTyping(false);
+    }, 350);
   };
 
   const handleAnalyzeJD = () => {
     if (!jdText.trim()) return;
 
-    // Simulate smart keyword matching
-    const keywords = ['react', 'next.js', 'python', 'ai', 'machine learning', 'tensorflow', 'typescript', 'sql', 'webrtc', 'node', 'full stack', 'api', 'data'];
+    const keywords = [
+      'react', 'next.js', 'python', 'ai', 'machine learning', 'tensorflow',
+      'typescript', 'sql', 'webrtc', 'node', 'full stack', 'api', 'tableau',
+      'excel', 'business analyst', 'data analyst', 'product analyst',
+      'analytics', 'kpi', 'agile', 'scrum', 'requirements', 'supply chain',
+      'operations', 'rag', 'genai', 'langchain', 'mongodb', 'postgresql'
+    ];
+
     const lower = jdText.toLowerCase();
-    const matched = keywords.filter(k => lower.includes(k));
-    const score = Math.min(98, Math.max(78, 70 + matched.length * 4));
+    const matched = keywords.filter((k) => lower.includes(k));
+    const score = Math.min(99, Math.max(76, 68 + matched.length * 3));
+
+    const recs: string[] = [];
+    if (lower.includes('tableau') || lower.includes('analytics') || lower.includes('sql') || lower.includes('business analyst') || lower.includes('data analyst')) {
+      recs.push('OASIS Infobyte Internship (Tableau KPI Dashboards & SQL)');
+    }
+    if (lower.includes('ai') || lower.includes('vision') || lower.includes('webrtc') || lower.includes('tensorflow') || lower.includes('python')) {
+      recs.push('ProctorShield (AI Vision Invigilation & WebRTC)');
+    }
+    if (lower.includes('rag') || lower.includes('genai') || lower.includes('llm') || lower.includes('langchain') || lower.includes('document')) {
+      recs.push('Chat With PDF (RAG & FAISS Vector Search)');
+    }
+    if (lower.includes('next.js') || lower.includes('react') || lower.includes('frontend') || lower.includes('full stack')) {
+      recs.push('NexSpace (Next.js Edge Social Platform)');
+    }
+    if (lower.includes('stripe') || lower.includes('redux') || lower.includes('audio') || lower.includes('payment')) {
+      recs.push('Spotify Enterprise Clone (Audio State & Stripe)');
+    }
+    if (recs.length === 0) {
+      recs.push('ProctorShield (Flagship AI Platform)', 'NexSpace (High-Performance Next.js)', 'OASIS Infobyte (Business Analytics)');
+    }
 
     setJdResult({
       score,
-      matchedSkills: matched.length > 0 ? matched.map(m => m.toUpperCase()) : ['FULL STACK', 'PYTHON', 'REACT', 'AI ARCHITECTURE'],
-      recommendedProjects: ['ProctorShield (AI Vision & WebRTC)', 'NexSpace (Next.js Platform)', 'Chat With PDF (RAG & GenAI)']
+      matchedSkills: matched.length > 0 ? matched.map((m) => m.toUpperCase()) : ['BUSINESS ANALYTICS', 'PYTHON', 'SQL', 'AI SYSTEMS'],
+      recommendedProjects: recs
+    });
+  };
+
+  // Helper to format text with bold spans
+  const formatText = (content: string) => {
+    return content.split('\n').map((line, lineIdx) => {
+      // Parse markdown bold **text**
+      const parts = line.split(/(\*\*.*?\*\*)/g);
+      return (
+        <span key={lineIdx} className="block min-h-[1.25em]">
+          {parts.map((part, partIdx) => {
+            if (part.startsWith('**') && part.endsWith('**')) {
+              return (
+                <strong key={partIdx} className="text-white font-semibold">
+                  {part.slice(2, -2)}
+                </strong>
+              );
+            }
+            return part;
+          })}
+        </span>
+      );
     });
   };
 
@@ -103,7 +169,7 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
           <div>
             <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
               <span>Parth AI Copilot</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
             </h3>
             <span className="text-[11px] text-zinc-400 font-mono">Grounded Knowledge Agent</span>
           </div>
@@ -111,7 +177,8 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
 
         <button
           onClick={onClose}
-          className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800"
+          aria-label="Close copilot"
+          className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
@@ -146,44 +213,93 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
       {activeTab === 'chat' ? (
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Messages List */}
-          <div className="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs">
+          <div className="flex-1 p-4 overflow-y-auto space-y-4 text-xs">
             {messages.map((m, idx) => (
               <div
                 key={idx}
-                className={`flex gap-2.5 ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                className={`flex flex-col gap-1.5 ${m.sender === 'user' ? 'items-end' : 'items-start'}`}
               >
-                {m.sender === 'ai' && (
-                  <div className="w-6 h-6 rounded-md bg-violet-900/80 text-violet-300 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Bot className="w-3.5 h-3.5" />
+                <div className={`flex gap-2.5 max-w-[92%] ${m.sender === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                  {m.sender === 'ai' ? (
+                    <div className="w-6 h-6 rounded-md bg-violet-900/80 text-violet-300 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+                      <Bot className="w-3.5 h-3.5" />
+                    </div>
+                  ) : (
+                    <div className="w-6 h-6 rounded-md bg-sky-900/80 text-sky-300 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">
+                      <User className="w-3.5 h-3.5" />
+                    </div>
+                  )}
+
+                  <div
+                    className={`p-3.5 rounded-xl leading-relaxed text-xs shadow-md ${
+                      m.sender === 'user'
+                        ? 'bg-gradient-to-r from-sky-600 to-blue-600 text-white rounded-br-none'
+                        : 'bg-[#121622] border border-white/10 text-zinc-200 rounded-bl-none'
+                    }`}
+                  >
+                    <div className="space-y-1">{formatText(m.text)}</div>
+
+                    {/* External source / project link */}
+                    {m.sourceLink && (
+                      <div className="mt-3 pt-2.5 border-t border-white/10">
+                        <a
+                          href={m.sourceLink.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1.5 text-xs text-sky-400 hover:text-sky-300 font-semibold transition-colors"
+                        >
+                          <span>{m.sourceLink.label}</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      </div>
+                    )}
                   </div>
-                )}
-                <div
-                  className={`p-3 rounded-xl max-w-[85%] leading-relaxed ${
-                    m.sender === 'user'
-                      ? 'bg-sky-600 text-white rounded-br-none'
-                      : 'bg-zinc-900 border border-white/5 text-zinc-200 rounded-bl-none shadow-sm'
-                  }`}
-                >
-                  {m.text}
                 </div>
-                {m.sender === 'user' && (
-                  <div className="w-6 h-6 rounded-md bg-sky-900/80 text-sky-300 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <User className="w-3.5 h-3.5" />
+
+                {/* Follow-up question chips */}
+                {m.sender === 'ai' && m.suggestedFollowUps && m.suggestedFollowUps.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 pl-8 pt-1">
+                    {m.suggestedFollowUps.map((prompt, pIdx) => (
+                      <button
+                        key={pIdx}
+                        onClick={() => handleSend(prompt)}
+                        className="px-2.5 py-1 rounded-lg bg-zinc-900/90 hover:bg-zinc-800 text-[11px] text-zinc-300 hover:text-white border border-white/10 hover:border-sky-500/40 text-left transition-all hover:scale-[1.02] active:scale-95"
+                      >
+                        ↳ {prompt}
+                      </button>
+                    ))}
                   </div>
                 )}
               </div>
             ))}
+
+            {isTyping && (
+              <div className="flex gap-2.5 items-center pl-1 text-zinc-400 text-xs font-mono">
+                <div className="w-6 h-6 rounded-md bg-violet-900/60 text-violet-300 flex items-center justify-center">
+                  <Bot className="w-3.5 h-3.5 animate-spin-slow" />
+                </div>
+                <span className="flex items-center gap-1 text-[11px]">
+                  <span>Retrieving verified portfolio knowledge</span>
+                  <span className="animate-pulse">...</span>
+                </span>
+              </div>
+            )}
+
+            <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Prompts */}
-          <div className="p-3 border-t border-white/5 bg-zinc-950/60 space-y-1.5">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase">Suggested Prompts:</span>
-            <div className="flex flex-wrap gap-1.5">
-              {suggestedQuestions.map((sq, i) => (
+          {/* Quick Initial Prompts Bar */}
+          <div className="p-3 border-t border-white/5 bg-zinc-950/70 space-y-1.5">
+            <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+              <span>Suggested Inquiries:</span>
+              <span className="text-zinc-600">Click to ask</span>
+            </div>
+            <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
+              {initialQuickPrompts.map((sq, i) => (
                 <button
                   key={i}
                   onClick={() => handleSend(sq)}
-                  className="px-2.5 py-1 rounded-md bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white text-[11px] border border-white/5 text-left transition-colors"
+                  className="px-2.5 py-1 rounded-md bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white text-[11px] border border-white/10 text-left transition-colors cursor-pointer"
                 >
                   {sq}
                 </button>
@@ -198,12 +314,13 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-              placeholder="Ask anything about Parth's work..."
-              className="flex-1 px-3 py-2 rounded-xl bg-zinc-900 border border-white/10 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-violet-500"
+              placeholder="Ask about my projects, BA skills, internships..."
+              className="flex-1 px-3 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-violet-500 transition-colors"
             />
             <button
               onClick={() => handleSend()}
-              className="p-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white transition-colors"
+              disabled={!input.trim()}
+              className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-sky-600 hover:from-violet-500 hover:to-sky-500 disabled:opacity-40 text-white transition-all shadow-md active:scale-95 cursor-pointer flex items-center justify-center"
             >
               <Send className="w-4 h-4" />
             </button>
@@ -223,13 +340,13 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
             rows={6}
             value={jdText}
             onChange={(e) => setJdText(e.target.value)}
-            placeholder="Paste Job Description here (e.g., We are seeking a Full-Stack AI Engineer with React, Python, Machine Learning, and API architecture experience...)"
+            placeholder="Paste Job Description here (e.g., We are seeking a Business Analyst / Data Analyst or AI Engineer with Python, SQL, Tableau, KPI modeling, and machine learning experience...)"
             className="w-full p-3 rounded-xl bg-zinc-900 border border-white/10 text-white placeholder-zinc-500 text-xs focus:outline-none focus:border-sky-500"
           />
 
           <button
             onClick={handleAnalyzeJD}
-            className="w-full py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-semibold transition-all shadow-md shadow-sky-500/20 flex items-center justify-center gap-2"
+            className="w-full py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-semibold transition-all shadow-md shadow-sky-500/20 flex items-center justify-center gap-2 cursor-pointer"
           >
             <Sparkles className="w-3.5 h-3.5" />
             <span>Analyze Role Fit & Evidence</span>
@@ -255,10 +372,10 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
 
               <div>
                 <span className="text-[11px] font-mono text-zinc-400 block mb-1">Evaluate These Projects First:</span>
-                <div className="space-y-1">
+                <div className="space-y-1.5">
                   {jdResult.recommendedProjects.map((p, i) => (
                     <div key={i} className="text-zinc-300 text-[11px] flex items-center gap-1.5">
-                      <ArrowRight className="w-3 h-3 text-sky-400" />
+                      <ArrowRight className="w-3 h-3 text-sky-400 shrink-0" />
                       <span>{p}</span>
                     </div>
                   ))}

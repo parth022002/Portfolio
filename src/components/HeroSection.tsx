@@ -257,12 +257,13 @@ export const HeroSection: React.FC = () => {
 
             {/* Bottom Caption Bar */}
             <div className="px-3 pt-2.5 pb-1 text-[11px] text-zinc-400 flex items-center justify-between">
-              <span className="text-zinc-300 font-medium flex items-center gap-1.5">
+              <span className="text-zinc-300 font-medium flex items-center gap-1.5 truncate">
                 <span>🎥</span>
-                <span>Project Walkthrough & Architecture</span>
+                <span className="text-white font-semibold">ProctorShield:</span>
+                <span>Project Walkthrough & Business Impact</span>
               </span>
-              <span className="text-sky-400 font-mono font-semibold">
-                Interactive Overview
+              <span className="text-sky-400 font-mono font-semibold shrink-0 pl-2">
+                Interactive Demo
               </span>
             </div>
           </div>
