@@ -67,7 +67,7 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
       } else if (lower.includes('generative') || lower.includes('genai') || lower.includes('rag') || lower.includes('cert')) {
         responseText = "Parth holds verified Microsoft & LinkedIn certifications in Generative AI, and has built 'Chat With PDF' using LangChain, FAISS vector search, and character chunking to ensure zero-hallucination document intelligence.";
       } else if (lower.includes('contact') || lower.includes('hire') || lower.includes('email') || lower.includes('interview')) {
-        responseText = "You can reach Parth directly at parth022002@gmail.com, on LinkedIn at linkedin.com/in/parth-ahuja, or explore his repositories at github.com/parth022002.";
+        responseText = "You can reach Parth directly at parth022002@gmail.com, on LinkedIn at https://www.linkedin.com/in/parth--ahuja/, or explore his repositories at https://github.com/parth022002.";
       } else {
         responseText = `Based on Parth's portfolio knowledge base, he has engineered 14+ full-scale systems spanning AI proctoring, scalable social feeds (NexSpace), audio streaming (Spotify Clone), and RAG pipelines. Every project is accompanied by live demo URLs and GitHub repos.`;
       }
