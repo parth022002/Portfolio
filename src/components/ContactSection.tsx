@@ -81,9 +81,9 @@ export const ContactSection: React.FC = () => {
               href={PORTFOLIO_DATA.personal.github}
               target="_blank"
               rel="noreferrer"
-              className="px-4 py-2.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/5 text-xs font-semibold transition-all flex items-center gap-2"
+              className="px-4 py-2.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 text-xs font-semibold transition-all flex items-center gap-2.5 shadow-sm group"
             >
-              <Github className="w-4 h-4" />
+              <img src="/icons/github.png" alt="GitHub" className="w-5 h-5 object-contain group-hover:scale-110 transition-transform" />
               <span>GitHub</span>
             </motion.a>
             <motion.a
@@ -92,9 +92,9 @@ export const ContactSection: React.FC = () => {
               href={PORTFOLIO_DATA.personal.linkedin}
               target="_blank"
               rel="noreferrer"
-              className="px-4 py-2.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/5 text-xs font-semibold transition-all flex items-center gap-2"
+              className="px-4 py-2.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 text-xs font-semibold transition-all flex items-center gap-2.5 shadow-sm group"
             >
-              <Linkedin className="w-4 h-4 text-sky-400" />
+              <img src="/icons/linkedin.png" alt="LinkedIn" className="w-5 h-5 object-contain rounded-[3px] group-hover:scale-110 transition-transform" />
               <span>LinkedIn</span>
             </motion.a>
             <motion.a
@@ -103,9 +103,9 @@ export const ContactSection: React.FC = () => {
               href={PORTFOLIO_DATA.personal.linktree}
               target="_blank"
               rel="noreferrer"
-              className="px-4 py-2.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/5 text-xs font-semibold transition-all flex items-center gap-2"
+              className="px-4 py-2.5 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 text-xs font-semibold transition-all flex items-center gap-2.5 shadow-sm group"
             >
-              <span className="font-bold text-emerald-400">🌳</span>
+              <img src="/icons/linktree.png" alt="Linktree" className="w-5 h-5 object-contain rounded-[4px] group-hover:scale-110 transition-transform" />
               <span>Linktree</span>
             </motion.a>
           </div>

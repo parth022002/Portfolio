@@ -84,10 +84,10 @@ export const Navbar: React.FC = () => {
             href={PORTFOLIO_DATA.personal.github}
             target="_blank"
             rel="noreferrer"
-            className="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800/80 border border-transparent hover:border-white/10 transition-all"
+            className="w-8 h-8 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-white/30 flex items-center justify-center p-1.5 transition-all shadow-sm hover:scale-110 active:scale-95 group"
             title="GitHub Profile"
           >
-            <Github className="w-4 h-4" />
+            <img src="/icons/github.png" alt="GitHub" className="w-full h-full object-contain" />
           </a>
 
           {/* LinkedIn Logo */}
@@ -95,10 +95,10 @@ export const Navbar: React.FC = () => {
             href={PORTFOLIO_DATA.personal.linkedin}
             target="_blank"
             rel="noreferrer"
-            className="p-2 rounded-xl text-zinc-400 hover:text-sky-400 hover:bg-zinc-800/80 border border-transparent hover:border-white/10 transition-all"
+            className="w-8 h-8 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-sky-500/40 flex items-center justify-center p-1.5 transition-all shadow-sm hover:scale-110 active:scale-95 group"
             title="LinkedIn Profile"
           >
-            <Linkedin className="w-4 h-4" />
+            <img src="/icons/linkedin.png" alt="LinkedIn" className="w-full h-full object-contain rounded-[2px]" />
           </a>
 
           {/* Linktree Logo */}
@@ -106,12 +106,10 @@ export const Navbar: React.FC = () => {
             href={PORTFOLIO_DATA.personal.linktree}
             target="_blank"
             rel="noreferrer"
-            className="p-2 rounded-xl text-zinc-400 hover:text-emerald-400 hover:bg-zinc-800/80 border border-transparent hover:border-white/10 transition-all"
+            className="w-8 h-8 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-emerald-500/40 flex items-center justify-center p-1.5 transition-all shadow-sm hover:scale-110 active:scale-95 group"
             title="Linktree"
           >
-            <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-              <path d="m13.736 5.853 4.005-4.117 2.325 2.38-4.117 4.005h5.908v3.305h-5.937l4.146 4.146-2.325 2.38-4.005-4.117v6.17h-3.472v-6.17l-4.005 4.117-2.325-2.38 4.146-4.146H2.147V8.121h5.908L3.938 4.116l2.325-2.38 4.005 4.117V0h3.468v5.853z"/>
-            </svg>
+            <img src="/icons/linktree.png" alt="Linktree" className="w-full h-full object-contain rounded-[3px]" />
           </a>
         </div>
 
@@ -121,13 +119,14 @@ export const Navbar: React.FC = () => {
             href={PORTFOLIO_DATA.personal.github}
             target="_blank"
             rel="noreferrer"
-            className="p-2 text-zinc-400 hover:text-white"
+            className="w-7 h-7 rounded-lg bg-zinc-900 border border-white/10 flex items-center justify-center p-1"
           >
-            <Github className="w-4 h-4" />
+            <img src="/icons/github.png" alt="GitHub" className="w-full h-full object-contain" />
           </a>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 rounded-lg text-zinc-400 hover:text-white"
+            aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -181,16 +180,16 @@ export const Navbar: React.FC = () => {
           </a>
 
           <div className="pt-3 border-t border-white/10 flex items-center gap-4 text-zinc-400">
-            <a href={PORTFOLIO_DATA.personal.github} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs hover:text-white">
-              <Github className="w-3.5 h-3.5" />
+            <a href={PORTFOLIO_DATA.personal.github} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs hover:text-white">
+              <img src="/icons/github.png" alt="GitHub" className="w-4 h-4 object-contain" />
               <span>GitHub</span>
             </a>
-            <a href={PORTFOLIO_DATA.personal.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs hover:text-sky-400">
-              <Linkedin className="w-3.5 h-3.5" />
+            <a href={PORTFOLIO_DATA.personal.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs hover:text-sky-400">
+              <img src="/icons/linkedin.png" alt="LinkedIn" className="w-4 h-4 object-contain rounded-[2px]" />
               <span>LinkedIn</span>
             </a>
-            <a href={PORTFOLIO_DATA.personal.linktree} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs hover:text-emerald-400">
-              <span className="font-bold">🌳</span>
+            <a href={PORTFOLIO_DATA.personal.linktree} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-xs hover:text-emerald-400">
+              <img src="/icons/linktree.png" alt="Linktree" className="w-4 h-4 object-contain rounded-[3px]" />
               <span>Linktree</span>
             </a>
           </div>

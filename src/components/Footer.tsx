@@ -48,6 +48,37 @@ export const Footer: React.FC = () => {
           </nav>
         </div>
 
+        {/* Social Connect Matrix */}
+        <div className="flex items-center justify-center gap-3">
+          <a
+            href={PORTFOLIO_DATA.personal.github}
+            target="_blank"
+            rel="noreferrer"
+            className="w-9 h-9 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-white/30 flex items-center justify-center p-2 transition-all shadow-sm hover:scale-110 active:scale-95 group"
+            title="Parth Ahuja on GitHub"
+          >
+            <img src="/icons/github.png" alt="GitHub" className="w-full h-full object-contain" />
+          </a>
+          <a
+            href={PORTFOLIO_DATA.personal.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            className="w-9 h-9 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-sky-500/40 flex items-center justify-center p-2 transition-all shadow-sm hover:scale-110 active:scale-95 group"
+            title="Parth Ahuja on LinkedIn"
+          >
+            <img src="/icons/linkedin.png" alt="LinkedIn" className="w-full h-full object-contain rounded-[2px]" />
+          </a>
+          <a
+            href={PORTFOLIO_DATA.personal.linktree}
+            target="_blank"
+            rel="noreferrer"
+            className="w-9 h-9 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-emerald-500/40 flex items-center justify-center p-2 transition-all shadow-sm hover:scale-110 active:scale-95 group"
+            title="Parth Ahuja on Linktree"
+          >
+            <img src="/icons/linktree.png" alt="Linktree" className="w-full h-full object-contain rounded-[3px]" />
+          </a>
+        </div>
+
         {/* Bottom Center: Brand Identity & Copyright */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-6 border-t border-white/5 w-full max-w-2xl text-center">
           <a

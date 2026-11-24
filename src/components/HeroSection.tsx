@@ -119,6 +119,45 @@ export const HeroSection: React.FC = () => {
               <ArrowDown className="w-4 h-4" />
             </a>
           </motion.div>
+
+          {/* Quick Social Connect Row */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.75, duration: 0.8 }}
+            className="flex items-center gap-3 pt-4"
+          >
+            <span className="text-xs font-mono text-zinc-400 font-semibold tracking-wider uppercase">Connect:</span>
+            <div className="flex items-center gap-2">
+              <a
+                href={PORTFOLIO_DATA.personal.github}
+                target="_blank"
+                rel="noreferrer"
+                className="w-8 h-8 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-white/30 flex items-center justify-center p-1.5 transition-all shadow-sm hover:scale-110 active:scale-95 group"
+                title="GitHub Profile"
+              >
+                <img src="/icons/github.png" alt="GitHub" className="w-full h-full object-contain" />
+              </a>
+              <a
+                href={PORTFOLIO_DATA.personal.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="w-8 h-8 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-sky-500/40 flex items-center justify-center p-1.5 transition-all shadow-sm hover:scale-110 active:scale-95 group"
+                title="LinkedIn Profile"
+              >
+                <img src="/icons/linkedin.png" alt="LinkedIn" className="w-full h-full object-contain rounded-[2px]" />
+              </a>
+              <a
+                href={PORTFOLIO_DATA.personal.linktree}
+                target="_blank"
+                rel="noreferrer"
+                className="w-8 h-8 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-emerald-500/40 flex items-center justify-center p-1.5 transition-all shadow-sm hover:scale-110 active:scale-95 group"
+                title="Linktree"
+              >
+                <img src="/icons/linktree.png" alt="Linktree" className="w-full h-full object-contain rounded-[3px]" />
+              </a>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Right Side: 3D Interactive Avatar Video Card with Cursor Tilt */}
