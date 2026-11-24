@@ -21,6 +21,9 @@ export const ExperienceSection: React.FC = () => {
 
   return (
     <section id="journey" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/5 relative">
+      {/* Anchor alias to support both #journey and #experience */}
+      <span id="experience" className="absolute -top-20 pointer-events-none" />
+
       {/* Section Header */}
       <motion.div
         initial={{ opacity: 0, y: 25 }}

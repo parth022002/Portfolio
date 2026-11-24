@@ -64,7 +64,7 @@ export const Navbar: React.FC = () => {
           <a href="#evidence" className="hover:text-white transition-colors">Evidence & Skills</a>
           <a href="#certificates" className="hover:text-white transition-colors">Certificates</a>
           <a href="#research" className="hover:text-white transition-colors">Research Paper</a>
-          <a href="#experience" className="hover:text-white transition-colors">Journey</a>
+          <a href="#journey" className="hover:text-white transition-colors">Journey</a>
           <a href="#contact" className="hover:text-white transition-colors">Contact</a>
         </nav>
 
@@ -73,6 +73,7 @@ export const Navbar: React.FC = () => {
           <a href="#projects" className="hover:text-white transition-colors">Projects</a>
           <a href="#certificates" className="hover:text-white transition-colors">Certificates</a>
           <a href="#research" className="hover:text-white transition-colors">Research</a>
+          <a href="#journey" className="hover:text-white transition-colors">Journey</a>
           <a href="#contact" className="hover:text-white transition-colors">Contact</a>
         </nav>
 
@@ -165,7 +166,7 @@ export const Navbar: React.FC = () => {
             Research Paper (1)
           </a>
           <a
-            href="#experience"
+            href="#journey"
             onClick={() => setMobileMenuOpen(false)}
             className="block py-2 text-zinc-300 hover:text-white text-sm"
           >

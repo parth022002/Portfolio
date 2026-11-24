@@ -22,6 +22,9 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
 
   return (
     <section id="evidence" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/5 relative">
+      {/* Anchor alias to support both #evidence and #skills */}
+      <span id="skills" className="absolute -top-20 pointer-events-none" />
+
       <motion.div
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
