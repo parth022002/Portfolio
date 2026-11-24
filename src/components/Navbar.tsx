@@ -25,7 +25,7 @@ export const Navbar: React.FC = () => {
             className="flex items-center gap-2.5 group cursor-pointer"
             title="Go to Main / Hero Section"
           >
-            <div className="w-9 h-9 rounded-xl overflow-hidden border border-white/10 bg-zinc-900/80 flex items-center justify-center p-0.5 shadow-md shadow-sky-500/10 group-hover:border-sky-500/40 transition-all">
+            <div className="w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center transition-transform group-hover:scale-105">
               {!logoError ? (
                 <img
                   src="/logo1.png"
@@ -78,16 +78,16 @@ export const Navbar: React.FC = () => {
         </nav>
 
         {/* Right: GitHub, LinkedIn & Linktree Social Logos */}
-        <div className="hidden md:flex items-center gap-2 z-10">
+        <div className="hidden md:flex items-center gap-3.5 z-10">
           {/* GitHub Logo */}
           <a
             href={PORTFOLIO_DATA.personal.github}
             target="_blank"
             rel="noreferrer"
-            className="w-8 h-8 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-white/30 flex items-center justify-center p-1.5 transition-all shadow-sm hover:scale-110 active:scale-95 group"
+            className="flex items-center justify-center hover:scale-115 active:scale-95 transition-all duration-200 opacity-90 hover:opacity-100"
             title="GitHub Profile"
           >
-            <img src="/icons/github.png" alt="GitHub" className="w-full h-full object-contain" />
+            <img src="/icons/github.png" alt="GitHub" className="w-6 h-6 object-contain rounded-full shadow-sm" />
           </a>
 
           {/* LinkedIn Logo */}
@@ -95,10 +95,10 @@ export const Navbar: React.FC = () => {
             href={PORTFOLIO_DATA.personal.linkedin}
             target="_blank"
             rel="noreferrer"
-            className="w-8 h-8 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-sky-500/40 flex items-center justify-center p-1.5 transition-all shadow-sm hover:scale-110 active:scale-95 group"
+            className="flex items-center justify-center hover:scale-115 active:scale-95 transition-all duration-200 opacity-90 hover:opacity-100"
             title="LinkedIn Profile"
           >
-            <img src="/icons/linkedin.png" alt="LinkedIn" className="w-full h-full object-contain rounded-[2px]" />
+            <img src="/icons/linkedin.png" alt="LinkedIn" className="w-6 h-6 object-contain rounded-[4px] shadow-sm" />
           </a>
 
           {/* Linktree Logo */}
@@ -106,22 +106,23 @@ export const Navbar: React.FC = () => {
             href={PORTFOLIO_DATA.personal.linktree}
             target="_blank"
             rel="noreferrer"
-            className="w-8 h-8 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-emerald-500/40 flex items-center justify-center p-1.5 transition-all shadow-sm hover:scale-110 active:scale-95 group"
+            className="flex items-center justify-center hover:scale-115 active:scale-95 transition-all duration-200 opacity-90 hover:opacity-100"
             title="Linktree"
           >
-            <img src="/icons/linktree.png" alt="Linktree" className="w-full h-full object-contain rounded-[3px]" />
+            <img src="/icons/linktree.png" alt="Linktree" className="w-6 h-6 object-contain rounded-[5px] shadow-sm" />
           </a>
         </div>
 
         {/* Mobile menu trigger */}
-        <div className="flex md:hidden items-center gap-2 z-10">
+        <div className="flex md:hidden items-center gap-3 z-10">
           <a
             href={PORTFOLIO_DATA.personal.github}
             target="_blank"
             rel="noreferrer"
-            className="w-7 h-7 rounded-lg bg-zinc-900 border border-white/10 flex items-center justify-center p-1"
+            className="flex items-center justify-center hover:scale-110 active:scale-95 transition-transform"
+            title="GitHub"
           >
-            <img src="/icons/github.png" alt="GitHub" className="w-full h-full object-contain" />
+            <img src="/icons/github.png" alt="GitHub" className="w-6 h-6 object-contain rounded-full shadow-sm" />
           </a>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

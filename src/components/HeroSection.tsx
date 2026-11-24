@@ -128,33 +128,33 @@ export const HeroSection: React.FC = () => {
             className="flex items-center gap-3 pt-4"
           >
             <span className="text-xs font-mono text-zinc-400 font-semibold tracking-wider uppercase">Connect:</span>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               <a
                 href={PORTFOLIO_DATA.personal.github}
                 target="_blank"
                 rel="noreferrer"
-                className="w-8 h-8 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-white/30 flex items-center justify-center p-1.5 transition-all shadow-sm hover:scale-110 active:scale-95 group"
+                className="flex items-center justify-center hover:scale-115 active:scale-95 transition-all duration-200 opacity-90 hover:opacity-100"
                 title="GitHub Profile"
               >
-                <img src="/icons/github.png" alt="GitHub" className="w-full h-full object-contain" />
+                <img src="/icons/github.png" alt="GitHub" className="w-6 h-6 object-contain rounded-full shadow-sm" />
               </a>
               <a
                 href={PORTFOLIO_DATA.personal.linkedin}
                 target="_blank"
                 rel="noreferrer"
-                className="w-8 h-8 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-sky-500/40 flex items-center justify-center p-1.5 transition-all shadow-sm hover:scale-110 active:scale-95 group"
+                className="flex items-center justify-center hover:scale-115 active:scale-95 transition-all duration-200 opacity-90 hover:opacity-100"
                 title="LinkedIn Profile"
               >
-                <img src="/icons/linkedin.png" alt="LinkedIn" className="w-full h-full object-contain rounded-[2px]" />
+                <img src="/icons/linkedin.png" alt="LinkedIn" className="w-6 h-6 object-contain rounded-[4px] shadow-sm" />
               </a>
               <a
                 href={PORTFOLIO_DATA.personal.linktree}
                 target="_blank"
                 rel="noreferrer"
-                className="w-8 h-8 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/10 hover:border-emerald-500/40 flex items-center justify-center p-1.5 transition-all shadow-sm hover:scale-110 active:scale-95 group"
+                className="flex items-center justify-center hover:scale-115 active:scale-95 transition-all duration-200 opacity-90 hover:opacity-100"
                 title="Linktree"
               >
-                <img src="/icons/linktree.png" alt="Linktree" className="w-full h-full object-contain rounded-[3px]" />
+                <img src="/icons/linktree.png" alt="Linktree" className="w-6 h-6 object-contain rounded-[5px] shadow-sm" />
               </a>
             </div>
           </motion.div>
