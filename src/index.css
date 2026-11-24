@@ -12,11 +12,13 @@
     --accent-violet: #A855F7;
   }
 
-  body {
+  html, body {
     background-color: var(--bg-dark);
     color: var(--text-primary);
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
   }
 
   ::selection {

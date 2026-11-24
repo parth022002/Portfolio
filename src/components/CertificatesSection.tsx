@@ -41,12 +41,12 @@ export const CertificatesSection: React.FC = () => {
         </div>
 
         {/* Filter Pills */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {categories.map(cat => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+              className={`px-3 sm:px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-medium transition-all duration-200 ${
                 activeCategory === cat
                   ? 'bg-sky-500 text-white shadow-md shadow-sky-500/25 scale-105'
                   : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/5'
@@ -75,6 +75,8 @@ export const CertificatesSection: React.FC = () => {
               <img
                 src={cert.img}
                 alt={cert.title}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-108"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = '/hero.png';
@@ -87,7 +89,7 @@ export const CertificatesSection: React.FC = () => {
               </div>
             </div>
 
-            <div className="p-5 space-y-3">
+            <div className="p-4 sm:p-5 space-y-2.5 sm:space-y-3">
               <div className="text-[11px] font-mono text-sky-400 font-semibold">
                 {cert.issuer}
               </div>
@@ -189,9 +191,9 @@ export const CertificatesSection: React.FC = () => {
 
       {/* Certificate Lightbox Modal */}
       {selectedCert && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-3xl bg-[#090D16] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="p-4 sm:p-5 border-b border-white/10 flex items-start justify-between bg-zinc-950 gap-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">
+          <div className="relative w-full max-w-3xl bg-[#090D16] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+            <div className="p-3.5 sm:p-5 border-b border-white/10 flex items-start justify-between bg-zinc-950 gap-4">
               <div>
                 <div className="text-xs text-sky-400 font-mono font-semibold">{selectedCert.issuer}</div>
                 <h3 className="text-lg font-bold text-white">{selectedCert.title}</h3>

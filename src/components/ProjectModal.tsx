@@ -261,12 +261,34 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
       <div className="relative w-full max-w-4xl bg-[#090D16] border border-white/10 rounded-2xl sm:rounded-3xl shadow-[0_0_60px_rgba(0,0,0,0.9)] overflow-hidden my-auto max-h-[94vh] flex flex-col glow-hover">
         
         {/* 1. Modal Top Header */}
-        <div className="p-4 sm:p-6 border-b border-white/10 flex items-center justify-between gap-4 bg-zinc-950/80 backdrop-blur-md flex-shrink-0">
+        <div className="p-3.5 sm:p-6 border-b border-white/10 flex items-start sm:items-center justify-between gap-3 sm:gap-4 bg-zinc-950/80 backdrop-blur-md flex-shrink-0">
           <div>
-            <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-400 mb-1.5 font-mono">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-zinc-400 mb-1.5 font-mono">
               <span className="px-2 py-0.5 rounded-md bg-sky-950/80 text-sky-400 font-bold border border-sky-500/30">
                 PROJECT {project.number}
               </span>
+              {project.importanceLevel && (
+                <span className={`px-2 py-0.5 rounded-md font-bold border ${
+                  project.importanceLevel === 'Level 1'
+                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 shadow-sm shadow-amber-500/20'
+                    : project.importanceLevel === 'Level 2'
+                    ? 'bg-sky-500/20 text-sky-300 border-sky-500/30'
+                    : project.importanceLevel === 'Level 3'
+                    ? 'bg-purple-500/20 text-purple-300 border-purple-500/30'
+                    : 'bg-zinc-800 text-zinc-300 border-white/10'
+                }`}>
+                  {project.importanceLevel}
+                </span>
+              )}
+              {project.projectType && (
+                <span className={`px-2 py-0.5 rounded-md font-semibold border ${
+                  project.projectType === 'ACADEMIC'
+                    ? 'bg-indigo-950/80 text-indigo-300 border-indigo-500/30'
+                    : 'bg-zinc-900/80 text-zinc-400 border-white/10'
+                }`}>
+                  {project.projectType}
+                </span>
+              )}
               <span>/</span>
               <span className="text-zinc-300 font-medium">{project.category}</span>
               <span>/</span>
@@ -276,7 +298,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               </span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight">
               {project.title}
             </h2>
             <p className="text-xs sm:text-sm text-zinc-400 mt-1 max-w-xl">
@@ -338,7 +360,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
         </div>
 
         {/* 3. Scrollable Body Content */}
-        <div ref={scrollContainerRef} className="p-4 sm:p-6 overflow-y-auto space-y-8 flex-1 text-sm text-zinc-300">
+        <div ref={scrollContainerRef} className="p-3.5 sm:p-6 overflow-y-auto space-y-6 sm:space-y-8 flex-1 text-xs sm:text-sm text-zinc-300">
           
           {/* A. AUTOMATIC HORIZONTAL SLIDESHOW WITH SMOOTH PROGRESS BAR */}
           <div className="space-y-3">
@@ -442,6 +464,45 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                     title={`Slide ${idx + 1}`}
                   />
                 ))}
+              </div>
+            )}
+
+            {/* Interactive Thumbnail Gallery Strip Showing All Photos in Feature Project */}
+            {images.length > 1 && (
+              <div className="pt-2">
+                <div className="flex items-center justify-between mb-2 text-xs font-mono text-zinc-400">
+                  <span className="flex items-center gap-1.5 text-zinc-300 font-semibold">
+                    <Layers className="w-3.5 h-3.5 text-sky-400" />
+                    <span>Project Gallery ({images.length} Photos)</span>
+                  </span>
+                  <span className="text-[11px] text-zinc-500">Click any photo to inspect</span>
+                </div>
+                <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-white/10">
+                  {images.map((thumbUrl, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => goToSlide(idx)}
+                      className={`relative flex-shrink-0 w-20 sm:w-24 aspect-[16/10] rounded-xl overflow-hidden border transition-all duration-200 group/thumb ${
+                        currentSlide === idx
+                          ? 'ring-2 ring-sky-400 border-transparent scale-105 shadow-md shadow-sky-500/25'
+                          : 'border-white/10 hover:border-sky-400/50 opacity-60 hover:opacity-100'
+                      }`}
+                      title={`View photo ${idx + 1}: ${captions[idx] || ''}`}
+                    >
+                      <img
+                        src={thumbUrl}
+                        alt={`Thumbnail ${idx + 1}`}
+                        className="w-full h-full object-cover object-top"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = '/hero.png';
+                        }}
+                      />
+                      <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-black/80 text-white/90">
+                        {idx + 1}
+                      </span>
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -632,15 +693,15 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
         </div>
 
         {/* 4. MODAL FOOTER: ACTION BUTTONS (Live Project, GitHub, LinkedIn, Ask AI) */}
-        <div className="p-4 sm:p-6 border-t border-white/10 bg-zinc-950/90 backdrop-blur-md flex flex-wrap items-center justify-between gap-3 text-xs flex-shrink-0">
-          <div className="flex flex-wrap items-center gap-2.5">
+        <div className="p-3.5 sm:p-6 border-t border-white/10 bg-zinc-950/90 backdrop-blur-md flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 text-xs flex-shrink-0">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
             {/* 1. Live Project Button */}
             {project.liveUrl ? (
               <a
                 href={project.liveUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-semibold transition-all flex items-center gap-2 shadow-lg shadow-sky-500/25 hover:scale-102"
+                className="px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-semibold transition-all flex items-center justify-center gap-2 shadow-lg shadow-sky-500/25 hover:scale-102"
                 title="Open Deployed Live Project"
               >
                 <BrowserRedirectIcon className="w-4 h-4" />
@@ -648,7 +709,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               </a>
             ) : (
               <span
-                className="px-4 py-2.5 rounded-xl bg-zinc-900 text-zinc-500 border border-white/5 flex items-center gap-2 cursor-not-allowed"
+                className="px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-zinc-900 text-zinc-500 border border-white/5 flex items-center justify-center gap-2 cursor-not-allowed"
                 title="Deployment staging in progress"
               >
                 <BrowserRedirectIcon className="w-4 h-4 opacity-40" />
@@ -661,7 +722,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               href={githubUrl}
               target="_blank"
               rel="noreferrer"
-              className="px-4 py-2.5 rounded-xl bg-zinc-800/90 hover:bg-zinc-700 text-zinc-100 font-semibold transition-all flex items-center gap-2 border border-white/10 hover:border-sky-500/40 hover:scale-102 shadow-sm"
+              className="px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-zinc-800/90 hover:bg-zinc-700 text-zinc-100 font-semibold transition-all flex items-center justify-center gap-2 border border-white/10 hover:border-sky-500/40 hover:scale-102 shadow-sm"
               title="View GitHub Repository"
             >
               <Github className="w-4 h-4" />
@@ -673,7 +734,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               href={linkedinUrl}
               target="_blank"
               rel="noreferrer"
-              className="px-4 py-2.5 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/35 text-[#70B5F9] border border-[#0A66C2]/50 font-semibold transition-all flex items-center gap-2 hover:scale-102 shadow-sm"
+              className="px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-[#0A66C2]/20 hover:bg-[#0A66C2]/35 text-[#70B5F9] border border-[#0A66C2]/50 font-semibold transition-all flex items-center justify-center gap-2 hover:scale-102 shadow-sm"
               title="View LinkedIn Profile"
             >
               <Linkedin className="w-4 h-4 text-[#0A66C2]" />
@@ -687,11 +748,11 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               onClose();
               onOpenAIWithProject(project);
             }}
-            className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white border border-violet-400/30 font-semibold transition-all flex items-center gap-2 shadow-lg shadow-violet-500/25 hover:scale-102 ml-auto"
+            className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white border border-violet-400/30 font-semibold transition-all flex items-center justify-center gap-2 shadow-lg shadow-violet-500/25 hover:scale-102 sm:ml-auto"
             title="Launch AI Copilot with deep project context"
           >
             <Sparkles className="w-4 h-4 text-violet-200" />
-            <span>Ask AI About {project.title}</span>
+            <span className="truncate">Ask AI About {project.title}</span>
           </button>
         </div>
       </div>

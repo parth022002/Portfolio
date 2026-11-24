@@ -150,7 +150,7 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
         </div>
 
         {/* Category Pills (Cleanly wrapped on all screen sizes, no cut-off!) */}
-        <div className="flex flex-wrap items-center justify-center gap-2 max-w-4xl">
+        <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 max-w-4xl">
           {categories.map((cat) => {
             const isActive = activeCategory === cat.id && !searchQuery;
             return (
@@ -160,7 +160,7 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
                   setActiveCategory(cat.id);
                   setSearchQuery("");
                 }}
-                className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-semibold transition-all duration-200 cursor-pointer ${
                   isActive
                     ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/25 scale-105'
                     : 'bg-zinc-900/80 hover:bg-zinc-800 text-zinc-400 hover:text-white border border-white/5 hover:border-white/15'
@@ -183,7 +183,7 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
           transition={{ duration: 0.6 }}
           className="lg:col-span-7 flex flex-col h-full"
         >
-          <div className="p-6 rounded-2xl bg-zinc-900/30 border border-white/5 backdrop-blur-sm flex flex-col justify-between h-full flex-1">
+          <div className="p-4 sm:p-6 rounded-2xl bg-zinc-900/30 border border-white/5 backdrop-blur-sm flex flex-col justify-between h-full flex-1">
             <div className="space-y-4">
               <div className="flex items-center justify-between pb-3.5 border-b border-white/5 text-xs text-zinc-400">
                 <span className="font-mono text-[11px] uppercase tracking-wider font-semibold text-zinc-300">
@@ -258,7 +258,7 @@ export const SkillsEvidenceSection: React.FC<SkillsEvidenceSectionProps> = ({
           transition={{ duration: 0.6 }}
           className="lg:col-span-5 flex flex-col h-full"
         >
-          <div className="p-6 sm:p-7 rounded-2xl bg-gradient-to-b from-[#0C1220] to-[#090D17] border border-sky-500/30 shadow-2xl flex flex-col justify-between h-full flex-1 space-y-6 backdrop-blur-md">
+          <div className="p-4 sm:p-6 md:p-7 rounded-2xl bg-gradient-to-b from-[#0C1220] to-[#090D17] border border-sky-500/30 shadow-2xl flex flex-col justify-between h-full flex-1 space-y-5 sm:space-y-6 backdrop-blur-md">
             <div className="space-y-6">
               {/* Inspector Header */}
               <div className="pb-4 border-b border-white/10 space-y-2">

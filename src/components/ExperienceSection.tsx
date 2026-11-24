@@ -62,7 +62,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
         className="relative flex flex-col md:flex-row items-center justify-between w-full group mb-12 sm:mb-16 last:mb-0"
       >
         {/* Central Glowing Concentric Ring Node */}
-        <div className="absolute left-4 md:left-1/2 -translate-x-1/2 z-20 flex items-center justify-center top-7 md:top-8 -translate-y-1/2">
+        <div className="absolute left-3.5 sm:left-4 md:left-1/2 -translate-x-1/2 z-20 flex items-center justify-center top-7 md:top-8 -translate-y-1/2">
           <motion.div
             whileHover={{ scale: 1.25 }}
             className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full border-2 ${
@@ -79,7 +79,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
 
         {/* Left Slot (Even items on desktop) & Main Slot on Mobile */}
         <div
-          className={`w-full md:w-[45%] pl-12 md:pl-0 ${
+          className={`w-full md:w-[45%] pl-10 sm:pl-12 md:pl-0 ${
             isEven ? 'md:mr-auto md:block' : 'md:hidden'
           }`}
         >
@@ -88,7 +88,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.5, delay: index * 0.05 }}
-            className={`relative p-6 sm:p-7 rounded-2xl bg-[#090E17]/85 border border-white/10 ${borderHover} transition-all duration-300 shadow-xl backdrop-blur-md ${glowShadow}`}
+            className={`relative p-4 sm:p-6 md:p-7 rounded-2xl bg-[#090E17]/85 border border-white/10 ${borderHover} transition-all duration-300 shadow-xl backdrop-blur-md ${glowShadow}`}
           >
             {/* Desktop Connector Arm to Central Stem */}
             <div
@@ -212,7 +212,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.5, delay: index * 0.05 }}
-              className={`relative p-6 sm:p-7 rounded-2xl bg-[#090E17]/85 border border-white/10 ${borderHover} transition-all duration-300 shadow-xl backdrop-blur-md ${glowShadow}`}
+              className={`relative p-4 sm:p-6 md:p-7 rounded-2xl bg-[#090E17]/85 border border-white/10 ${borderHover} transition-all duration-300 shadow-xl backdrop-blur-md ${glowShadow}`}
             >
               {/* Desktop Connector Arm to Central Stem */}
               <div
@@ -357,10 +357,10 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
         </p>
 
         {/* Minimalist Segmented Control Pill Bar */}
-        <div className="inline-flex items-center p-1 rounded-full bg-zinc-900/90 border border-white/10 mt-8 shadow-inner backdrop-blur-md">
+        <div className="inline-flex flex-wrap sm:flex-nowrap items-center justify-center p-1 rounded-2xl sm:rounded-full bg-zinc-900/90 border border-white/10 mt-8 shadow-inner backdrop-blur-md max-w-full gap-1 sm:gap-0">
           <button
             onClick={() => setActiveTab('experience')}
-            className={`px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 flex items-center gap-2 cursor-pointer ${
+            className={`px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 sm:gap-2 cursor-pointer ${
               activeTab === 'experience'
                 ? 'bg-rose-500 text-white shadow-lg shadow-rose-500/30'
                 : 'text-zinc-400 hover:text-white'
@@ -371,7 +371,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
           </button>
           <button
             onClick={() => setActiveTab('education')}
-            className={`px-5 py-2 rounded-full text-xs font-semibold transition-all duration-200 flex items-center gap-2 cursor-pointer ${
+            className={`px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 sm:gap-2 cursor-pointer ${
               activeTab === 'education'
                 ? 'bg-sky-500 text-white shadow-lg shadow-sky-500/30'
                 : 'text-zinc-400 hover:text-white'
@@ -382,7 +382,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
           </button>
           <button
             onClick={() => setActiveTab('all')}
-            className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
               activeTab === 'all'
                 ? 'bg-zinc-800 text-white shadow-md'
                 : 'text-zinc-400 hover:text-white'
@@ -398,7 +398,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({
       <div className="relative max-w-5xl mx-auto py-4">
         {/* Central Vertical Glowing Line */}
         <div
-          className={`absolute left-4 md:left-1/2 -translate-x-1/2 top-4 bottom-4 w-[2px] ${
+          className={`absolute left-3.5 sm:left-4 md:left-1/2 -translate-x-1/2 top-4 bottom-4 w-[2px] ${
             activeTab === 'education'
               ? 'bg-gradient-to-b from-sky-500 via-sky-400 to-sky-600/40 shadow-[0_0_12px_rgba(56,189,248,0.5)]'
               : 'bg-gradient-to-b from-rose-500 via-sky-400 to-emerald-500/60 shadow-[0_0_12px_rgba(251,113,133,0.5)]'

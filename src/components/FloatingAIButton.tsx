@@ -24,7 +24,7 @@ export const FloatingAIButton: React.FC<FloatingAIButtonProps> = ({ onClick }) =
   }, []);
 
   return (
-    <div className="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end gap-2.5 pointer-events-none">
+    <div className="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col items-end gap-2.5 pointer-events-none max-w-[calc(100vw-2rem)]">
       {/* Speech Bubble Prompt Callout */}
       <motion.div
         initial={{ opacity: 0, y: 12, scale: 0.92 }}
@@ -43,7 +43,7 @@ export const FloatingAIButton: React.FC<FloatingAIButtonProps> = ({ onClick }) =
           <MessageSquare className="w-3.5 h-3.5 text-sky-400 shrink-0" />
 
           {/* Prompt text rotation with smooth fade */}
-          <div className="h-4 overflow-hidden relative min-w-[210px] sm:min-w-[260px] text-left">
+          <div className="h-4 overflow-hidden relative min-w-[170px] xs:min-w-[210px] sm:min-w-[260px] text-left">
             <AnimatePresence mode="wait">
               <motion.span
                 key={promptIndex}

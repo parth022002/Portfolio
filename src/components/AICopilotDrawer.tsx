@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Sparkles, Send, Bot, User, FileText, ArrowRight, ExternalLink, RefreshCw } from 'lucide-react';
+import { X, Sparkles, Send, Bot, User, FileText, ArrowRight, ExternalLink, RefreshCw, ShieldCheck } from 'lucide-react';
 import { Project } from '../data/portfolioData';
-import { getGroundedCopilotAnswer } from '../data/copilotKnowledge';
+import { askParthCopilot, ChatMessage } from '../services/aiService';
 
 interface AICopilotDrawerProps {
   isOpen: boolean;
@@ -14,6 +14,7 @@ interface Message {
   text: string;
   sourceLink?: { label: string; url: string };
   suggestedFollowUps?: string[];
+  providerUsed?: string;
 }
 
 export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
@@ -28,8 +29,8 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
     {
       sender: 'ai',
       text: preloadedProject
-        ? `Hello! I'm Parth's portfolio copilot. What would you like to know about **${preloadedProject.title}**? I can explain its AI architecture, business impact, tech stack, or ROI metrics.`
-        : "Hello! I'm Parth Ahuja's AI Portfolio Assistant. I'm strictly grounded in Parth's verified projects, 3 internships, Business Analytics degree at JAGSoM, and 49+ certifications. What would you like to know about his work?",
+        ? `Hello! I am Parth's Agentic RAG Copilot. What would you like to know about **${preloadedProject.title}**? I have indexed its full architecture, multi-tier BOM calculations, business impact, and code repository.`
+        : "Hello! I am Parth Ahuja's Agentic RAG Copilot. I am strictly grounded in Parth's 29 verified engineering systems, his empirical FinTech research paper on AI advisory adoption, JAGSoM Business Analytics education, and 49+ certifications.\n\nAsk me anything about his technical architectures, algorithms, research findings, or hiring availability!",
       suggestedFollowUps: preloadedProject
         ? [
             `What is the business impact of ${preloadedProject.title}?`,
@@ -37,10 +38,10 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
             'What other projects has Parth built?'
           ]
         : [
-            'Tell me about ProctorShield & AI',
-            'What is Parth’s Business Analytics background?',
-            'Tell me about his OASIS Infobyte internship',
-            'What are his key skills & certifications?'
+            'Tell me about ProcuraX & Agentic AI',
+            'Explain his AI Advisory research paper findings',
+            'Tell me about ProctorShield & Computer Vision',
+            'Why hire Parth as a Full-Stack AI Engineer?'
           ]
     }
   ]);
@@ -62,14 +63,14 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
   } | null>(null);
 
   const initialQuickPrompts = [
-    'Tell me about ProctorShield',
-    'What is his Business Analytics background?',
+    'Tell me about ProcuraX',
+    'Explain his AI Advisory research paper',
+    'Tell me about ProctorShield & CV',
     'What did he do at OASIS Infobyte?',
-    'What are his core technical skills?',
-    'How can I contact Parth?'
+    'Why hire Parth as an AI Engineer?'
   ];
 
-  const handleSend = (textToSend?: string) => {
+  const handleSend = async (textToSend?: string) => {
     const q = textToSend || input;
     if (!q.trim()) return;
 
@@ -78,20 +79,43 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
     if (!textToSend) setInput('');
     setIsTyping(true);
 
-    // Grounded knowledge matching
-    setTimeout(() => {
-      const response = getGroundedCopilotAnswer(q, preloadedProject);
+    try {
+      const history: ChatMessage[] = messages
+        .slice(-4)
+        .map((m) => ({
+          role: m.sender === 'user' ? 'user' : 'assistant',
+          content: m.text
+        }));
+
+      const result = await askParthCopilot({
+        query: q,
+        chatHistory: history,
+        preloadedProject
+      });
+
       setMessages((prev) => [
         ...prev,
         {
           sender: 'ai',
-          text: response.text,
-          sourceLink: response.sourceLink,
-          suggestedFollowUps: response.suggestedFollowUps
+          text: result.text,
+          sourceLink: result.sourceLink,
+          suggestedFollowUps: result.suggestedFollowUps,
+          providerUsed: result.providerUsed
         }
       ]);
+    } catch (err) {
+      console.error('RAG Copilot execution error:', err);
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: 'ai',
+          text: "I encountered an issue retrieving that information. You can ask directly about Parth's projects (ProcuraX, MarketScope, ProctorShield), his research paper, or his technical skills.",
+          suggestedFollowUps: ['Tell me about ProcuraX', 'What are his core skills?']
+        }
+      ]);
+    } finally {
       setIsTyping(false);
-    }, 350);
+    }
   };
 
   const handleAnalyzeJD = () => {
@@ -159,7 +183,14 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
   };
 
   return (
-    <div className="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-[#090D16] border-l border-white/10 shadow-2xl flex flex-col animate-slide-left">
+    <>
+      {/* Tap-to-close Backdrop Scrim on Mobile and Tablet */}
+      <div
+        className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity"
+        onClick={onClose}
+      />
+
+      <div className="fixed inset-y-0 right-0 z-50 w-full sm:max-w-md bg-[#090D16] border-l border-white/10 shadow-2xl flex flex-col animate-slide-left">
       {/* Header */}
       <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between bg-zinc-950">
         <div className="flex items-center gap-2.5">
@@ -171,7 +202,10 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
               <span>Parth AI Copilot</span>
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
             </h3>
-            <span className="text-[11px] text-zinc-400 font-mono">Grounded Knowledge Agent</span>
+            <span className="text-[11px] text-zinc-400 font-mono flex items-center gap-1">
+              <ShieldCheck className="w-3 h-3 text-sky-400" />
+              <span>Agentic RAG • Grounded Corpus</span>
+            </span>
           </div>
         </div>
 
@@ -386,5 +420,6 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
         </div>
       )}
     </div>
-  );
+  </>
+);
 };

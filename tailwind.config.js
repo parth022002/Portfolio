@@ -7,6 +7,9 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      screens: {
+        'xs': '380px',
+      },
       colors: {
         obsidian: '#07090E',
         midnight: '#0C101A',

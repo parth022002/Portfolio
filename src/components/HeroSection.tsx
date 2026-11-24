@@ -154,7 +154,7 @@ export const HeroSection: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.12]"
+            className="text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.12]"
           >
             Turning{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-indigo-300 to-emerald-400">
@@ -178,11 +178,11 @@ export const HeroSection: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="flex flex-wrap items-center gap-3.5 pt-1"
+            className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 pt-1 w-full sm:w-auto"
           >
             <a
               href="#contact"
-              className="px-6 py-3 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-sky-500/25 flex items-center gap-2 hover:scale-105 active:scale-95"
+              className="px-6 py-3.5 sm:py-3 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2 hover:scale-105 active:scale-95 text-center min-h-[44px]"
             >
               <Mail className="w-4 h-4" />
               <span>Contact Me</span>
@@ -192,7 +192,7 @@ export const HeroSection: React.FC = () => {
               href="/resume.pdf"
               target="_blank"
               rel="noreferrer"
-              className="px-6 py-3 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 hover:text-white border border-white/10 font-semibold text-sm transition-all duration-300 flex items-center gap-2 backdrop-blur-md hover:scale-105 active:scale-95"
+              className="px-6 py-3.5 sm:py-3 rounded-xl bg-zinc-900/90 hover:bg-zinc-800 text-zinc-200 hover:text-white border border-white/10 font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2 backdrop-blur-md hover:scale-105 active:scale-95 text-center min-h-[44px]"
             >
               <Download className="w-4 h-4 text-zinc-400" />
               <span>View Résumé</span>
@@ -200,7 +200,7 @@ export const HeroSection: React.FC = () => {
 
             <a
               href="#projects"
-              className="px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/5 font-semibold text-sm transition-all duration-300 flex items-center gap-2 hover:scale-105 active:scale-95"
+              className="px-6 py-3.5 sm:py-3 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/5 font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105 active:scale-95 text-center min-h-[44px]"
             >
               <span>See My Work</span>
               <ArrowDown className="w-4 h-4" />
@@ -271,7 +271,7 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, scale: 0.92, x: 35 }}
           animate={{ opacity: 1, scale: 1, x: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
-          className="lg:col-span-5"
+          className="lg:col-span-5 w-full max-w-lg mx-auto lg:max-w-none"
           style={{ perspective: 1200 }}
         >
           <div
@@ -314,6 +314,7 @@ export const HeroSection: React.FC = () => {
                 loop
                 muted={isMuted}
                 playsInline
+                preload="metadata"
                 className="w-full h-full object-cover"
                 poster="/hero.png"
               />
@@ -369,19 +370,19 @@ export const HeroSection: React.FC = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16 pt-8 border-t border-white/10 max-w-5xl mx-auto w-full"
+        className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-12 sm:mt-16 pt-8 border-t border-white/10 max-w-5xl mx-auto w-full"
       >
         {PORTFOLIO_DATA.personal.stats.map((stat, idx) => (
           <motion.div
             key={idx}
             whileHover={{ y: -4, scale: 1.02 }}
             transition={{ duration: 0.2 }}
-            className="p-4 rounded-xl bg-zinc-900/40 border border-white/5 backdrop-blur-sm text-center hover:border-sky-500/30 transition-all duration-300"
+            className="p-3 sm:p-4 rounded-xl bg-zinc-900/40 border border-white/5 backdrop-blur-sm text-center hover:border-sky-500/30 transition-all duration-300"
           >
-            <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-sky-400 font-mono mb-1">
+            <div className="text-xl sm:text-3xl font-extrabold tracking-tight text-sky-400 font-mono mb-1">
               {stat.value}
             </div>
-            <div className="text-xs text-zinc-400 font-medium">
+            <div className="text-[11px] sm:text-xs text-zinc-400 font-medium">
               {stat.label}
             </div>
           </motion.div>

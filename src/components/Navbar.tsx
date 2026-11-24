@@ -36,8 +36,9 @@ export const Navbar: React.FC = () => {
                 Parth Ahuja
               </span>
               <div className="flex items-center gap-1.5 text-[10px] text-zinc-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>Open for Opportunities</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+                <span className="hidden xs:inline">Open for Opportunities</span>
+                <span className="xs:hidden">Available</span>
               </div>
             </div>
           </a>
@@ -120,15 +121,23 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
+      {/* Mobile backdrop */}
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[-1] md:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Mobile dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-white/10 bg-[#0A0E17]/98 px-6 pt-3 pb-6 space-y-3">
+        <div className="md:hidden border-b border-white/10 bg-[#0A0E17]/98 px-6 pt-3 pb-6 space-y-3 relative z-10 shadow-2xl">
           <a
             href="#projects"
             onClick={() => setMobileMenuOpen(false)}
             className="block py-2 text-zinc-300 hover:text-white text-sm"
           >
-            Projects (14+)
+            Projects (29 Systems)
           </a>
           <a
             href="#evidence"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { ScrollProgress } from './components/ScrollProgress';
 import { StarfieldCanvas } from './components/StarfieldCanvas';
 import { CursorSpotlight } from './components/CursorSpotlight';
@@ -8,16 +8,22 @@ import { TechMarquee } from './components/TechMarquee';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { ProjectsSection } from './components/ProjectsSection';
-import { ProjectModal } from './components/ProjectModal';
 import { SkillsEvidenceSection } from './components/SkillsEvidenceSection';
 import { CertificatesSection } from './components/CertificatesSection';
 import { ResearchSection } from './components/ResearchSection';
 import { ExperienceSection } from './components/ExperienceSection';
 import { ContactSection } from './components/ContactSection';
-import { AICopilotDrawer } from './components/AICopilotDrawer';
 import { FloatingAIButton } from './components/FloatingAIButton';
 import { Footer } from './components/Footer';
 import { PORTFOLIO_DATA, Project } from './data/portfolioData';
+
+// Asynchronously split heavy interactive modals and drawers to reduce initial page bundle
+const ProjectModal = lazy(() =>
+  import('./components/ProjectModal').then((m) => ({ default: m.ProjectModal }))
+);
+const AICopilotDrawer = lazy(() =>
+  import('./components/AICopilotDrawer').then((m) => ({ default: m.AICopilotDrawer }))
+);
 
 export const App: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -34,7 +40,7 @@ export const App: React.FC = () => {
   };
 
   const handleSelectProjectById = (id: string) => {
-    const p = PORTFOLIO_DATA.projects.find(item => item.id === id);
+    const p = PORTFOLIO_DATA.projects.find((item) => item.id === id);
     if (p) {
       setSelectedProject(p);
     }
@@ -48,46 +54,40 @@ export const App: React.FC = () => {
       {/* 2. 3D Cosmic Starlight, Tech Flares & Star Breaks */}
       <StarfieldCanvas />
 
-      {/* 3. Ambient Aurora Mesh Gradients & Tactile Grain (From Reference) */}
+      {/* 3. Ambient Aurora Mesh Gradients & Tactile Grain */}
       <AmbientBackground />
 
-      {/* 3. Ambient Cursor Glow & Interactive Custom Follower */}
+      {/* 4. Ambient Cursor Glow & Interactive Custom Follower */}
       <CursorSpotlight />
       <CustomCursor />
 
-      {/* 4. Header Navigation with logo1, centered links, and right social icons */}
+      {/* 5. Header Navigation with logo, centered links, and right social icons */}
       <Navbar />
 
       {/* Main Page Content */}
       <main className="pt-16 relative z-10">
-        {/* 5. Infinite Animated Capabilities, Job Profiles & Projects Ticker (Below Navbar) */}
+        {/* 6. Infinite Animated Capabilities, Job Profiles & Projects Ticker */}
         <TechMarquee />
 
-        {/* 6. Hero Section: Left Animated Story + Right 3D Tilt Avatar Video */}
+        {/* 7. Hero Section: Left Animated Story + Right 3D Tilt Avatar Video */}
         <HeroSection />
 
-        {/* 7. Deep Case Study Projects Grid with Scroll Reveal */}
-        <ProjectsSection
-          onSelectProject={(project) => setSelectedProject(project)}
-        />
+        {/* 8. Deep Case Study Projects Grid with Scroll Reveal */}
+        <ProjectsSection onSelectProject={(project) => setSelectedProject(project)} />
 
-        {/* 8. Skills & Verifiable Evidence Constellation */}
-        <SkillsEvidenceSection
-          onSelectProjectById={handleSelectProjectById}
-        />
+        {/* 9. Skills & Verifiable Evidence Constellation */}
+        <SkillsEvidenceSection onSelectProjectById={handleSelectProjectById} />
 
-        {/* 9. 49+ Verified Certificates Wall */}
+        {/* 10. Verified Certificates Wall */}
         <CertificatesSection />
 
-        {/* 10. Career & Academic Trajectory (Journey Section) */}
+        {/* 11. Career & Academic Trajectory (Journey Section) */}
         <ExperienceSection onSelectProjectById={handleSelectProjectById} />
 
-        {/* 11. Research & Technical Papers (Research Section) */}
-        <ResearchSection
-          onSelectProjectById={handleSelectProjectById}
-        />
+        {/* 12. Research & Technical Papers (Research Section) */}
+        <ResearchSection onSelectProjectById={handleSelectProjectById} />
 
-        {/* 12. Direct Contact Hub & Inquiry Form */}
+        {/* 13. Direct Contact Hub & Inquiry Form */}
         <ContactSection />
       </main>
 
@@ -97,19 +97,27 @@ export const App: React.FC = () => {
       {/* Floating AI Button at Bottom-Right */}
       <FloatingAIButton onClick={() => handleOpenAI()} />
 
-      {/* Deep Project Detail & Video Case Study Modal */}
-      <ProjectModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-        onOpenAIWithProject={(p) => handleOpenAI(p)}
-      />
+      {/* Lazily Loaded Deep Project Detail & Case Study Modal */}
+      {selectedProject && (
+        <Suspense fallback={null}>
+          <ProjectModal
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+            onOpenAIWithProject={(p) => handleOpenAI(p)}
+          />
+        </Suspense>
+      )}
 
-      {/* Grounded AI Assistant & JD Matcher Drawer */}
-      <AICopilotDrawer
-        isOpen={isAiOpen}
-        onClose={() => setIsAiOpen(false)}
-        preloadedProject={preloadedAiProject}
-      />
+      {/* Lazily Loaded Grounded AI Assistant & JD Matcher Drawer */}
+      {isAiOpen && (
+        <Suspense fallback={null}>
+          <AICopilotDrawer
+            isOpen={isAiOpen}
+            onClose={() => setIsAiOpen(false)}
+            preloadedProject={preloadedAiProject}
+          />
+        </Suspense>
+      )}
     </div>
   );
 };
