@@ -30,13 +30,13 @@ export const CertificatesSection: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-white/10 text-xs font-semibold text-zinc-400 mb-3">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Verified Credentials (16+)</span>
+            <span>Verified Credentials (49+)</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-emerald-400">Certifications</span>
           </h2>
           <p className="text-zinc-400 text-sm sm:text-base mt-2 max-w-xl">
-            Credentials awarded by Microsoft, LinkedIn, Google, Tata, and HackerRank validating practical capabilities in Generative AI, Data Analytics, and Software Architecture.
+            Credentials awarded by Google, Amazon, Microsoft, LinkedIn, Tata, HackerRank, Oracle, NVIDIA, and McKinsey validating practical capabilities in Generative AI, Data Analytics, Cloud Infrastructure, and Product Management.
           </p>
         </div>
 
@@ -150,7 +150,7 @@ export const CertificatesSection: React.FC = () => {
                   Show More Credentials
                 </h3>
                 <p className="text-xs text-zinc-400 mt-2 max-w-xs leading-relaxed mx-auto">
-                  Click to inspect all {filteredCerts.length} industry credentials awarded by Microsoft, Google, Tata, and HackerRank.
+                  Click to inspect all {filteredCerts.length} industry credentials awarded by Google, Amazon, Microsoft, Tata, and HackerRank.
                 </p>
               </div>
             </div>
@@ -191,14 +191,17 @@ export const CertificatesSection: React.FC = () => {
       {selectedCert && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">
           <div className="relative w-full max-w-3xl bg-[#090D16] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between bg-zinc-950">
+            <div className="p-4 sm:p-5 border-b border-white/10 flex items-start justify-between bg-zinc-950 gap-4">
               <div>
                 <div className="text-xs text-sky-400 font-mono font-semibold">{selectedCert.issuer}</div>
                 <h3 className="text-lg font-bold text-white">{selectedCert.title}</h3>
+                {selectedCert.description && (
+                  <p className="text-xs text-zinc-400 mt-1 max-w-xl leading-relaxed">{selectedCert.description}</p>
+                )}
               </div>
               <button
                 onClick={() => setSelectedCert(null)}
-                className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white"
+                className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white flex-shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>

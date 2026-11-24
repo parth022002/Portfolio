@@ -219,25 +219,6 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
     setIsPlaying(!isPlaying);
   };
 
-  // Lock background scroll when modal is open and restore completely when closed
-  useEffect(() => {
-    if (!project) return;
-    const originalOverflow = document.body.style.overflow;
-    const originalPaddingRight = document.body.style.paddingRight;
-
-    // Compensate scrollbar width to prevent page shift
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      document.body.style.overflow = originalOverflow || '';
-      document.body.style.paddingRight = originalPaddingRight || '';
-    };
-  }, [project]);
-
   // Keyboard navigation: Left/Right arrows and Esc
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -275,15 +256,9 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
   const githubUrl = project.githubUrl || PORTFOLIO_DATA.personal.github;
 
   return (
-    <div
-      onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/85 backdrop-blur-xl animate-fade-in overflow-hidden select-none"
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto bg-black/85 backdrop-blur-xl animate-fade-in">
       {/* Modal Dialog Card */}
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-4xl bg-[#090D16] border border-white/10 rounded-2xl sm:rounded-3xl shadow-[0_0_60px_rgba(0,0,0,0.9)] overflow-hidden my-auto max-h-[94vh] flex flex-col glow-hover select-text"
-      >
+      <div className="relative w-full max-w-4xl bg-[#090D16] border border-white/10 rounded-2xl sm:rounded-3xl shadow-[0_0_60px_rgba(0,0,0,0.9)] overflow-hidden my-auto max-h-[94vh] flex flex-col glow-hover">
         
         {/* 1. Modal Top Header */}
         <div className="p-4 sm:p-6 border-b border-white/10 flex items-center justify-between gap-4 bg-zinc-950/80 backdrop-blur-md flex-shrink-0">
@@ -363,10 +338,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
         </div>
 
         {/* 3. Scrollable Body Content */}
-        <div
-          ref={scrollContainerRef}
-          className="p-4 sm:p-6 overflow-y-auto overscroll-contain space-y-8 flex-1 text-sm text-zinc-300 scroll-smooth"
-        >
+        <div ref={scrollContainerRef} className="p-4 sm:p-6 overflow-y-auto space-y-8 flex-1 text-sm text-zinc-300">
           
           {/* A. AUTOMATIC HORIZONTAL SLIDESHOW WITH SMOOTH PROGRESS BAR */}
           <div className="space-y-3">

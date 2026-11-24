@@ -76,7 +76,7 @@ export const App: React.FC = () => {
           onSelectProjectById={handleSelectProjectById}
         />
 
-        {/* 9. 16+ Verified Certificates Wall */}
+        {/* 9. 49+ Verified Certificates Wall */}
         <CertificatesSection />
 
         {/* 10. Research & Technical Papers */}

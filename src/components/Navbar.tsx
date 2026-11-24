@@ -156,7 +156,7 @@ export const Navbar: React.FC = () => {
             onClick={() => setMobileMenuOpen(false)}
             className="block py-2 text-zinc-300 hover:text-white text-sm"
           >
-            Certificates (16+)
+            Certificates (49+)
           </a>
           <a
             href="#research"

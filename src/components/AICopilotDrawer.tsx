@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { X, Sparkles, Send, Bot, User, FileText, CheckCircle2, ArrowRight } from 'lucide-react';
 import { PORTFOLIO_DATA, Project } from '../data/portfolioData';
 
@@ -19,16 +19,6 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
   onClose,
   preloadedProject
 }) => {
-  // Prevent background scroll when AI drawer is open
-  useEffect(() => {
-    if (!isOpen) return;
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = originalOverflow || '';
-    };
-  }, [isOpen]);
-
   if (!isOpen) return null;
 
   const [activeTab, setActiveTab] = useState<'chat' | 'jd-matcher'>('chat');
@@ -37,7 +27,7 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
       sender: 'ai',
       text: preloadedProject
         ? `Hello! I'm Parth's portfolio copilot. What would you like to know about ${preloadedProject.title}? I can explain its TensorFlow inference pipeline, WebRTC architecture, business impact, or code structure.`
-        : "Hello! I'm Parth Ahuja's AI Portfolio Assistant. I'm strictly grounded in Parth's verified projects, code repositories, and 16+ certifications. What would you like to discover today?"
+        : "Hello! I'm Parth Ahuja's AI Portfolio Assistant. I'm strictly grounded in Parth's verified projects, code repositories, and 49+ certifications. What would you like to discover today?"
     }
   ]);
   const [input, setInput] = useState('');
