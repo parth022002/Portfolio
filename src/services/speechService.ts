@@ -217,6 +217,9 @@ class SpeechService {
         this.synth.resume();
       }, 10000);
 
+      if (this.synth.paused) {
+        this.synth.resume();
+      }
       this.synth.speak(utterance);
     } catch (err) {
       this.isSpeakingInternal = false;

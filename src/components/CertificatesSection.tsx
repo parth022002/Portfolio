@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, ExternalLink, X, CheckCircle2, ChevronDown, ChevronUp, Plus } from 'lucide-react';
 import { PORTFOLIO_DATA, Certificate } from '../data/portfolioData';
@@ -17,6 +17,18 @@ export const CertificatesSection: React.FC = () => {
   const initialCount = 3;
   const displayedCerts = showAll ? filteredCerts : filteredCerts.slice(0, initialCount);
   const hasMore = filteredCerts.length > initialCount;
+
+  // Close certificate modal on Escape key press
+  useEffect(() => {
+    if (!selectedCert) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedCert(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedCert]);
 
   return (
     <section id="certificates" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/5 relative">
@@ -153,8 +165,14 @@ export const CertificatesSection: React.FC = () => {
 
       {/* Certificate Lightbox Modal */}
       {selectedCert && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-3xl bg-[#090D16] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+        <div
+          onClick={() => setSelectedCert(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in cursor-pointer"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-3xl bg-[#090D16] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] cursor-default"
+          >
             <div className="p-3.5 sm:p-5 border-b border-white/10 flex items-start justify-between bg-zinc-950 gap-4">
               <div>
                 <div className="text-xs text-sky-400 font-mono font-semibold">{selectedCert.issuer}</div>
