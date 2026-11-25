@@ -162,7 +162,7 @@ class SpeechService {
       }
 
       utterance.pitch = 1.0;
-      utterance.rate = 1.02; // Crisp, confident cadence
+      utterance.rate = 0.98; // Natural, conversational executive cadence
       utterance.volume = 1.0;
 
       utterance.onstart = () => {
