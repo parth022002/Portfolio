@@ -286,7 +286,7 @@ export const HeroSection: React.FC = () => {
             <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-black/90 border border-white/5 shadow-inner">
               <video
                 ref={videoRef}
-                src="/intro.mp4"
+                src="/parth%20intro.mp4"
                 autoPlay
                 loop
                 muted={isMuted}
@@ -294,7 +294,10 @@ export const HeroSection: React.FC = () => {
                 preload="metadata"
                 className="w-full h-full object-cover"
                 poster="/hero.png"
-              />
+              >
+                <source src="/parth%20intro.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
 
               {/* Sound prompt banner */}
               {showSoundPrompt && (
