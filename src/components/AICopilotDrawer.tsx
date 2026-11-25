@@ -32,19 +32,7 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
       sender: 'ai',
       text: preloadedProject
         ? `Hello! I am Parth's Agentic RAG Copilot. What would you like to know about **${preloadedProject.title}**? I have indexed its full architecture, multi-tier BOM calculations, business impact, and code repository.`
-        : "Hello! I am Parth Ahuja's Agentic RAG Copilot. I am strictly grounded in Parth's 29 verified engineering systems, his empirical FinTech research paper on AI advisory adoption, JAGSoM Business Analytics education, and 49+ certifications.\n\nAsk me anything about his technical architectures, algorithms, research findings, or hiring availability!",
-      suggestedFollowUps: preloadedProject
-        ? [
-            `What is the business impact of ${preloadedProject.title}?`,
-            `What is the tech stack of ${preloadedProject.title}?`,
-            'What other projects has Parth built?'
-          ]
-        : [
-            'Tell me about ProcuraX & Agentic AI',
-            'Explain his AI Advisory research paper findings',
-            'Tell me about ProctorShield & Computer Vision',
-            'Why hire Parth as a Full-Stack AI Engineer?'
-          ]
+        : "Hello! I am Parth Ahuja's Agentic RAG Copilot. I am strictly grounded in Parth's 29 verified engineering systems, his empirical FinTech research paper on AI advisory adoption, JAGSoM Business Analytics education, and 49+ certifications.\n\nAsk me anything about his technical architectures, algorithms, research findings, or hiring availability!"
     }
   ]);
   const [input, setInput] = useState('');
@@ -116,6 +104,11 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
       }
     });
   }, [activeSpeakingIdx]);
+
+  const handlePlayExecutivePitch = useCallback(() => {
+    const pitchText = "Hi! I am Parth Ahuja, a Full-Stack AI Engineer with an academic foundation in Business Analytics from JAGSoM. I specialize in building production-grade Agentic AI systems, enterprise RAG pipelines, and low-latency computer vision platforms like ProcuraX and ProctorShield. Across 29 verified software deployments and 49 industry certifications, I focus on scalable software architecture and measurable business impact. Feel free to ask me anything about my codebases, research, or hiring availability!";
+    handleSpeakMessage(pitchText, -1);
+  }, [handleSpeakMessage]);
 
   // JD Matcher State
   const [jdText, setJdText] = useState('');
@@ -419,21 +412,6 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
                     </div>
                   </div>
                 </div>
-
-                {/* Follow-up question chips */}
-                {m.sender === 'ai' && m.suggestedFollowUps && m.suggestedFollowUps.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 pl-8 pt-1">
-                    {m.suggestedFollowUps.map((prompt, pIdx) => (
-                      <button
-                        key={pIdx}
-                        onClick={() => handleSend(prompt)}
-                        className="px-2.5 py-1 rounded-lg bg-zinc-900/90 hover:bg-zinc-800 text-[11px] text-zinc-300 hover:text-white border border-white/10 hover:border-sky-500/40 text-left transition-all hover:scale-[1.02] active:scale-95"
-                      >
-                        ↳ {prompt}
-                      </button>
-                    ))}
-                  </div>
-                )}
               </div>
             ))}
 
@@ -452,12 +430,13 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Minimal Animated AI Presenter Dock (Clean minimal design right above the search/input bar) */}
+          {/* Floating Holographic AI Presenter Dock */}
           <ParthAIAvatar
             state={meshState}
             audioLevel={audioLevel}
             isMuted={isVoiceMuted}
             onToggleMute={toggleVoiceMute}
+            onPlayExecutivePitch={handlePlayExecutivePitch}
             onStopSpeech={() => {
               speechService.stop();
               setMeshState('idle');
