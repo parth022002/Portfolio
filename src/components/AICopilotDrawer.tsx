@@ -1,7 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { X, Sparkles, Send, Bot, User, FileText, ArrowRight, ExternalLink, RefreshCw, ShieldCheck } from 'lucide-react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { X, Sparkles, Send, Bot, User, FileText, ArrowRight, ExternalLink, RefreshCw, ShieldCheck, Volume2, VolumeX, Square } from 'lucide-react';
 import { Project } from '../data/portfolioData';
 import { askParthCopilot, ChatMessage } from '../services/aiService';
+import { ParthAIMesh, AIMeshState } from './ParthAIMesh';
+import { speechService } from '../services/speechService';
 
 interface AICopilotDrawerProps {
   isOpen: boolean;
@@ -45,6 +47,11 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [meshState, setMeshState] = useState<AIMeshState>('idle');
+  const [audioLevel, setAudioLevel] = useState<number>(0);
+  const [isVoiceMuted, setIsVoiceMuted] = useState<boolean>(false);
+  const [isMeshCollapsed, setIsMeshCollapsed] = useState<boolean>(false);
+  const [activeSpeakingIdx, setActiveSpeakingIdx] = useState<number | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom of messages
@@ -52,15 +59,59 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
 
-  // Lock body scroll when drawer is open
+  // Lock body scroll when drawer is open and stop active speech on unmount
   useEffect(() => {
     if (!isOpen) return;
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = originalOverflow;
+      speechService.stop();
     };
   }, [isOpen]);
+
+  const toggleVoiceMute = useCallback(() => {
+    const nextMuted = !isVoiceMuted;
+    setIsVoiceMuted(nextMuted);
+    speechService.setMuted(nextMuted);
+    if (nextMuted) {
+      setMeshState('idle');
+      setActiveSpeakingIdx(null);
+    }
+  }, [isVoiceMuted]);
+
+  const handleSpeakMessage = useCallback((text: string, idx: number) => {
+    if (activeSpeakingIdx === idx) {
+      speechService.stop();
+      setActiveSpeakingIdx(null);
+      setMeshState('idle');
+      return;
+    }
+
+    speechService.stop();
+    setActiveSpeakingIdx(idx);
+    setMeshState('speaking');
+
+    speechService.speak(text, {
+      onStart: () => {
+        setMeshState('speaking');
+        setActiveSpeakingIdx(idx);
+      },
+      onEnd: () => {
+        setMeshState('idle');
+        setActiveSpeakingIdx(null);
+        setAudioLevel(0);
+      },
+      onError: () => {
+        setMeshState('idle');
+        setActiveSpeakingIdx(null);
+        setAudioLevel(0);
+      },
+      onWaveUpdate: (level) => {
+        setAudioLevel(level);
+      }
+    });
+  }, [activeSpeakingIdx]);
 
   // JD Matcher State
   const [jdText, setJdText] = useState('');
@@ -84,6 +135,10 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
     const q = textToSend || input;
     if (!q.trim()) return;
 
+    speechService.stop();
+    setActiveSpeakingIdx(null);
+    setMeshState('thinking');
+
     const userMsg: Message = { sender: 'user', text: q };
     setMessages((prev) => [...prev, userMsg]);
     if (!textToSend) setInput('');
@@ -103,6 +158,8 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
         preloadedProject
       });
 
+      const nextIdx = messages.length + 1; // user message was appended, this AI msg is at nextIdx
+
       setMessages((prev) => [
         ...prev,
         {
@@ -113,8 +170,37 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
           providerUsed: result.providerUsed
         }
       ]);
+
+      // Automatically speak answer in natural voice with 3D face mesh animation
+      if (!isVoiceMuted) {
+        setMeshState('speaking');
+        setActiveSpeakingIdx(nextIdx);
+        speechService.speak(result.text, {
+          onStart: () => {
+            setMeshState('speaking');
+            setActiveSpeakingIdx(nextIdx);
+          },
+          onEnd: () => {
+            setMeshState('idle');
+            setActiveSpeakingIdx(null);
+            setAudioLevel(0);
+          },
+          onError: () => {
+            setMeshState('idle');
+            setActiveSpeakingIdx(null);
+            setAudioLevel(0);
+          },
+          onWaveUpdate: (level) => {
+            setAudioLevel(level);
+          }
+        });
+      } else {
+        setMeshState('idle');
+      }
     } catch (err) {
       console.error('RAG Copilot execution error:', err);
+      setMeshState('idle');
+      setActiveSpeakingIdx(null);
       setMessages((prev) => [
         ...prev,
         {
@@ -197,7 +283,10 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
       {/* Tap-to-close Backdrop Scrim on Mobile and Tablet */}
       <div
         className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity"
-        onClick={onClose}
+        onClick={() => {
+          speechService.stop();
+          onClose();
+        }}
         aria-hidden="true"
       />
 
@@ -220,13 +309,16 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
             </h3>
             <span className="text-[11px] text-zinc-400 font-mono flex items-center gap-1">
               <ShieldCheck className="w-3 h-3 text-sky-400" />
-              <span>Agentic RAG • Grounded Corpus</span>
+              <span>3D Mesh • Voice & RAG</span>
             </span>
           </div>
         </div>
 
         <button
-          onClick={onClose}
+          onClick={() => {
+            speechService.stop();
+            onClose();
+          }}
           aria-label="Close copilot"
           className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
         >
@@ -262,6 +354,16 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
       {/* Body */}
       {activeTab === 'chat' ? (
         <div className="flex-1 flex flex-col overflow-hidden">
+          {/* 3D Neural Face Mesh & Holographic Audio Persona Viewport */}
+          <ParthAIMesh
+            state={meshState}
+            audioLevel={audioLevel}
+            isMuted={isVoiceMuted}
+            onToggleMute={toggleVoiceMute}
+            isCollapsed={isMeshCollapsed}
+            onToggleCollapse={() => setIsMeshCollapsed((prev) => !prev)}
+          />
+
           {/* Messages List */}
           <div className="flex-1 p-4 overflow-y-auto space-y-4 text-xs">
             {messages.map((m, idx) => (
@@ -289,20 +391,44 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
                   >
                     <div className="space-y-1">{formatText(m.text)}</div>
 
-                    {/* External source / project link */}
-                    {m.sourceLink && (
-                      <div className="mt-3 pt-2.5 border-t border-white/10">
+                    {/* Audio Listen / Stop action + External source link */}
+                    <div className="mt-2.5 pt-2 border-t border-white/10 flex items-center justify-between gap-2 flex-wrap">
+                      {m.sender === 'ai' && (
+                        <button
+                          onClick={() => handleSpeakMessage(m.text, idx)}
+                          aria-label={activeSpeakingIdx === idx ? 'Stop voice' : 'Listen to response'}
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono transition-all ${
+                            activeSpeakingIdx === idx
+                              ? 'bg-sky-500/25 text-sky-300 border border-sky-400/40 shadow-[0_0_10px_rgba(56,189,248,0.25)]'
+                              : 'bg-zinc-800/80 hover:bg-zinc-700/80 text-zinc-300 hover:text-white border border-white/5'
+                          }`}
+                        >
+                          {activeSpeakingIdx === idx ? (
+                            <>
+                              <Square className="w-3 h-3 fill-current text-sky-400" />
+                              <span>Stop Audio</span>
+                            </>
+                          ) : (
+                            <>
+                              <Volume2 className="w-3 h-3 text-sky-400" />
+                              <span>Listen</span>
+                            </>
+                          )}
+                        </button>
+                      )}
+
+                      {m.sourceLink && (
                         <a
                           href={m.sourceLink.url}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs text-sky-400 hover:text-sky-300 font-semibold transition-colors"
+                          className="inline-flex items-center gap-1 text-[11px] text-sky-400 hover:text-sky-300 font-semibold transition-colors ml-auto"
                         >
                           <span>{m.sourceLink.label}</span>
                           <ExternalLink className="w-3 h-3" />
                         </a>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </div>
 
