@@ -172,7 +172,7 @@ export const TechMarquee: React.FC = () => {
         {/* Double the array for seamless infinite looping */}
         {[...items, ...items].map((item, idx) => (
           <div
-            key={idx}
+            key={`${item.type}-${item.badge}-${idx}`}
             className="flex items-center gap-3 px-5 sm:px-6 whitespace-nowrap group transition-transform hover:scale-105"
           >
             {/* Category Tag Pill */}

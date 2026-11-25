@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Volume2, VolumeX, Play, Pause, ArrowDown, Mail, Download, Sparkles, ChevronDown } from 'lucide-react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
@@ -15,28 +15,6 @@ export const HeroSection: React.FC = () => {
 
   // Automatically mute video audio when scrolling away from hero, and resume when returning
   useEffect(() => {
-    const handleScroll = () => {
-      if (!videoRef.current) return;
-
-      // When scrolled down past the hero viewport (> 320px)
-      if (window.scrollY > 320) {
-        if (!videoRef.current.muted) {
-          videoRef.current.muted = true;
-          setIsMuted(true);
-        }
-      } else if (window.scrollY < 180) {
-        // When scrolled back up to the hero section, resume audio if user previously unmuted
-        if (wasUnmutedByUserRef.current && videoRef.current.muted) {
-          videoRef.current.muted = false;
-          setIsMuted(false);
-          if (videoRef.current.paused) {
-            videoRef.current.play().catch(() => {});
-            setIsPlaying(true);
-          }
-        }
-      }
-    };
-
     const section = document.getElementById('hero');
     let observer: IntersectionObserver | null = null;
 
@@ -90,11 +68,9 @@ export const HeroSection: React.FC = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       if (observer) {
         observer.disconnect();
@@ -105,38 +81,39 @@ export const HeroSection: React.FC = () => {
   // 3D Card tilt state
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
-  const handleCardMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleCardMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
     setTilt({ x: y * -14, y: x * 14 });
-  };
+  }, []);
 
-  const handleCardMouseLeave = () => {
+  const handleCardMouseLeave = useCallback(() => {
     setTilt({ x: 0, y: 0 });
-  };
+  }, []);
 
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-      } else {
+      if (videoRef.current.paused) {
         videoRef.current.play();
+        setIsPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setIsPlaying(false);
       }
-      setIsPlaying(!isPlaying);
     }
-  };
+  }, []);
 
-  const toggleMute = () => {
+  const toggleMute = useCallback(() => {
     if (videoRef.current) {
-      const nextMuted = !isMuted;
+      const nextMuted = !videoRef.current.muted;
       videoRef.current.muted = nextMuted;
       setIsMuted(nextMuted);
       wasUnmutedByUserRef.current = !nextMuted;
       setShowSoundPrompt(false);
     }
-  };
+  }, []);
 
   return (
     <section id="hero" className="relative pt-10 sm:pt-14 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-[85vh] flex flex-col justify-center">

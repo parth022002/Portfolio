@@ -22,8 +22,6 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
   onClose,
   preloadedProject
 }) => {
-  if (!isOpen) return null;
-
   const [activeTab, setActiveTab] = useState<'chat' | 'jd-matcher'>('chat');
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -49,29 +47,20 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Body scroll lock & Escape key listener
-  useEffect(() => {
-    if (!isOpen) return;
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = originalOverflow;
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpen, onClose]);
-
   // Auto-scroll to bottom of messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping]);
+
+  // Lock body scroll when drawer is open
+  useEffect(() => {
+    if (!isOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isOpen]);
 
   // JD Matcher State
   const [jdText, setJdText] = useState('');
@@ -80,6 +69,8 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
     matchedSkills: string[];
     recommendedProjects: string[];
   } | null>(null);
+
+  if (!isOpen) return null;
 
   const initialQuickPrompts = [
     'Tell me about ProcuraX',
@@ -207,9 +198,10 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
       <div
         className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
+        aria-hidden="true"
       />
 
-      <div 
+      <div
         role="dialog"
         aria-modal="true"
         aria-label="Parth AI Copilot"

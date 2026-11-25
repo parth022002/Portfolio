@@ -8,25 +8,6 @@ export const CertificatesSection: React.FC = () => {
   const [showAll, setShowAll] = useState<boolean>(false);
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
 
-  // Body scroll lock & Escape listener for Certificate Lightbox
-  useEffect(() => {
-    if (!selectedCert) return;
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setSelectedCert(null);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = originalOverflow;
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [selectedCert]);
-
   const categories = ['All', 'AI & GenAI', 'Data Analytics', 'Software Engineering', 'Professional'];
 
   const filteredCerts = activeCategory === 'All'
@@ -172,24 +153,18 @@ export const CertificatesSection: React.FC = () => {
 
       {/* Certificate Lightbox Modal */}
       {selectedCert && (
-        <div 
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="cert-modal-title"
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in"
-        >
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in">
           <div className="relative w-full max-w-3xl bg-[#090D16] border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
             <div className="p-3.5 sm:p-5 border-b border-white/10 flex items-start justify-between bg-zinc-950 gap-4">
               <div>
                 <div className="text-xs text-sky-400 font-mono font-semibold">{selectedCert.issuer}</div>
-                <h3 id="cert-modal-title" className="text-lg font-bold text-white">{selectedCert.title}</h3>
+                <h3 className="text-lg font-bold text-white">{selectedCert.title}</h3>
                 {selectedCert.description && (
                   <p className="text-xs text-zinc-400 mt-1 max-w-xl leading-relaxed">{selectedCert.description}</p>
                 )}
               </div>
               <button
                 onClick={() => setSelectedCert(null)}
-                aria-label="Close certificate lightbox"
                 className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white flex-shrink-0"
               >
                 <X className="w-5 h-5" />

@@ -219,15 +219,6 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
     setIsPlaying(!isPlaying);
   };
 
-  // Body scroll lock while modal is open
-  useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = originalOverflow;
-    };
-  }, []);
-
   // Keyboard navigation: Left/Right arrows and Esc
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -251,6 +242,15 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
     setIsPlaying(true);
   }, [project.id]);
 
+  // Prevent background scrolling while modal is active
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
   // Smooth scroll to section within modal
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -265,12 +265,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
   const githubUrl = project.githubUrl || PORTFOLIO_DATA.personal.github;
 
   return (
-    <div 
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-project-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto bg-black/85 backdrop-blur-xl animate-fade-in"
-    >
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 overflow-y-auto bg-black/85 backdrop-blur-xl animate-fade-in" role="dialog" aria-modal="true" aria-labelledby="modal-project-title">
       {/* Modal Dialog Card */}
       <div className="relative w-full max-w-4xl bg-[#090D16] border border-white/10 rounded-2xl sm:rounded-3xl shadow-[0_0_60px_rgba(0,0,0,0.9)] overflow-hidden my-auto max-h-[94vh] flex flex-col glow-hover">
         
@@ -312,7 +307,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
               </span>
             </div>
 
-            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+            <h2 id="modal-project-title" className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight">
               {project.title}
             </h2>
             <p className="text-xs sm:text-sm text-zinc-400 mt-1 max-w-xl">

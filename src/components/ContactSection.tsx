@@ -95,8 +95,8 @@ export const ContactSection: React.FC = () => {
       } else {
         throw new Error(result.message || 'Failed to dispatch form.');
       }
-    } catch (err: any) {
-      console.warn('Form direct transmission fallback triggered:', err);
+    } catch (err: unknown) {
+      console.warn('Form direct transmission fallback triggered:', err instanceof Error ? err.message : err);
       // If network is blocked (e.g. ad-blocker or CORS), fallback cleanly to mailto
       setErrorMessage('Direct transmission was blocked by network or ad-blocker. You can dispatch directly via your email client.');
     } finally {
@@ -339,13 +339,12 @@ export const ContactSection: React.FC = () => {
                 <div className="space-y-3.5 sm:space-y-4 flex-1 flex flex-col justify-between">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                     <div>
-                      <label htmlFor="contact-name" className="block text-zinc-300 mb-1.5 font-medium flex items-center gap-1.5">
+                      <label className="block text-zinc-300 mb-1.5 font-medium flex items-center gap-1.5">
                         <User className="w-3 h-3 text-sky-400" />
                         <span>Your Name</span>
                         <span className="text-sky-400">*</span>
                       </label>
                       <input
-                        id="contact-name"
                         type="text"
                         required
                         disabled={isSubmitting}
@@ -356,13 +355,12 @@ export const ContactSection: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label htmlFor="contact-email" className="block text-zinc-300 mb-1.5 font-medium flex items-center gap-1.5">
+                      <label className="block text-zinc-300 mb-1.5 font-medium flex items-center gap-1.5">
                         <Mail className="w-3 h-3 text-sky-400" />
                         <span>Your Email</span>
                         <span className="text-sky-400">*</span>
                       </label>
                       <input
-                        id="contact-email"
                         type="email"
                         required
                         disabled={isSubmitting}
@@ -375,12 +373,11 @@ export const ContactSection: React.FC = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="contact-subject" className="block text-zinc-300 mb-1.5 font-medium flex items-center gap-1.5">
+                    <label className="block text-zinc-300 mb-1.5 font-medium flex items-center gap-1.5">
                       <Tag className="w-3 h-3 text-sky-400" />
                       <span>Subject / Discussion Topic</span>
                     </label>
                     <input
-                      id="contact-subject"
                       type="text"
                       disabled={isSubmitting}
                       value={formData.subject}
@@ -392,7 +389,7 @@ export const ContactSection: React.FC = () => {
 
                   <div className="flex-1 flex flex-col">
                     <div className="flex items-center justify-between mb-1.5">
-                      <label htmlFor="contact-message" className="text-zinc-300 font-medium flex items-center gap-1.5">
+                      <label className="text-zinc-300 font-medium flex items-center gap-1.5">
                         <MessageSquare className="w-3 h-3 text-sky-400" />
                         <span>Message / Project Details</span>
                         <span className="text-sky-400">*</span>
@@ -402,7 +399,6 @@ export const ContactSection: React.FC = () => {
                       </span>
                     </div>
                     <textarea
-                      id="contact-message"
                       rows={5}
                       required
                       maxLength={1000}

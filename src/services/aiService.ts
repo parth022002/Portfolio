@@ -1,5 +1,6 @@
 import { retrieveRelevantChunks, buildRAGSystemPrompt, synthesizeLocalGroundedRAGAnswer, RAGAnswerResult } from './ragEngine';
 import { Project } from '../data/portfolioData';
+import { RAGDocumentChunk } from '../data/ragKnowledgeCorpus';
 
 export interface ChatMessage {
   role: 'user' | 'assistant' | 'system';
@@ -191,7 +192,7 @@ export async function askParthCopilot(options: CopilotQueryOptions): Promise<RAG
 /**
  * Dynamically computes relevant follow-up questions based on retrieved knowledge
  */
-function generateSmartFollowUps(query: string, chunks: any[]): string[] {
+function generateSmartFollowUps(query: string, chunks: RAGDocumentChunk[]): string[] {
   const top = chunks[0];
   if (!top) return ['What are his core technical skills?', 'Tell me about ProcuraX', 'How can I contact Parth?'];
 

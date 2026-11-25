@@ -1,48 +1,57 @@
 import React, { useEffect, useState, useRef } from 'react';
 
+interface Particle {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  color: string;
+}
+
 export const CustomCursor: React.FC = () => {
-  const dotRef = useRef<HTMLDivElement>(null);
-  const trailerRef = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState({ x: -100, y: -100 });
+  const [trailerPos, setTrailerPos] = useState({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState(false);
   const [hoverText, setHoverText] = useState<string | null>(null);
   const [isClicking, setIsClicking] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [particles, setParticles] = useState<Particle[]>([]);
 
-  const targetPos = useRef({ x: -100, y: -100 });
-  const trailerPos = useRef({ x: -100, y: -100 });
+  const trailerPosRef = useRef({ x: -100, y: -100 });
+  const targetPosRef = useRef({ x: -100, y: -100 });
+  const particleIdRef = useRef(0);
 
   useEffect(() => {
-    // Only enable custom cursor on fine pointer (mouse/trackpad), never on touchscreens
+    // Only enable custom cursor on fine pointer (mouse/trackpad), not touchscreens
     const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
     if (!hasFinePointer) return;
 
     let animId: number;
 
     const handleMouseMove = (e: MouseEvent) => {
-      targetPos.current = { x: e.clientX, y: e.clientY };
+      targetPosRef.current = { x: e.clientX, y: e.clientY };
+      setPos({ x: e.clientX, y: e.clientY });
+      setIsVisible((prev) => (prev ? prev : true));
 
-      if (!isVisible) setIsVisible(true);
-
-      // Direct GPU transform update for center dot (instant, zero React re-render)
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${e.clientX - 4}px, ${e.clientY - 4}px, 0)`;
+      // Create subtle spark particle trail
+      if (Math.random() < 0.25) {
+        const colors = ['#38BDF8', '#818CF8', '#34D399', '#A855F7'];
+        const newParticle: Particle = {
+          id: particleIdRef.current++,
+          x: e.clientX + (Math.random() - 0.5) * 8,
+          y: e.clientY + (Math.random() - 0.5) * 8,
+          size: Math.random() * 2.5 + 1.5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+        };
+        setParticles((prev) => [...prev.slice(-15), newParticle]);
       }
     };
 
     const handleMouseDown = () => setIsClicking(true);
     const handleMouseUp = () => setIsClicking(false);
 
-    const handleMouseLeave = () => {
-      setIsVisible(false);
-      if (dotRef.current) dotRef.current.style.opacity = '0';
-      if (trailerRef.current) trailerRef.current.style.opacity = '0';
-    };
-
-    const handleMouseEnter = () => {
-      setIsVisible(true);
-      if (dotRef.current) dotRef.current.style.opacity = '1';
-      if (trailerRef.current) trailerRef.current.style.opacity = '1';
-    };
+    const handleMouseLeave = () => setIsVisible(false);
+    const handleMouseEnter = () => setIsVisible(true);
 
     // Detect hover over interactive elements
     const handleMouseOver = (e: MouseEvent) => {
@@ -72,15 +81,16 @@ export const CustomCursor: React.FC = () => {
     window.addEventListener('mouseenter', handleMouseEnter);
     document.addEventListener('mouseover', handleMouseOver);
 
-    // High-performance Lerp loop running via direct style mutation
+    // Smooth Lerp loop for trailing outer ring
     const loop = () => {
-      const ease = 0.2;
-      trailerPos.current.x += (targetPos.current.x - trailerPos.current.x) * ease;
-      trailerPos.current.y += (targetPos.current.y - trailerPos.current.y) * ease;
+      const ease = 0.18;
+      trailerPosRef.current.x += (targetPosRef.current.x - trailerPosRef.current.x) * ease;
+      trailerPosRef.current.y += (targetPosRef.current.y - trailerPosRef.current.y) * ease;
 
-      if (trailerRef.current) {
-        trailerRef.current.style.transform = `translate3d(${trailerPos.current.x}px, ${trailerPos.current.y}px, 0)`;
-      }
+      setTrailerPos({
+        x: trailerPosRef.current.x,
+        y: trailerPosRef.current.y,
+      });
 
       animId = requestAnimationFrame(loop);
     };
@@ -96,33 +106,38 @@ export const CustomCursor: React.FC = () => {
       document.removeEventListener('mouseover', handleMouseOver);
       cancelAnimationFrame(animId);
     };
-  }, [isVisible]);
+  }, []);
+
+  // Clean up fading particles
+  useEffect(() => {
+    if (particles.length === 0) return;
+    const timer = setTimeout(() => {
+      setParticles((prev) => prev.slice(1));
+    }, 350);
+    return () => clearTimeout(timer);
+  }, [particles]);
+
+  if (!isVisible) return null;
 
   return (
     <>
-      {/* 1. Precision Center Dot (Direct GPU Transform) */}
+      {/* 1. Precision Center Dot */}
       <div
-        ref={dotRef}
-        className={`fixed top-0 left-0 w-2 h-2 rounded-full bg-sky-400 pointer-events-none z-[100] shadow-[0_0_10px_#38BDF8] transition-opacity duration-300 ${
-          isVisible ? 'opacity-100' : 'opacity-0'
-        }`}
+        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-sky-400 pointer-events-none z-[100] shadow-[0_0_10px_#38BDF8] transition-opacity duration-300"
         style={{
-          transform: 'translate3d(-100px, -100px, 0)',
+          transform: `translate3d(${pos.x - 4}px, ${pos.y - 4}px, 0) scale(${isClicking ? 0.6 : 1})`,
         }}
       />
 
-      {/* 2. Fluid Trailing Ring with Magnetic Expansion (Direct GPU Transform) */}
+      {/* 2. Fluid Trailing Ring with Magnetic Expansion */}
       <div
-        ref={trailerRef}
-        className={`fixed top-0 left-0 rounded-full pointer-events-none z-[99] flex items-center justify-center transition-[width,height,background-color,border-color,opacity] duration-200 ease-out ${
-          isVisible ? 'opacity-100' : 'opacity-0'
-        } ${
+        className={`fixed top-0 left-0 rounded-full pointer-events-none z-[99] flex items-center justify-center transition-[width,height,background-color,border-color,transform] duration-200 ease-out ${
           isHovering
             ? 'w-14 h-14 -ml-7 -mt-7 bg-sky-500/15 border-2 border-sky-400 backdrop-blur-[1px] shadow-[0_0_20px_rgba(56,189,248,0.35)]'
             : 'w-9 h-9 -ml-[18px] -mt-[18px] bg-transparent border border-sky-400/40'
         } ${isClicking ? 'scale-75' : 'scale-100'}`}
         style={{
-          transform: 'translate3d(-100px, -100px, 0)',
+          transform: `translate3d(${trailerPos.x}px, ${trailerPos.y}px, 0)`,
         }}
       >
         {isHovering && hoverText && (
@@ -131,6 +146,21 @@ export const CustomCursor: React.FC = () => {
           </span>
         )}
       </div>
+
+      {/* 3. Stardust Particle Wake */}
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          className="fixed top-0 left-0 rounded-full pointer-events-none z-[98] animate-fade-out"
+          style={{
+            transform: `translate3d(${p.x}px, ${p.y}px, 0)`,
+            width: `${p.size}px`,
+            height: `${p.size}px`,
+            backgroundColor: p.color,
+            boxShadow: `0 0 8px ${p.color}`,
+          }}
+        />
+      ))}
     </>
   );
 };
