@@ -227,7 +227,7 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`relative w-full bg-zinc-950/90 border-t border-white/10 backdrop-blur-md px-3.5 py-2 select-none ${className}`}
+      className={`relative w-full bg-transparent border-0 shadow-none px-3.5 py-1.5 select-none ${className}`}
     >
       <div className="flex items-center justify-between gap-3">
         {/* Left: The Moving AI Avatar with Articulated Lips */}
@@ -241,21 +241,24 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
             onClick={onToggleMute}
             title={isMuted ? 'Voice Muted (Click to enable)' : 'Voice Enabled (Click to mute)'}
           >
+            {/* Holographic Ground Projection Shadow / Levitation Glow underneath the Avatar */}
+            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-1 bg-sky-400/25 blur-[2.5px] rounded-full pointer-events-none" />
+
             {/* Outer Holographic Energy Glow */}
             <div
-              className={`absolute -inset-1 rounded-full blur-sm transition-all duration-300 ${
+              className={`absolute -inset-1.5 rounded-full blur-md transition-all duration-300 pointer-events-none ${
                 isSpeaking
-                  ? 'bg-gradient-to-r from-sky-500 via-teal-400 to-indigo-500 opacity-80 animate-pulse'
-                  : 'bg-sky-500/25 opacity-35 group-hover:opacity-70'
+                  ? 'bg-gradient-to-r from-sky-400 via-teal-300 to-indigo-500 opacity-90 animate-pulse'
+                  : 'bg-gradient-to-r from-sky-500/30 to-indigo-500/30 opacity-50 group-hover:opacity-85'
               }`}
             />
 
             {/* Clear, High-Resolution Profile Core */}
             <div
-              className={`relative rounded-full overflow-hidden border-2 transition-all duration-300 shadow-lg w-12 h-12 sm:w-14 sm:h-14 ${
+              className={`relative rounded-full overflow-hidden border-2 transition-all duration-300 shadow-xl w-12 h-12 sm:w-14 sm:h-14 ${
                 isSpeaking
-                  ? 'border-sky-400 ring-2 ring-sky-500/40'
-                  : 'border-white/20 group-hover:border-sky-400/60'
+                  ? 'border-sky-400 ring-2 ring-sky-500/40 shadow-[0_0_15px_rgba(56,189,248,0.35)]'
+                  : 'border-white/20 group-hover:border-sky-400/60 shadow-[0_4px_12px_rgba(0,0,0,0.5)]'
               }`}
             >
               <img
@@ -316,7 +319,7 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
           {/* Persona Identity & Live Audio Telemetry */}
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="font-bold text-white text-xs sm:text-sm tracking-tight">
+              <span className="font-bold text-white text-xs sm:text-sm tracking-tight drop-shadow-sm">
                 Parth AI Presenter
               </span>
               <span className="text-[9px] px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 font-mono">
@@ -350,7 +353,7 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
               </span>
 
               {/* Live Audio Equalizer Frequency Bars */}
-              <div className="flex items-center gap-0.5 h-2.5 px-1.5 py-0.5 rounded bg-zinc-900 border border-white/5">
+              <div className="flex items-center gap-0.5 h-2.5 px-1.5 py-0.5 rounded bg-white/5 border border-white/10 backdrop-blur-sm">
                 {[0.4, 0.8, 1.0, 0.6, 0.9, 0.5, 0.7, 0.3].map((bar, i) => (
                   <span
                     key={i}
@@ -375,7 +378,7 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
           {isSpeaking && onStopSpeech && (
             <button
               onClick={onStopSpeech}
-              className="px-2 py-1 rounded-lg bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 text-[10px] font-mono flex items-center gap-1 transition-all"
+              className="px-2 py-1 rounded-lg bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-300 text-[10px] font-mono flex items-center gap-1 transition-all shadow-sm"
               title="Stop speaking"
             >
               <Square className="w-2.5 h-2.5 fill-current" />
@@ -389,9 +392,9 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
               onClick={onToggleMute}
               aria-label={isMuted ? 'Unmute voice' : 'Mute voice'}
               title={isMuted ? 'Voice Muted (Click to enable audio)' : 'Voice Enabled (Click to mute)'}
-              className={`p-1.5 sm:px-2 sm:py-1 rounded-lg border text-xs font-mono flex items-center gap-1.5 transition-all ${
+              className={`p-1.5 sm:px-2 sm:py-1 rounded-lg border text-xs font-mono flex items-center gap-1.5 transition-all shadow-sm ${
                 isMuted
-                  ? 'bg-zinc-900 border-white/10 text-zinc-400 hover:text-white'
+                  ? 'bg-white/5 border-white/10 text-zinc-400 hover:text-white hover:bg-white/10'
                   : 'bg-sky-500/20 border-sky-400/40 text-sky-300 hover:bg-sky-500/30 shadow-[0_0_10px_rgba(56,189,248,0.25)]'
               }`}
             >
