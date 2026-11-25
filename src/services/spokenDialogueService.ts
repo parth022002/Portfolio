@@ -7,52 +7,56 @@
 // Curated high-impact spoken executive summaries for Parth's flagship achievements
 const PRESET_HUMAN_DIALOGUES: Record<string, string> = {
   procurax:
-    "In ProcuraX, I engineered an autonomous multi-agent AI procurement engine to solve complex multi-tier supply chain disruptions. I built it to automatically optimize bills of materials, forecast supplier risks, and simulate real-time inventory buffers. This cut procurement lead times by forty percent and achieved ninety-nine point four percent accuracy.",
+    "In ProcuraX, I engineered an autonomous multi-agent AI procurement platform to solve complex multi-tier supply chain disruptions before factory lines halt. I architected LangGraph state graphs and FastAPI to predict Bill-of-Materials exposure and evaluate supplier switching costs in under one point four seconds with ninety-nine point four percent accuracy.",
+
+  marketscope:
+    "With MarketScope, I built an automated equity research platform that saves analysts fifteen hours per stock. I engineered four-pillar institutional scoring, automated discounted cash flow models, and three-stage and five-stage DuPont Return on Equity decomposition with real-time financial telemetry.",
 
   proctorshield:
-    "For ProctorShield, I developed an edge-computed AI invigilation platform using WebRTC and multi-task neural networks. It performs real-time face verification, head-pose tracking, and acoustic anomaly detection at sub-one-hundred-forty millisecond latency, successfully maintaining high-integrity oversight for over a thousand simultaneous test-takers.",
+    "For ProctorShield, I developed an edge-computed AI invigilation platform using WebRTC, OpenCV, and MediaPipe. It executes multi-task neural networks directly on the client to track face verification, gaze patterns, and acoustic anomalies at sub-one-hundred-forty millisecond latency without compromising student privacy.",
 
   research:
-    "My empirical research paper analyzes what drives Indian retail investors to adopt AI-powered robo-advisory platforms. By analyzing hundreds of retail investors through structural equation modeling and UTAUT2 frameworks, I identified that algorithmic transparency and performance expectancy are the primary catalysts for investor trust. You can read and download my complete published paper right here in the research section.",
+    "I am the lead author of an empirical research paper analyzing why Indian retail investors adopt AI robo-advisors. By studying two hundred eleven investors with structural equation modeling, I discovered that social influence is the primary catalyst and trust operates as an eighty percent full mediator between usefulness and adoption.",
 
   paper:
-    "My empirical research paper analyzes what drives Indian retail investors to adopt AI-powered robo-advisory platforms. By analyzing hundreds of retail investors through structural equation modeling and UTAUT2 frameworks, I proved that algorithmic transparency and performance expectancy are the primary drivers of user trust. You can read and download my complete published paper right here in the research section.",
+    "I am the lead author of an empirical research paper analyzing why Indian retail investors adopt AI robo-advisors. By studying two hundred eleven investors with structural equation modeling, I discovered that social influence is the primary catalyst and trust operates as an eighty percent full mediator between usefulness and adoption.",
 
   "chat-with-pdf":
-    "With Chat with PDF, I built an enterprise-grade retrieval-augmented generation engine powered by LangChain and FAISS vector search. It parses, chunks, and vectorizes hundred-page complex reports in just over three seconds, guaranteeing cited, zero-hallucination answers.",
+    "In Chat with PDF, I built an enterprise-grade retrieval-augmented generation engine using LangChain and FAISS vector search. It parses, chunks, and vectorizes multi-hundred page documents in just over three seconds with cited, hallucination-free answers.",
 
   nexspace:
-    "NexSpace is a high-performance modern social platform I built using the Next.js App Router and TypeScript. I architected optimistic client-side UI mutations and edge routing that delivered sub-sixty-five millisecond responses and a ninety-eight out of one hundred Lighthouse score.",
+    "NexSpace is a high-performance modern social platform I built using Next.js App Router and TypeScript. I architected optimistic client-side UI mutations and edge routing that delivered sub-sixty-five millisecond responses and a ninety-eight out of one hundred Lighthouse score.",
 
   spotify:
     "In my Spotify Enterprise project, I engineered a high-fidelity streaming architecture featuring Redux Toolkit global audio state, three-track predictive preloading for zero playback stutter, and integrated automated Stripe customer billing.",
 
   oasis:
-    "During my Business Analytics internship at OASIS Infobyte, I engineered interactive Tableau KPI executive dashboards and automated SQL extraction pipelines, transforming multi-million row datasets into clear, actionable revenue and operational decisions.",
+    "During my Business Analytics internship at OASIS Infobyte, I engineered interactive Tableau KPI executive dashboards and automated SQL extraction pipelines, transforming multi-million row datasets to optimize stock turnover and identify key revenue drivers.",
 
   hire:
-    "As a Full-Stack AI Engineer with an analytics degree from JAGSoM, I combine deep technical expertise in computer vision, agentic workflows, and cloud architecture with sharp business strategy. Having built twenty-nine verified software systems and earned forty-nine professional certifications, I can immediately build and scale end-to-end production AI applications for your team.",
+    "As a Full-Stack AI Engineer with an analytics degree from JAGSoM, I combine deep technical expertise in computer vision, agentic workflows, and cloud architecture with sharp business strategy. Having built twenty-nine verified software systems and earned forty-nine professional certifications, I can immediately step in to build and scale production AI applications for your team.",
 
   skills:
-    "My technical foundation spans Full-Stack Engineering, Generative AI, and Business Analytics. I build production systems using TypeScript, React, Next.js, and Python, paired with PyTorch, LangChain, FAISS, and WebRTC on the AI side, alongside SQL, Tableau, and financial modeling for business impact."
+    "My technical foundation spans Full-Stack Engineering, Generative AI, and Business Analytics. I build production systems using TypeScript, React nineteen, Next.js, and Python, paired with FastAPI, PyTorch, LangChain, FAISS, and WebRTC on the AI side, alongside SQL, Tableau, and financial modeling for business impact."
 };
 
 /**
  * Transforms any AI-generated response into a clean, human-like, continuous paragraph spoken in the first person.
  */
 export function synthesizeHumanSpokenResponse(query: string, rawAnswer: string): string {
-  const qLower = query.toLowerCase();
+  const combined = `${query} ${rawAnswer}`.toLowerCase();
 
-  // 1. Check for flagship matches
-  if (qLower.includes('procurax')) return PRESET_HUMAN_DIALOGUES.procurax;
-  if (qLower.includes('proctorshield') || qLower.includes('proctor')) return PRESET_HUMAN_DIALOGUES.proctorshield;
-  if (qLower.includes('research') || qLower.includes('paper') || qLower.includes('advisory') || qLower.includes('investor')) return PRESET_HUMAN_DIALOGUES.research;
-  if (qLower.includes('pdf') || qLower.includes('chat with pdf')) return PRESET_HUMAN_DIALOGUES['chat-with-pdf'];
-  if (qLower.includes('nexspace')) return PRESET_HUMAN_DIALOGUES.nexspace;
-  if (qLower.includes('spotify')) return PRESET_HUMAN_DIALOGUES.spotify;
-  if (qLower.includes('oasis') || qLower.includes('internship')) return PRESET_HUMAN_DIALOGUES.oasis;
-  if (qLower.includes('why hire') || qLower.includes('hire parth') || qLower.includes('role') || qLower.includes('who are you')) return PRESET_HUMAN_DIALOGUES.hire;
-  if (qLower.includes('skill') || qLower.includes('tech stack') || qLower.includes('technologies')) return PRESET_HUMAN_DIALOGUES.skills;
+  // 1. Check for flagship matches across both query and answer content
+  if (combined.includes('procurax')) return PRESET_HUMAN_DIALOGUES.procurax;
+  if (combined.includes('marketscope') || combined.includes('dupont') || combined.includes('valuation')) return PRESET_HUMAN_DIALOGUES.marketscope;
+  if (combined.includes('proctorshield') || combined.includes('proctor')) return PRESET_HUMAN_DIALOGUES.proctorshield;
+  if (combined.includes('research') || combined.includes('paper') || combined.includes('advisory') || combined.includes('investor') || combined.includes('pls-sem')) return PRESET_HUMAN_DIALOGUES.research;
+  if (combined.includes('pdf') || combined.includes('chat with pdf')) return PRESET_HUMAN_DIALOGUES['chat-with-pdf'];
+  if (combined.includes('nexspace')) return PRESET_HUMAN_DIALOGUES.nexspace;
+  if (combined.includes('spotify')) return PRESET_HUMAN_DIALOGUES.spotify;
+  if (combined.includes('oasis') || combined.includes('internship')) return PRESET_HUMAN_DIALOGUES.oasis;
+  if (combined.includes('why hire') || combined.includes('hire parth') || combined.includes('role') || combined.includes('who are you') || combined.includes('about')) return PRESET_HUMAN_DIALOGUES.hire;
+  if (combined.includes('skill') || combined.includes('tech stack') || combined.includes('technologies')) return PRESET_HUMAN_DIALOGUES.skills;
 
   // 2. Dynamic transformer for arbitrary answers:
   // Convert 3rd-person prose, strip lists and bullets, and construct a continuous 1st-person paragraph
@@ -69,7 +73,7 @@ export function synthesizeHumanSpokenResponse(query: string, rawAnswer: string):
   text = text.replace(/\*\*([^*]+)\*\*/g, '$1');
   text = text.replace(/\*([^*]+)\*/g, '$1');
 
-  // Convert bullet points to simple commas or drop bullets
+  // Convert bullet points to clean sentences
   text = text.replace(/^\s*[-*•]\s+/gm, '');
   text = text.replace(/^\s*\d+\.\s+/gm, '');
 
@@ -116,11 +120,6 @@ export function synthesizeHumanSpokenResponse(query: string, rawAnswer: string):
 
   // Clean excess whitespace
   humanParagraph = humanParagraph.replace(/\s+/g, ' ').trim();
-
-  // Add a polite, confident close if short
-  if (humanParagraph.length < 120) {
-    humanParagraph += " Feel free to explore the architecture in my projects section or ask me more details.";
-  }
 
   return humanParagraph;
 }

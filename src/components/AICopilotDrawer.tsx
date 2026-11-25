@@ -82,7 +82,7 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
     setMeshState('speaking');
 
     // Convert technical content into a continuous human-like first-person paragraph
-    const humanSpokenParagraph = synthesizeHumanSpokenResponse('', text);
+    const humanSpokenParagraph = synthesizeHumanSpokenResponse(text, text);
 
     speechService.speak(humanSpokenParagraph, {
       onStart: () => {
