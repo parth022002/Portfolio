@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { X, Sparkles, Send, Bot, User, FileText, ArrowRight, ExternalLink, RefreshCw, ShieldCheck, Volume2, VolumeX, Square } from 'lucide-react';
 import { Project } from '../data/portfolioData';
 import { askParthCopilot, ChatMessage } from '../services/aiService';
-import { ParthFloatingAvatar } from './ParthFloatingAvatar';
+import { ParthAIAvatar } from './ParthAIAvatar';
 import { AIMeshState } from './ParthAIMesh';
 import { speechService } from '../services/speechService';
 import { synthesizeHumanSpokenResponse } from '../services/spokenDialogueService';
@@ -360,8 +360,21 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
       {/* Body */}
       {activeTab === 'chat' ? (
         <div className="flex-1 flex flex-col overflow-hidden relative">
-          {/* Messages List (Padded at bottom so messages stay clear of floating avatar) */}
-          <div className="flex-1 p-4 overflow-y-auto space-y-4 text-xs pb-32">
+          {/* High-Clarity 3D Holographic AI Presenter Stage */}
+          <ParthAIAvatar
+            state={meshState}
+            audioLevel={audioLevel}
+            isMuted={isVoiceMuted}
+            onToggleMute={toggleVoiceMute}
+            onStopSpeech={() => {
+              speechService.stop();
+              setMeshState('idle');
+              setActiveSpeakingIdx(null);
+            }}
+          />
+
+          {/* Messages List */}
+          <div className="flex-1 p-4 overflow-y-auto space-y-4 text-xs">
             {messages.map((m, idx) => (
               <div
                 key={idx}
@@ -479,37 +492,23 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
             </div>
           </div>
 
-          {/* Input Form with Floating 3D Holographic Avatar */}
-          <div className="relative">
-            {/* Floating 3D Holographic Avatar (No Background, Above Right Side of Input / Question Box) */}
-            <div className="absolute right-3 bottom-full mb-1 z-30 pointer-events-none flex flex-col items-end">
-              <ParthFloatingAvatar
-                state={meshState}
-                audioLevel={audioLevel}
-                isMuted={isVoiceMuted}
-                onToggleMute={toggleVoiceMute}
-                className="w-28 h-32 sm:w-32 sm:h-36 pointer-events-auto"
-              />
-            </div>
-
-            {/* Input Bar */}
-            <div className="p-3 border-t border-white/10 bg-zinc-950 flex gap-2 relative z-20">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                placeholder="Ask about my projects, BA skills, internships..."
-                className="flex-1 px-3 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-violet-500 transition-colors"
-              />
-              <button
-                onClick={() => handleSend()}
-                disabled={!input.trim()}
-                className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-sky-600 hover:from-violet-500 hover:to-sky-500 disabled:opacity-40 text-white transition-all shadow-md active:scale-95 cursor-pointer flex items-center justify-center"
-              >
-                <Send className="w-4 h-4" />
-              </button>
-            </div>
+          {/* Input Form */}
+          <div className="p-3 border-t border-white/10 bg-zinc-950 flex gap-2">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+              placeholder="Ask about my projects, BA skills, internships..."
+              className="flex-1 px-3 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-violet-500 transition-colors"
+            />
+            <button
+              onClick={() => handleSend()}
+              disabled={!input.trim()}
+              className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-sky-600 hover:from-violet-500 hover:to-sky-500 disabled:opacity-40 text-white transition-all shadow-md active:scale-95 cursor-pointer flex items-center justify-center"
+            >
+              <Send className="w-4 h-4" />
+            </button>
           </div>
         </div>
       ) : (
