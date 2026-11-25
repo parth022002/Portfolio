@@ -307,7 +307,7 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
             </h3>
             <span className="text-[11px] text-zinc-400 font-mono flex items-center gap-1">
               <ShieldCheck className="w-3 h-3 text-sky-400" />
-              <span>3D Mesh • Voice & RAG</span>
+              <span>Interactive Voice & RAG</span>
             </span>
           </div>
         </div>
@@ -466,19 +466,19 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
           />
 
           {/* Input Form */}
-          <div className="p-3 border-t border-white/10 bg-zinc-950 flex gap-2">
+          <div className="p-3 border-t border-white/10 bg-zinc-950/80 backdrop-blur-md flex gap-2">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
               placeholder="Ask about my projects, BA skills, internships..."
-              className="flex-1 px-3 py-2.5 rounded-xl bg-zinc-900 border border-white/10 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-violet-500 transition-colors"
+              className="flex-1 px-3.5 py-2.5 rounded-xl bg-zinc-900/90 border border-white/10 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-sky-500 transition-colors"
             />
             <button
               onClick={() => handleSend()}
               disabled={!input.trim()}
-              className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-sky-600 hover:from-violet-500 hover:to-sky-500 disabled:opacity-40 text-white transition-all shadow-md active:scale-95 cursor-pointer flex items-center justify-center"
+              className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 disabled:opacity-40 text-white transition-all shadow-md active:scale-95 cursor-pointer flex items-center justify-center"
             >
               <Send className="w-4 h-4" />
             </button>
