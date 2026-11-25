@@ -147,7 +147,7 @@ export const HeroSection: React.FC = () => {
             transition={{ delay: 0.35, duration: 0.8 }}
             className="text-base sm:text-lg text-zinc-300 leading-relaxed max-w-2xl font-normal"
           >
-            Hi, I'm <strong className="text-white font-semibold">Parth Ahuja</strong>, a PGDM (Business Analytics) candidate at Jagdish Sheth School of Management, graduating in May 2027, with a B.E. in Computer Science. I combine requirements gathering, KPI analysis, and hands-on AI engineering (Python, SQL, Tableau, LangGraph, RAG) to build solutions across supply chain, operations, and product analytics.
+            Hi, I'm <strong className="text-white font-semibold">Parth Ahuja</strong>, a PGDM Business Analytics candidate with a B.E. in Computer Science. I build data-driven AI systems across supply chain, operations, and product analytics.
           </motion.p>
 
           {/* Action Buttons Cluster: Contact Me · View Résumé · See My Work */}
