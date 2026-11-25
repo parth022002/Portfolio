@@ -352,19 +352,6 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
       {/* Body */}
       {activeTab === 'chat' ? (
         <div className="flex-1 flex flex-col overflow-hidden relative">
-          {/* High-Clarity 3D Holographic AI Presenter Stage */}
-          <ParthAIAvatar
-            state={meshState}
-            audioLevel={audioLevel}
-            isMuted={isVoiceMuted}
-            onToggleMute={toggleVoiceMute}
-            onStopSpeech={() => {
-              speechService.stop();
-              setMeshState('idle');
-              setActiveSpeakingIdx(null);
-            }}
-          />
-
           {/* Messages List */}
           <div className="flex-1 p-4 overflow-y-auto space-y-4 text-xs">
             {messages.map((m, idx) => (
@@ -464,6 +451,19 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
 
             <div ref={messagesEndRef} />
           </div>
+
+          {/* Minimal Animated AI Presenter Dock (Clean minimal design right above the search/input bar) */}
+          <ParthAIAvatar
+            state={meshState}
+            audioLevel={audioLevel}
+            isMuted={isVoiceMuted}
+            onToggleMute={toggleVoiceMute}
+            onStopSpeech={() => {
+              speechService.stop();
+              setMeshState('idle');
+              setActiveSpeakingIdx(null);
+            }}
+          />
 
           {/* Input Form */}
           <div className="p-3 border-t border-white/10 bg-zinc-950 flex gap-2">
