@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://parth-ahuja.vercel.app/sitemap.xml

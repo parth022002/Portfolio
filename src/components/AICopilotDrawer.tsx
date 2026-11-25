@@ -49,6 +49,25 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Body scroll lock & Escape key listener
+  useEffect(() => {
+    if (!isOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   // Auto-scroll to bottom of messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -190,7 +209,12 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
         onClick={onClose}
       />
 
-      <div className="fixed inset-y-0 right-0 z-50 w-full sm:max-w-md bg-[#090D16] border-l border-white/10 shadow-2xl flex flex-col animate-slide-left">
+      <div 
+        role="dialog"
+        aria-modal="true"
+        aria-label="Parth AI Copilot"
+        className="fixed inset-y-0 right-0 z-50 w-full sm:max-w-md bg-[#090D16] border-l border-white/10 shadow-2xl flex flex-col animate-slide-left"
+      >
       {/* Header */}
       <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between bg-zinc-950">
         <div className="flex items-center gap-2.5">

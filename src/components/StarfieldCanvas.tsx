@@ -81,9 +81,23 @@ export const StarfieldCanvas: React.FC = () => {
       height = canvas.height = window.innerHeight;
     };
 
+    let isPaused = false;
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        isPaused = true;
+        cancelAnimationFrame(animId);
+      } else {
+        if (isPaused) {
+          isPaused = false;
+          animId = requestAnimationFrame(render);
+        }
+      }
+    };
+
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleResize, { passive: true });
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     // ==========================================
     // 1. BALANCED 3D STARFIELD (~130 stars - 40% calibrated)
@@ -418,6 +432,7 @@ export const StarfieldCanvas: React.FC = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       cancelAnimationFrame(animId);
     };
   }, []);
