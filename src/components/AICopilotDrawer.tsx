@@ -127,14 +127,6 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
 
   if (!isOpen) return null;
 
-  const initialQuickPrompts = [
-    'Tell me about ProcuraX',
-    'Explain his AI Advisory research paper',
-    'Tell me about ProctorShield & CV',
-    'What did he do at OASIS Infobyte?',
-    'Why hire Parth as an AI Engineer?'
-  ];
-
   const handleSend = async (textToSend?: string) => {
     const q = textToSend || input;
     if (!q.trim()) return;
@@ -471,25 +463,6 @@ export const AICopilotDrawer: React.FC<AICopilotDrawerProps> = ({
             )}
 
             <div ref={messagesEndRef} />
-          </div>
-
-          {/* Quick Initial Prompts Bar */}
-          <div className="p-3 border-t border-white/5 bg-zinc-950/70 space-y-1.5">
-            <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
-              <span>Suggested Inquiries:</span>
-              <span className="text-zinc-600">Click to ask</span>
-            </div>
-            <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
-              {initialQuickPrompts.map((sq, i) => (
-                <button
-                  key={i}
-                  onClick={() => handleSend(sq)}
-                  className="px-2.5 py-1 rounded-md bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white text-[11px] border border-white/10 text-left transition-colors cursor-pointer"
-                >
-                  {sq}
-                </button>
-              ))}
-            </div>
           </div>
 
           {/* Input Form */}

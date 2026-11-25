@@ -99,39 +99,58 @@ class SpeechService {
   }
 
   /**
-   * Selects the highest quality natural human voice available in the client browser.
+   * Selects the highest quality natural human MALE voice available in the client browser.
    */
   public getBestVoice(): SpeechSynthesisVoice | null {
     if (!this.synth) return null;
     const voices = this.synth.getVoices();
     if (!voices || voices.length === 0) return null;
 
-    // Preferred natural English voices
-    const preferredNames = [
-      'Google US English',
-      'Google UK English Female',
+    // Female voice name blacklist to strictly enforce a male presenter voice
+    const femaleBlacklist = [
+      'female', 'zira', 'samantha', 'jenny', 'aria', 'victoria',
+      'karen', 'fiona', 'moira', 'tessa', 'susan', 'hazel', 'heera',
+      'catherine', 'linda', 'eva', 'steffi', 'stephanie', 'allison'
+    ];
+
+    const isFemale = (name: string) => {
+      const lower = name.toLowerCase();
+      return femaleBlacklist.some((f) => lower.includes(f));
+    };
+
+    // Priority natural male voices across Windows, macOS, Android, and Chrome
+    const preferredMaleNames = [
+      'Microsoft Guy Online (Natural)',
+      'Microsoft Christopher Online (Natural)',
+      'Microsoft Ryan Online (Natural)',
+      'Microsoft Eric Online (Natural)',
+      'Microsoft Andrew Online (Natural)',
       'Google UK English Male',
       'Microsoft David',
       'Microsoft Mark',
-      'Microsoft Christopher Online (Natural)',
-      'Microsoft Guy Online (Natural)',
-      'Samantha',
-      'Daniel',
+      'Microsoft George',
       'Alex',
-      'Fred'
+      'Daniel',
+      'Oliver',
+      'Arthur',
+      'Fred',
+      'Google US English'
     ];
 
-    for (const name of preferredNames) {
-      const found = voices.find((v) => v.name.includes(name));
+    for (const name of preferredMaleNames) {
+      const found = voices.find((v) => v.name.includes(name) && !isFemale(v.name));
       if (found) return found;
     }
 
-    // Fallback: any standard en-US or en voice
-    const enUs = voices.find((v) => v.lang === 'en-US' || v.lang === 'en_US');
-    if (enUs) return enUs;
+    // Fallback: any English voice that is not in the female blacklist
+    const nonFemaleEn = voices.find(
+      (v) => (v.lang.startsWith('en') || v.lang === 'en-US' || v.lang === 'en-GB') && !isFemale(v.name)
+    );
+    if (nonFemaleEn) return nonFemaleEn;
 
-    const enAny = voices.find((v) => v.lang.startsWith('en'));
-    if (enAny) return enAny;
+    // General non-female fallback
+    const nonFemale = voices.find((v) => !isFemale(v.name));
+    if (nonFemale) return nonFemale;
 
     return voices[0] || null;
   }
@@ -161,8 +180,9 @@ class SpeechService {
         utterance.voice = voice;
       }
 
-      utterance.pitch = 1.0;
-      utterance.rate = 0.98; // Natural, conversational executive cadence
+      // Deeper, confident executive male pitch and natural conversational pacing
+      utterance.pitch = 0.94;
+      utterance.rate = 0.98; // Natural, conversational cadence
       utterance.volume = 1.0;
 
       utterance.onstart = () => {

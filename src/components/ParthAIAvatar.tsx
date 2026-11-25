@@ -24,20 +24,79 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isCollapsed, setIsCollapsed] = useState(false);
 
+  // Lifelike procedural head motion & speech gestures
+  const [headMotion, setHeadMotion] = useState({
+    bobY: 0,
+    tiltZ: 0,
+    pitchX: 0,
+    jawOpen: 0,
+    isBlinking: false
+  });
+
   // Mouse tilt tracking for 3D perspective
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setTilt({ x: y * -12, y: x * 12 });
+    setTilt({ x: y * -10, y: x * 10 });
   }, []);
 
   const handleMouseLeave = useCallback(() => {
     setTilt({ x: 0, y: 0 });
   }, []);
 
-  // Cybernetic Canvas Overlay: 3D rotating rings, facial landmark mesh, and acoustic soundwaves
+  // Procedural Head Motion, Conversational Nodding, Eye Blinks, and Lip Articulation Loop
+  useEffect(() => {
+    let animId: number;
+    let time = 0;
+    let nextBlinkTime = 3.5;
+
+    const updateMotion = () => {
+      time += 0.04;
+
+      const isSpeaking = state === 'speaking';
+      const effectiveAudio = isSpeaking ? Math.max(0.3, audioLevel) : 0;
+
+      // 1. Natural idle breathing & conversational head gestures
+      const bobY = Math.sin(time * 1.6) * 2;
+      const idleTilt = Math.sin(time * 1.0) * 1.8;
+
+      // Conversational head nod on speech emphasis beats
+      const speakNod = isSpeaking ? Math.sin(time * 4.2) * 3.5 * effectiveAudio : 0;
+      const speakRoll = isSpeaking ? Math.cos(time * 2.8) * 2.2 * effectiveAudio : 0;
+
+      // 2. Realistic lip and jaw articulation
+      // Multi-frequency syllable cadence mimicking human phonemes
+      const syllable = Math.max(0, Math.sin(time * 16) * Math.cos(time * 8));
+      const jawOpen = isSpeaking ? syllable * effectiveAudio * 9 : 0;
+
+      // 3. Realistic eye blink timer (blinks every ~4 seconds for 130ms)
+      let isBlinking = false;
+      if (time > nextBlinkTime) {
+        if (time < nextBlinkTime + 0.16) {
+          isBlinking = true;
+        } else {
+          nextBlinkTime = time + 3.2 + Math.random() * 2.5; // Next blink in 3.2 - 5.7s
+        }
+      }
+
+      setHeadMotion({
+        bobY: bobY + (isSpeaking ? Math.sin(time * 3) * 1.5 : 0),
+        tiltZ: idleTilt + speakRoll,
+        pitchX: speakNod,
+        jawOpen,
+        isBlinking
+      });
+
+      animId = requestAnimationFrame(updateMotion);
+    };
+
+    animId = requestAnimationFrame(updateMotion);
+    return () => cancelAnimationFrame(animId);
+  }, [state, audioLevel]);
+
+  // Canvas Overlay: 3D rotating HUD rings, acoustic wave shockwaves, and facial wireframe landmarks
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || isCollapsed) return;
@@ -64,8 +123,8 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
         ctx.save();
         ctx.translate(centerX, centerY);
         for (let ring = 1; ring <= 3; ring++) {
-          const radius = 42 + ((time * 25 + ring * 18) % 35);
-          const alpha = Math.max(0, 0.45 - (radius - 42) / 35) * effectiveAudio;
+          const radius = 42 + ((time * 24 + ring * 18) % 36);
+          const alpha = Math.max(0, 0.45 - (radius - 42) / 36) * effectiveAudio;
           ctx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
           ctx.lineWidth = 1.2;
           ctx.beginPath();
@@ -94,29 +153,26 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
       ctx.stroke();
       ctx.restore();
 
-      // 3. 3D Facial Landmark Neural Constellation Nodes
+      // 3. 3D Facial Landmark Neural Constellation Nodes & Moving Jaw
+      const jawDrop = headMotion.jawOpen;
       const landmarkPoints = [
-        { x: -16, y: -8, z: 5 }, // Left eye
-        { x: 16, y: -8, z: 5 },  // Right eye
-        { x: 0, y: 4, z: 12 },   // Nose bridge tip
-        { x: -12, y: 18, z: 4 }, // Left lip corner
-        { x: 12, y: 18, z: 4 },  // Right lip corner
-        { x: 0, y: 22, z: 6 },   // Lower lip
-        { x: 0, y: 30, z: 8 },   // Chin anchor
-        { x: -26, y: 12, z: -2 },// Left cheek
-        { x: 26, y: 12, z: -2 }, // Right cheek
-        { x: 0, y: -24, z: 6 }   // Forehead center
+        { x: -16, y: -9 }, // Left eye
+        { x: 16, y: -9 },  // Right eye
+        { x: 0, y: 3 },    // Nose bridge tip
+        { x: -11, y: 16 }, // Left lip corner
+        { x: 11, y: 16 },  // Right lip corner
+        { x: 0, y: 19 },   // Lower lip
+        { x: 0, y: 28 },   // Chin anchor
+        { x: -25, y: 10 }, // Left cheek
+        { x: 25, y: 10 },  // Right cheek
+        { x: 0, y: -22 }   // Forehead center
       ];
 
-      // Speaking jaw articulation
-      const jawDrop = isSpeaking ? Math.sin(time * 16) * effectiveAudio * 4 : 0;
-      const headNod = isSpeaking ? Math.sin(time * 4) * 2 * effectiveAudio : 0;
-
       ctx.save();
-      ctx.translate(centerX, centerY + headNod);
+      ctx.translate(centerX, centerY);
 
       // Render wireframe links between facial landmarks
-      ctx.strokeStyle = isSpeaking ? 'rgba(56, 189, 248, 0.25)' : 'rgba(255, 255, 255, 0.12)';
+      ctx.strokeStyle = isSpeaking ? 'rgba(56, 189, 248, 0.28)' : 'rgba(255, 255, 255, 0.12)';
       ctx.lineWidth = 0.8;
       ctx.setLineDash([]);
       ctx.beginPath();
@@ -127,19 +183,19 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
       ctx.lineTo(landmarkPoints[1].x, landmarkPoints[1].y);
 
       ctx.moveTo(landmarkPoints[2].x, landmarkPoints[2].y);
-      ctx.lineTo(landmarkPoints[3].x, landmarkPoints[3].y + jawDrop);
+      ctx.lineTo(landmarkPoints[3].x, landmarkPoints[3].y + jawDrop * 0.5);
       ctx.lineTo(landmarkPoints[5].x, landmarkPoints[5].y + jawDrop);
-      ctx.lineTo(landmarkPoints[4].x, landmarkPoints[4].y + jawDrop);
+      ctx.lineTo(landmarkPoints[4].x, landmarkPoints[4].y + jawDrop * 0.5);
       ctx.lineTo(landmarkPoints[2].x, landmarkPoints[2].y);
 
       ctx.moveTo(landmarkPoints[5].x, landmarkPoints[5].y + jawDrop);
-      ctx.lineTo(landmarkPoints[6].x, landmarkPoints[6].y + jawDrop * 1.2);
+      ctx.lineTo(landmarkPoints[6].x, landmarkPoints[6].y + jawDrop * 1.1);
 
       ctx.stroke();
 
       // Render glowing constellation node dots
       landmarkPoints.forEach((pt, i) => {
-        const yAdjust = (i === 3 || i === 4 || i === 5 || i === 6) ? jawDrop : 0;
+        const yAdjust = (i === 3 || i === 4) ? jawDrop * 0.5 : (i === 5 || i === 6) ? jawDrop : 0;
         ctx.fillStyle = isSpeaking ? '#38BDF8' : 'rgba(255, 255, 255, 0.7)';
         ctx.beginPath();
         ctx.arc(pt.x, pt.y + yAdjust, isSpeaking ? 1.8 : 1.2, 0, Math.PI * 2);
@@ -162,9 +218,8 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
 
     animId = requestAnimationFrame(render);
     return () => cancelAnimationFrame(animId);
-  }, [state, audioLevel, isCollapsed]);
+  }, [state, audioLevel, isCollapsed, headMotion.jawOpen]);
 
-  // Conversational speaking dynamic scale and nod
   const isSpeaking = state === 'speaking';
   const effectiveAudio = isSpeaking ? Math.max(0.2, audioLevel) : 0;
 
@@ -173,17 +228,17 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`relative w-full transition-all duration-300 bg-gradient-to-r from-zinc-950 via-[#0B101D] to-zinc-950 border-b border-white/10 select-none ${
+      className={`relative w-full transition-all duration-300 bg-gradient-to-r from-zinc-950 via-[#090E1A] to-zinc-950 border-b border-white/10 select-none ${
         isCollapsed ? 'py-2 px-3 sm:px-4' : 'py-3 sm:py-3.5 px-3 sm:px-4'
       } ${className}`}
     >
       <div className="flex items-center justify-between gap-3">
-        {/* Left: The Clear Holographic 3D Avatar Portal */}
+        {/* Left: The Crystal-Clear Moving AI Avatar with Articulated Lips */}
         <div className="flex items-center gap-3">
           <div
             style={{
-              transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-              transition: 'transform 0.15s ease-out'
+              transform: `perspective(700px) rotateX(${tilt.x + headMotion.pitchX}deg) rotateY(${tilt.y}deg) rotateZ(${headMotion.tiltZ}deg) translateY(${headMotion.bobY}px)`,
+              transition: 'transform 0.08s ease-out'
             }}
             className="relative flex-shrink-0 group cursor-pointer"
             onClick={onToggleMute}
@@ -194,7 +249,7 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
               className={`absolute -inset-1 rounded-full blur-md transition-all duration-300 ${
                 isSpeaking
                   ? 'bg-gradient-to-r from-sky-500 via-teal-400 to-indigo-500 opacity-80 animate-pulse'
-                  : 'bg-sky-500/20 opacity-40 group-hover:opacity-75'
+                  : 'bg-sky-500/25 opacity-40 group-hover:opacity-75'
               }`}
             />
 
@@ -204,8 +259,8 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
                 isCollapsed ? 'w-10 h-10' : 'w-16 h-16 sm:w-20 sm:h-20'
               } ${
                 isSpeaking
-                  ? 'border-sky-400 ring-4 ring-sky-500/30'
-                  : 'border-white/20 group-hover:border-sky-400/60'
+                  ? 'border-sky-400 ring-4 ring-sky-500/35'
+                  : 'border-white/25 group-hover:border-sky-400/60'
               }`}
             >
               <img
@@ -216,8 +271,37 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
                 }`}
               />
 
+              {/* Natural Eye Blinking Eyelid Overlay */}
+              <div
+                className="absolute left-0 right-0 top-[38%] h-[8%] bg-[#1E1410] rounded-full transition-transform duration-75 pointer-events-none"
+                style={{
+                  transform: headMotion.isBlinking ? 'scaleY(1.0)' : 'scaleY(0)',
+                  transformOrigin: 'top',
+                  opacity: headMotion.isBlinking ? 0.95 : 0
+                }}
+              />
+
+              {/* Articulated Dynamic Lip & Mouth Movement Overlay (Visible When Speaking) */}
+              <div
+                className="absolute left-[44%] right-[44%] top-[64%] h-[7%] pointer-events-none rounded-full transition-all duration-75"
+                style={{
+                  transform: `scaleY(${1 + headMotion.jawOpen * 0.35}) scaleX(${1 + headMotion.jawOpen * 0.15}) translateY(${headMotion.jawOpen * 0.4}px)`,
+                  background: isSpeaking && headMotion.jawOpen > 0.8
+                    ? 'radial-gradient(ellipse at center, rgba(35, 15, 12, 0.9) 0%, rgba(120, 50, 45, 0.8) 60%, transparent 100%)'
+                    : 'transparent',
+                  boxShadow: isSpeaking && headMotion.jawOpen > 1.2
+                    ? '0 0 6px rgba(56, 189, 248, 0.4)'
+                    : 'none'
+                }}
+              >
+                {/* Subtle Teeth Reflection Line when mouth opens */}
+                {isSpeaking && headMotion.jawOpen > 1.5 && (
+                  <div className="absolute top-[20%] left-[25%] right-[25%] h-[25%] bg-white/70 rounded-full blur-[0.5px]" />
+                )}
+              </div>
+
               {/* Holographic Scanline Overlay on face */}
-              <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.35)_51%)] bg-[size:100%_4px] pointer-events-none opacity-40" />
+              <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.3)_51%)] bg-[size:100%_4px] pointer-events-none opacity-30" />
 
               {/* Cyan Holographic Tint Flare */}
               <div
@@ -240,10 +324,10 @@ export const ParthAIAvatar: React.FC<ParthAIAvatarProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <span className="font-bold text-white text-xs sm:text-sm tracking-wide">
-                Parth AI Digital Twin
+                Parth AI Presenter
               </span>
               <span className="text-[10px] px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 font-mono">
-                3D MESH
+                MALE VOICE • 3D MESH
               </span>
             </div>
 
